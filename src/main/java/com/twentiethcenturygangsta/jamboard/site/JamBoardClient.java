@@ -5,6 +5,7 @@ import com.twentiethcenturygangsta.jamboard.database.UserDatabaseCredentials;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -13,6 +14,8 @@ import java.util.ArrayList;
 public class JamBoardClient {
     private final UserDatabaseCredentials userDatabaseCredentials;
     private final UserCredentials userCredentials;
+    private Connection connection;
+    private ArrayList<Class> tables;
 
     @Builder
     public JamBoardClient(UserDatabaseCredentials userDatabaseCredentials, UserCredentials userCredentials) {
@@ -24,40 +27,30 @@ public class JamBoardClient {
         return userCredentials;
     }
 
-    public Connection register(ArrayList<Class> tables) {
+    public Connection getConnection() {
+        return connection;
+    }
+
+    public ArrayList<Class> getTables() {
+        return tables;
+    }
+
+    public void connectDB(UserDatabaseCredentials userDatabaseCredentials) {
         try {
             Connection connection = DriverManager.getConnection(
                     userDatabaseCredentials.getUserDatabaseEndpoint(),
                     userDatabaseCredentials.getUserDatabaseId(),
                     userDatabaseCredentials.getUserDatabasePassword()
             );
-            log.info("tables = {}", tables);
-            for (Class entity : tables) {
-                String sql = "SELECT * FROM " + entity.getSimpleName() + ";";
-                PreparedStatement preparedStatement = connection.prepareStatement(sql);
-                ResultSet resultSet = preparedStatement.executeQuery();
-                ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
-
-
-                log.info("--------------------------------------------------------");
-                log.info("query: {}", entity.getSimpleName());
-                log.info("--------------------------------------------------------");
-                if(resultSet.next()) {
-                    for(int i = 1; i <= resultSetMetaData.getColumnCount(); i++) {
-                        log.info(resultSetMetaData.getColumnName(i)+
-                                "  " +
-                                resultSetMetaData.getColumnType(i) +
-                                "  " +
-                                resultSet.getString(resultSetMetaData.getColumnName(i)));
-                    }
-                }
-            }
-            log.info("tables = {}", tables);
-            log.info("get connection = {}, class ={}", connection, connection.getClass());
-
-            return connection;
+            this.connection = connection;
         } catch (SQLException e) {
             throw new IllegalStateException(e);
         }
+    }
+
+    public void register(ArrayList<Class> tables) throws SQLException {
+        connectDB(userDatabaseCredentials);
+        log.info("connection = OK");
+        this.tables = tables;
     }
 }
