@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Jam Board</title>
+</head>
+<body>
+<h1>Table</h1>
+<table>
+    <tr th:each="data : ${data}">
+        <td th:text="${data}"></td>
+    </tr>
+    <tr th:each="data2 : ${data2}">
+        <td th:text="${data2}"></td>
+    </tr>
+</table>
+</body>
+
+</html>
