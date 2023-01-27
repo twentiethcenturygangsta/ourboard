@@ -1,4 +1,4 @@
-package com.twentiethcenturygangsta.JamBoard;
+package com.twentiethcenturygangsta.jamboard;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
