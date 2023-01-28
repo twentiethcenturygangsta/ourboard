@@ -8,10 +8,11 @@
 <h1>Table</h1>
 <table>
     <tr th:each="data : ${data}">
-        <td th:text="${data}"></td>
-    </tr>
-    <tr th:each="data2 : ${data2}">
-        <td th:text="${data2}"></td>
+        <td>
+            <a th:href="@{/admin/tables/{tableName}(tableName=${data})}">
+                <span th:text="${data}"></span>
+            </a>
+        </td>
     </tr>
 </table>
 </body>
