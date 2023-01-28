@@ -21,11 +21,17 @@ public class ListRepository {
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         ResultSet resultSet = preparedStatement.executeQuery();
         ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
-
-        while(resultSet.next()) {
+        if (resultSet.next()) {
             ArrayList<String> row = new ArrayList<>();
             for(int i = 1; i <= resultSetMetaData.getColumnCount(); i++) {
                 columns.add(resultSetMetaData.getColumnName(i));
+                row.add(resultSet.getString(resultSetMetaData.getColumnName(i)));
+            }
+            dataset.add(row);
+        }
+        while(resultSet.next()) {
+            ArrayList<String> row = new ArrayList<>();
+            for(int i = 1; i <= resultSetMetaData.getColumnCount(); i++) {
                 row.add(resultSet.getString(resultSetMetaData.getColumnName(i)));
             }
             dataset.add(row);
