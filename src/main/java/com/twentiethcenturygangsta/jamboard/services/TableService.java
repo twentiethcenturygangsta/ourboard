@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -18,4 +20,13 @@ public class TableService {
     public Table getTableData(String tableName) throws SQLException {
         return listRepository.findAll(tableName, jamBoardClient.getConnection());
     }
+
+    public List<String> getTableSimpleNames() {
+        List<String> tableSimpleNames = new ArrayList<>();
+        for (Class table : jamBoardClient.getTables()) {
+            tableSimpleNames.add(table.getSimpleName());
+        }
+        return tableSimpleNames;
+    }
+
 }
