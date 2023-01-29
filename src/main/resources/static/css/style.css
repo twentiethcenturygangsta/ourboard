@@ -1,0 +1,50 @@
+.loginDiv {
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    margin: auto;
+    width: 530px;
+    text-align: center;
+}
+
+.loginLogo {
+    font-weight: 900;
+    font-size: 80px;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.loginInputDiv {
+    width: 100%;
+    height: 385px;
+    box-shadow: -20px 20px 60px rgba(0, 0, 0, 0.15);
+    border-radius: 30px;
+}
+
+.loginAlignDiv {
+    margin: auto;
+    padding-top: 8%;
+}
+
+.loginInput {
+    width: 80%;
+    height: 63px;
+    margin-bottom: 2%;
+}
+
+.loginGuide {
+    font-weight: 400;
+    font-size: 15px;
+    color: #727C89;
+}
+
+.loginButton {
+    width: 80%;
+    height: 80px;
+    border-radius: 15px;
+    border: 0;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 25px;
+    margin-top: 10%;
+}

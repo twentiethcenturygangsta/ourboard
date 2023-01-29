@@ -1,0 +1,42 @@
+html, body {
+    font-family: 'Pretendard';
+    margin: 0;
+    padding: 0;
+    background-color: #F9FAFB;
+    color: #202632;
+}
+
+input {
+    background: #FFFFFF;
+    border: 0.5px solid #727C89;
+    border-radius: 15px;
+    padding-left: 20px;
+    font-size: 20px;
+    color: #202632;
+}
+
+input::placeholder {
+    color: #727C89;
+    font-size: 20px;
+    font-weight: 100;
+}
+
+.mainColorBg {
+    background-color: #3288FF;
+}
+
+.innerText {
+    color: #727C89;
+}
+
+.boder {
+    color: #E5E8EB;
+}
+
+.white {
+    color: #FFFFFF;
+}
+
+.whiteBg {
+    background-color: #FFFFFF;
+}
