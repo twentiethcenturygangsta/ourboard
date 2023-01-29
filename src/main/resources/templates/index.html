@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:block th:replace="fragments/header :: AdminHeadFragment"></th:block>
+<body>
+    <div class="loginDiv">
+        <span class="loginLogo">OUR BOARD</span>
+        <div class="loginInputDiv whiteBg">
+            <div class="loginAlignDiv">
+                <input class="loginInput" type="text" placeholder="ID">
+                <input class="loginInput" type="password" placeholder="PW"><br>
+                <span class="loginGuide">Write down your properties file OUR BOARD ID, PW</span>
+                <button class="loginButton mainColorBg white" type="button">LOGIN</button>
+            </div>
+        </div>
+    </div>
+<th:block th:replace="fragments/footer :: AdminHeadFragment"></th:block>
+</body>
+</html>
