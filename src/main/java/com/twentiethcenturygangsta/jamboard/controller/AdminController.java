@@ -1,6 +1,7 @@
 package com.twentiethcenturygangsta.jamboard.controller;
 
 import com.twentiethcenturygangsta.jamboard.dto.Table;
+import com.twentiethcenturygangsta.jamboard.dto.TablesInfo;
 import com.twentiethcenturygangsta.jamboard.services.TableService;
 
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.sql.*;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 @Slf4j
 @Configuration(proxyBeanMethods = false)
@@ -24,9 +26,9 @@ public class AdminController {
 
     @GetMapping("/admin")
     public String responseView(Model model) {
-        //List<String> table = tableService.getTableSimpleNames();
-        //model.addAttribute("data", table);
-        return "index";
+        HashMap<String, ArrayList<TablesInfo>> table = tableService.getTableSimpleNames();
+        model.addAttribute("data", table);
+        return "home";
     }
 
     @GetMapping("/admin/tables/{tableName}")
