@@ -7,10 +7,17 @@
 <body>
 <h1>Table</h1>
 <table>
-    <tr th:each="data : ${data}">
-        <td>
-            <a th:href="@{/admin/tables/{tableName}(tableName=${data})}">
-                <span th:text="${data}"></span>
+    <tr th:each="key : ${data.keySet()}">
+        <br />
+            <span th:text = "${key}"></span>
+        <br />
+                <span th:each="data1 : ${data.get(key)}">
+                    <a th:href="@{/admin/tables/{tableName}(tableName=${data1.getTableName()})}">
+                        <span th:text="${data1.getTableName()}"></span>
+                        <span th:text="${data1.getDescription()}"></span>
+                        <br />
+                    </a>
+                </span>
             </a>
         </td>
     </tr>
