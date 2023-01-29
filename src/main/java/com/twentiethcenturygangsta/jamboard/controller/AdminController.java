@@ -24,9 +24,9 @@ public class AdminController {
 
     @GetMapping("/admin")
     public String responseView(Model model) {
-        List<String> table = tableService.getTableSimpleNames();
-        model.addAttribute("data", table);
-        return "home";
+        //List<String> table = tableService.getTableSimpleNames();
+        //model.addAttribute("data", table);
+        return "index";
     }
 
     @GetMapping("/admin/tables/{tableName}")
