@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<th:block th:replace="fragments/header :: AdminHeadFragment"></th:block>
+    <th:block th:replace="~{fragments/header :: AdminHeadFragment}"></th:block>
 <body>
     <div class="loginDiv">
         <span class="loginLogo">OUR BOARD</span>
@@ -13,6 +13,6 @@
             </div>
         </div>
     </div>
-<th:block th:replace="fragments/footer :: AdminHeadFragment"></th:block>
+<th:block th:replace="~{fragments/footer :: AdminFooterFragment}"></th:block>
 </body>
 </html>
