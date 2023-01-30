@@ -37,4 +37,9 @@ public class AdminController {
         model.addAttribute("data", table);
         return "table";
     }
+
+    @GetMapping("/admin/login")
+    public String responseLoginView() {
+        return "login";
+    }
 }
