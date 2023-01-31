@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<th:block th:replace="~{fragments/header :: AdminHeadFragment}"></th:block>
+<th:block th:replace="~{fragments/header :: AdminHeadFragment}"/>
 <body>
-    <th:block th:replace="~{fragments/navbar :: AdminNavbarFragment}"></th:block>
+    <th:block th:replace="~{fragments/navbar :: AdminNavbarFragment}"/>
     <div class="mainDiv">
         <th:block th:if="${#strings.isEmpty(groupName)}">
             <th:block th:replace="~{fragments/welcome :: AdminWelcomeFragment}"/>
             <th:block th:replace="~{fragments/group :: AdminNotGroupFragment}"/>
         </th:block>
         <th:block th:if="${not #strings.isEmpty(groupName)}">
-            <th:block th:replace="~{fragments/welcome :: AdminRouteFragment}"/>
+            <th:block th:replace="~{fragments/welcome :: AdminGroupRouteFragment}"/>
             <th:block th:replace="~{fragments/group :: AdminGroupFragment}"/>
         </th:block>
     </div>
 
-    <th:block th:replace="~{fragments/footer :: AdminFooterFragment}"></th:block>
+    <th:block th:replace="~{fragments/footer :: AdminFooterFragment}"/>
 </body>
 </html>

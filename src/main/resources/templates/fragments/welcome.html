@@ -8,17 +8,26 @@
         </div>
     </th:block>
 
+    <!-- Admin Group Route -->
+    <th:block th:fragment="AdminGroupRouteFragment">
+        <div class="welcomeDiv">
+            <a class="pointer" th:href="@{/admin}">
+                <span class="routeSpan innerText pointer" th:text="'HOME > '"/>
+            </a>
+            <span class="routeSpan navActive" th:text="${groupName}"/>
+        </div>
+    </th:block>
+
     <!-- Admin Route -->
     <th:block th:fragment="AdminRouteFragment">
         <div class="welcomeDiv">
             <a class="pointer" th:href="@{/admin}">
                 <span class="routeSpan innerText pointer" th:text="'HOME > '"/>
             </a>
-            <a class="pointer" th:href="@{/admin/{groupName}(groupName=${groupName})}" th:if="${not #strings.isEmpty(data)}">
+            <a class="pointer" th:href="@{/admin/{groupName}(groupName=${groupName})}">
                 <span class="routeSpan innerText pointer" th:text="${groupName} + ' > '"/>
             </a>
-            <span class="navActive" th:if="${#strings.isEmpty(data)}" th:text="${groupName}"/>
-            <span class="routeSpan navActive" th:if="${not #strings.isEmpty(data)}" th:text="'asdasf'"/>
+            <span class="routeSpan navActive" th:text="${tableName}"/>
         </div>
     </th:block>
 </html>

@@ -53,6 +53,7 @@ public class AdminController {
                                         Model model) throws SQLException {
         Table table = tableService.getTableData(tableName);
         model.addAttribute("groupName", groupName);
+        model.addAttribute("tableName", tableName);
         model.addAttribute("data", table);
         return "table";
     }
