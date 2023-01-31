@@ -24,6 +24,11 @@ import java.util.HashMap;
 public class AdminController {
     private final TableService tableService;
 
+    /**
+     * TODO
+     * Need to get userName from userCredentials
+     *
+     */
     @GetMapping("/admin")
     public String responseView(Model model) {
         HashMap<String, ArrayList<TablesInfo>> table = tableService.getTableSimpleNames();
@@ -37,6 +42,7 @@ public class AdminController {
                                         @PathVariable("tableName") String tableName,
                                         Model model) throws SQLException {
         Table table = tableService.getTableData(tableName);
+        model.addAttribute("groupName", groupName);
         model.addAttribute("data", table);
         return "table";
     }
