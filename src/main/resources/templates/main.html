@@ -4,10 +4,7 @@
 <body>
     <th:block th:replace="~{fragments/navbar :: AdminNavbarFragment}"></th:block>
     <div class="mainDiv">
-        <div class="welcomeDiv">
-                <span class="welcomeSpan" th:text="'WELCOME, ' + ${userName}"/><br>
-                <span class="welcomeSpan">YOUR TABLES</span>
-        </div>
+        <th:block th:replace="~{fragments/welcome :: AdminWelcomeFragment}"></th:block>
 
         <th:block th:each="groupName : ${data.keySet()}">
             <div class="tableHeadDiv mainColorBg">

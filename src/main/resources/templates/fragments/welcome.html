@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <!-- Admin Welcome -->
+    <th:block th:fragment="AdminWelcomeFragment">
+        <div class="welcomeDiv">
+            <span class="welcomeSpan" th:text="'WELCOME, ' + ${userName}"/><br>
+            <span class="welcomeSpan">YOUR TABLES</span>
+        </div>
+    </th:block>
+
+    <!-- Admin Route -->
+    <th:block th:fragment="AdminRouteFragment">
+        <div class="welcomeDiv">
+            <a class="pointer" th:href="@{/admin}">
+                <span class="routeSpan innerText pointer" th:text="'HOME > '"/>
+            </a>
+            <a class="pointer" th:href="@{/admin/{groupName}(groupName=${groupName})}" th:if="${not #strings.isEmpty(data)}">
+                <span class="routeSpan innerText pointer" th:text="${groupName} + ' > '"/>
+            </a>
+            <span class="navActive" th:if="${#strings.isEmpty(data)}" th:text="${groupName}"/>
+            <span class="routeSpan navActive" th:if="${not #strings.isEmpty(data)}" th:text="'asdasf'"/>
+        </div>
+    </th:block>
+</html>

@@ -9,12 +9,9 @@
 }
 
 .copyright {
-    position: absolute;
-    bottom : 10px;
-    left : 50%;
-    transform:translate(-50%,-50%);
+    position : relative;
+    transform : translateY(-100%);
     margin : auto;
-    width : 530px;
     font-size: 8px;
     text-align: center;
 }
@@ -92,7 +89,7 @@
     text-align: right;
 }
 
-.nacActive {
+.navActive {
     font-weight: 600;
 }
 
@@ -140,4 +137,148 @@
 .tableAdd {
     float: right;
     margin-right: 20px;;
+}
+
+.routeSpan {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 82px;
+}
+
+.menuDiv {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+}
+
+.columnSelect {
+    width: 153px;
+    height: 100%;
+    border: 1px solid #E5E8EB;
+    border-radius: 10px;
+}
+
+.searchInput {
+    width: 340px;
+    height: 94%;
+    border-right: none;
+    border-left: 1px solid #E5E8EB;
+    border-top: 1px solid #E5E8EB;
+    border-bottom: 1px solid #E5E8EB;
+    border-radius: 10px 0px 0px 10px;
+}
+
+.searchButton:focus, .searchButton:active {
+    outline: none;
+    box-shadow: none;
+}
+
+.searchButton {
+    height: 50.5px;
+    border-left: none;
+    border-right: 1px solid #E5E8EB;
+    border-top: 1px solid #E5E8EB;
+    border-bottom: 1px solid #E5E8EB;
+    border-radius: 0px 10px 10px 0px;
+    position: absolute;
+}
+
+.countDiv {
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    text-align: left;
+    font-weight: 400;
+    font-size: 20px;
+}
+
+.dataTable {
+    width: 100%;
+    border: none;
+    border-spacing: 0;
+    text-align: center;
+}
+
+.dataThFirst {
+    border-radius: 10px 0px 0px 0px;
+}
+
+.dataThLast {
+    border-radius: 0px 10px 0px 0px;
+}
+
+.dataTh {
+    width: 19%;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 55px;
+}
+
+.dataTd {
+    width: 19%;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 55px;
+}
+
+.dataTdBorder {
+    border-bottom: 1px solid #E5E8EB;
+}
+
+.dataTdFirst {
+    border-radius: 0px 0px 0px 10px;
+}
+
+.dataTdLast {
+    border-radius: 0px 0px 10px 0px;
+}
+
+.pagingDiv {
+    width: 100%;
+    text-align: center;
+    margin: 5% 0% 5% 0%;
+}
+
+.pagingArrow {
+    display: inline-block;
+    font-weight: 500;
+    font-size: 20px;
+    color: #3288FF;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    border: 1px solid #E5E8EB;
+    border-radius: 10px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.pagingUl {
+    list-style: none;
+    display: inline-block;
+    padding: 0;
+    border: 1px solid #E5E8EB;
+    border-radius: 10px;
+    width: 400px;
+    height: 40px;
+    line-height: 40px;
+    vertical-align: middle;
+}
+
+.pagingLi {
+    display: inline;
+    text-align: center;
+    width: 10%;
+}
+
+.pagingA {
+    font-weight: 300;
+    font-size: 20px;
+    color: #727C89;
+    padding: 0px 10px 0px 10px;
+}
+
+.pagingActive {
+    font-weight: 500;
+    color: #3288FF;
 }
