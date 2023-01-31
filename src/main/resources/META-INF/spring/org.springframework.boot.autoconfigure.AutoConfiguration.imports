@@ -2,3 +2,6 @@ com.twentiethcenturygangsta.jamboard.controller.AdminController
 com.twentiethcenturygangsta.jamboard.services.TableService
 com.twentiethcenturygangsta.jamboard.repository.ListRepository
 com.twentiethcenturygangsta.jamboard.config.MvcConfiguration
+com.twentiethcenturygangsta.jamboard.entity.AuthenticatedAdminMember
+com.twentiethcenturygangsta.jamboard.repository.TestImpl
+com.twentiethcenturygangsta.jamboard.site.AuthMember
