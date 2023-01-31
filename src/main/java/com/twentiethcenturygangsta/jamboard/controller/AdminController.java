@@ -24,16 +24,25 @@ import java.util.HashMap;
 public class AdminController {
     private final TableService tableService;
 
+    /**
+     * TODO
+     * Need to get userName from userCredentials
+     *
+     */
     @GetMapping("/admin")
     public String responseView(Model model) {
         HashMap<String, ArrayList<TablesInfo>> table = tableService.getTableSimpleNames();
+        model.addAttribute("userName", "JUNHYEOK");
         model.addAttribute("data", table);
-        return "home";
+        return "main";
     }
 
-    @GetMapping("/admin/tables/{tableName}")
-    public String responseTableListView(@PathVariable String tableName, Model model) throws SQLException {
+    @GetMapping("/admin/{groupName}/{tableName}")
+    public String responseTableListView(@PathVariable("groupName") String groupName,
+                                        @PathVariable("tableName") String tableName,
+                                        Model model) throws SQLException {
         Table table = tableService.getTableData(tableName);
+        model.addAttribute("groupName", groupName);
         model.addAttribute("data", table);
         return "table";
     }

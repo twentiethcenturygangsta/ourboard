@@ -6,6 +6,10 @@ html, body {
     color: #202632;
 }
 
+a {
+    text-decoration: none;
+}
+
 input {
     background: #FFFFFF;
     border: 0.5px solid #727C89;
@@ -39,4 +43,12 @@ input::placeholder {
 
 .whiteBg {
     background-color: #FFFFFF;
+}
+
+.add {
+    color: #2FCE49;
+}
+
+.pointer {
+    cursor: pointer;
 }

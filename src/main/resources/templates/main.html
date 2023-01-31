@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:block th:replace="~{fragments/header :: AdminHeadFragment}"></th:block>
+<body>
+    <th:block th:replace="~{fragments/navbar :: AdminNavbarFragment}"></th:block>
+    <div class="mainDiv">
+        <div class="welcomeDiv">
+                <span class="welcomeSpan" th:text="'WELCOME, ' + ${userName}"/><br>
+                <span class="welcomeSpan">YOUR TABLES</span>
+        </div>
+
+        <th:block th:each="groupName : ${data.keySet()}">
+            <div class="tableHeadDiv mainColorBg">
+                <span class="tableSpan white" th:text="${groupName}"/>
+            </div>
+            <th:block th:each="table : ${data.get(groupName)}">
+                <div class="whiteBg" th:classappend="${tableStat.last ? 'tableBodyLast' : 'tableBodyBorder'}">
+                    <a th:href="@{/admin/{groupName}/{tableName}(groupName=${groupName}, tableName=${table.getTableName()})}">
+                        <span class="tableSpan tableName pointer" th:text="${table.getTableName()}"/>
+                    </a>
+                    <span class="tableSpan innerText" th:text="${table.getDescription()}"/>
+                    <a th:href="@{/admin/{groupName}/{tableName}(groupName=${groupName}, tableName=${table.getTableName()})}">
+                        <span class="tableSpan tableAdd add pointer">+ ADD</span>
+                    </a>
+                </div>
+            </th:block>
+        </th:block>
+    </div>
+<th:block th:replace="~{fragments/footer :: AdminFooterFragment}"></th:block>
+</body>
+</html>
