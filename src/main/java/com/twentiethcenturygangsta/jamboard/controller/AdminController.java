@@ -37,6 +37,16 @@ public class AdminController {
         return "main";
     }
 
+    @GetMapping("/admin/{groupName}")
+    public String responseGroupView(@PathVariable("groupName") String groupName,
+                               Model model) {
+        HashMap<String, ArrayList<TablesInfo>> table = tableService.getTableSimpleNames();
+        model.addAttribute("userName", "JUNHYEOK");
+        model.addAttribute("groupName", groupName);
+        model.addAttribute("data", table);
+        return "main";
+    }
+
     @GetMapping("/admin/{groupName}/{tableName}")
     public String responseTableListView(@PathVariable("groupName") String groupName,
                                         @PathVariable("tableName") String tableName,
