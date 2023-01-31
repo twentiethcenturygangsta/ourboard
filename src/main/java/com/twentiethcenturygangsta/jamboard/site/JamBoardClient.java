@@ -15,6 +15,7 @@ import java.util.Set;
 
 @Slf4j
 public class JamBoardClient {
+    private final String jamBoardBasePackage = "com.twentiethcenturygangsta.jamboard";
     private final UserDatabaseCredentials userDatabaseCredentials;
     private final UserCredentials userCredentials;
     private final String basePackagePath;
@@ -22,13 +23,14 @@ public class JamBoardClient {
     private final Set<Class<?>> tables;
 
     @Builder
-    public JamBoardClient(UserDatabaseCredentials userDatabaseCredentials, UserCredentials userCredentials, String basePackagePath) {
+    public JamBoardClient(UserDatabaseCredentials userDatabaseCredentials, UserCredentials userCredentials, String basePackagePath) throws SQLException {
         this.userDatabaseCredentials = userDatabaseCredentials;
         this.userCredentials = userCredentials;
         this.basePackagePath = basePackagePath;
-        this.tables = new Reflections(basePackagePath).getTypesAnnotatedWith(JamBoardEntity.class);
+        this.tables = registerTables(basePackagePath);
 
         connectDB(userDatabaseCredentials);
+        createAuthenticatedMember();
     }
 
     public UserCredentials getUserCredentials() {
@@ -56,9 +58,45 @@ public class JamBoardClient {
         }
     }
 
+    public Set<Class<?>> registerTables(String basePackagePath) {
+        Set<Class<?>> baseClasses = new Reflections(jamBoardBasePackage).getTypesAnnotatedWith(JamBoardEntity.class);
+        baseClasses.addAll(new Reflections(basePackagePath).getTypesAnnotatedWith(JamBoardEntity.class));
+        return baseClasses;
+    }
+
+    public void createAuthenticatedMember() throws SQLException {
+        String sql = "CREATE TABLE IF NOT EXISTS AuthenticatedAdminMember (" +
+                "id BIGINT NOT NULL AUTO_INCREMENT," +
+                "username VARCHAR(100) NOT NULL," +
+                "hasCreateAuthority boolean," +
+                "hasReadAuthority boolean, PRIMARY KEY (id)" +
+                ");";
+
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.execute();
+
+        if (!isExistAuthenticatedMember()) {
+            createAuthenticatedSuperMember();
+        }
+    }
+
     @Deprecated
     public void register(ArrayList<Class> tables) throws SQLException {
         connectDB(userDatabaseCredentials);
         log.info("connection = OK");
+    }
+
+    public boolean isExistAuthenticatedMember() throws SQLException {
+        String sql = "SELECT * FROM AuthenticatedAdminMember WHERE username = " + String.format("'%s'", userCredentials.getUserName());
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return resultSet.next();
+    }
+
+    public void createAuthenticatedSuperMember() throws SQLException {
+        String sql = String.format("INSERT INTO AuthenticatedAdminMember (username, hasCreateAuthority, hasReadAuthority) " +
+                "VALUES ('%s', true, true);", userCredentials.getUserName());
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.execute();
     }
 }
