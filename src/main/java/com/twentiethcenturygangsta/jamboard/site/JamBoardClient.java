@@ -71,13 +71,32 @@ public class JamBoardClient {
                 "hasCreateAuthority boolean," +
                 "hasReadAuthority boolean, PRIMARY KEY (id)" +
                 ");";
+
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.execute();
+
+        if (!isExistAuthenticatedMember()) {
+            createAuthenticatedSuperMember();
+        }
     }
 
     @Deprecated
     public void register(ArrayList<Class> tables) throws SQLException {
         connectDB(userDatabaseCredentials);
         log.info("connection = OK");
+    }
+
+    public boolean isExistAuthenticatedMember() throws SQLException {
+        String sql = "SELECT * FROM AuthenticatedAdminMember WHERE username = " + String.format("'%s'", userCredentials.getUserName());
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return resultSet.next();
+    }
+
+    public void createAuthenticatedSuperMember() throws SQLException {
+        String sql = String.format("INSERT INTO AuthenticatedAdminMember (username, hasCreateAuthority, hasReadAuthority) " +
+                "VALUES ('%s', true, true);", userCredentials.getUserName());
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.execute();
     }
 }
