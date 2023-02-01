@@ -8,13 +8,13 @@ import org.aspectj.lang.reflect.MethodSignature;
 import java.lang.reflect.Method;
 
 @Aspect
-public class JamBoardEntityAspect {
+public class OurBoardEntityAspect {
 
-    @Before("@annotation(com.twentiethcenturygangsta.ourboard.trace.JamBoardEntity)")
+    @Before("@annotation(com.twentiethcenturygangsta.ourboard.trace.OurBoardEntity)")
     public String getGroup(JoinPoint joinPoint) {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         Method method = methodSignature.getMethod();
-        JamBoardEntity jamBoardEntity = method.getAnnotation(JamBoardEntity.class);
+        OurBoardEntity jamBoardEntity = method.getAnnotation(OurBoardEntity.class);
         return jamBoardEntity.group();
     }
 

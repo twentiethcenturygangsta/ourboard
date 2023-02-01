@@ -1,6 +1,6 @@
 package com.twentiethcenturygangsta.ourboard.entity;
 
-import com.twentiethcenturygangsta.ourboard.trace.JamBoardEntity;
+import com.twentiethcenturygangsta.ourboard.trace.OurBoardEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,21 +13,23 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@JamBoardEntity(group="AUTHENTICATION AND AUTHORIZATION", description = "Admin 계정")
-public class AuthenticatedAdminMember {
+@OurBoardEntity(group="AUTHENTICATION AND AUTHORIZATION", description = "Admin 계정")
+public class OurBoardMember {
 
     @Id
     @GeneratedValue
-    @Column(name = "authenticated_admin_member_id")
+    @Column(name = "our_board_member_id")
     private Long id;
 
     private String memberId;
+    private String password;
     private Boolean hasCreateAuthority;
     private Boolean hasReadAuthority;
 
     @Builder
-    public AuthenticatedAdminMember(String memberId) {
+    public OurBoardMember(String memberId, String password) {
         this.memberId = memberId;
+        this.password = password;
         this.hasCreateAuthority = true;
         this.hasReadAuthority = true;
     }

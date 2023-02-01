@@ -9,13 +9,5 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthMember {
     private final OurBoardClient ourBoardClient;
-//
-//    @Bean
-//    public void createAuthenticatedAdminMember() {
-//        AuthenticatedAdminMember authenticatedAdminMember = AuthenticatedAdminMember.builder()
-//                .memberId(ourBoardClient.getUserCredentials().getUserName())
-//                .build();
-//        log.info("authenticatedMember = {}", authenticatedAdminMember);
-//        authenticatedAdminMemberRepository.save(authenticatedAdminMember);
-//    }
+
 }

@@ -4,7 +4,7 @@ import com.twentiethcenturygangsta.ourboard.dto.Table;
 import com.twentiethcenturygangsta.ourboard.dto.TablesInfo;
 import com.twentiethcenturygangsta.ourboard.repository.ListRepository;
 import com.twentiethcenturygangsta.ourboard.site.OurBoardClient;
-import com.twentiethcenturygangsta.ourboard.trace.JamBoardEntity;
+import com.twentiethcenturygangsta.ourboard.trace.OurBoardEntity;
 import com.twentiethcenturygangsta.ourboard.trace.Trace;
 import lombok.RequiredArgsConstructor;
 
@@ -36,10 +36,10 @@ public class TableService {
         for (Class table : ourBoardClient.getTables()) {
             tableSimpleNames.add(table.getSimpleName());
 
-            log.info("annotation = {}", table.getAnnotation(JamBoardEntity.class));
+            log.info("annotation = {}", table.getAnnotation(OurBoardEntity.class));
 
             for (Annotation annotation : table.getAnnotations()) {
-                if (annotation instanceof JamBoardEntity myAnnotation) {
+                if (annotation instanceof OurBoardEntity myAnnotation) {
                     if (dict.containsKey(myAnnotation.group())) {
                         dict.get(myAnnotation.group()).add(
                                 TablesInfo.builder()
