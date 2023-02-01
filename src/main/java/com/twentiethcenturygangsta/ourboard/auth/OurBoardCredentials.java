@@ -1,6 +1,6 @@
-package com.twentiethcenturygangsta.jamboard.auth;
+package com.twentiethcenturygangsta.ourboard.auth;
 
-public interface JamBoardCredentials {
+public interface OurBoardCredentials {
     /**
      * Returns the Database Endpoint for this credentials object.
      *

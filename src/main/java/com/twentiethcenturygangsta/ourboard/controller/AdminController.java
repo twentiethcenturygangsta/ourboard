@@ -1,8 +1,8 @@
-package com.twentiethcenturygangsta.jamboard.controller;
+package com.twentiethcenturygangsta.ourboard.controller;
 
-import com.twentiethcenturygangsta.jamboard.dto.Table;
-import com.twentiethcenturygangsta.jamboard.dto.TablesInfo;
-import com.twentiethcenturygangsta.jamboard.services.TableService;
+import com.twentiethcenturygangsta.ourboard.dto.Table;
+import com.twentiethcenturygangsta.ourboard.dto.TablesInfo;
+import com.twentiethcenturygangsta.ourboard.services.TableService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

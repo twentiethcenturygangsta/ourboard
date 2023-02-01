@@ -1,4 +1,4 @@
-package com.twentiethcenturygangsta.jamboard.trace;
+package com.twentiethcenturygangsta.ourboard.trace;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -9,7 +9,7 @@ import org.aspectj.lang.annotation.Before;
 @Aspect
 public class TraceAspect {
 
-    @Before("@annotation(com.twentiethcenturygangsta.jamboard.trace.Trace)")
+    @Before("@annotation(com.twentiethcenturygangsta.ourboard.trace.Trace)")
     public void doTrace(JoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
         log.info("[trace] {} args={}", joinPoint.getSignature(), args);

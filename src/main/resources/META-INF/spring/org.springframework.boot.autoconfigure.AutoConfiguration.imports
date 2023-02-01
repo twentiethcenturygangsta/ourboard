@@ -1,6 +1,6 @@
-com.twentiethcenturygangsta.jamboard.controller.AdminController
-com.twentiethcenturygangsta.jamboard.services.TableService
-com.twentiethcenturygangsta.jamboard.repository.ListRepository
-com.twentiethcenturygangsta.jamboard.config.MvcConfiguration
-com.twentiethcenturygangsta.jamboard.entity.AuthenticatedAdminMember
-com.twentiethcenturygangsta.jamboard.site.AuthMember
+com.twentiethcenturygangsta.ourboard.controller.AdminController
+com.twentiethcenturygangsta.ourboard.services.TableService
+com.twentiethcenturygangsta.ourboard.repository.ListRepository
+com.twentiethcenturygangsta.ourboard.config.MvcConfiguration
+com.twentiethcenturygangsta.ourboard.entity.AuthenticatedAdminMember
+com.twentiethcenturygangsta.ourboard.site.AuthMember

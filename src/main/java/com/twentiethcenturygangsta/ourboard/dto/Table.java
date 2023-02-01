@@ -1,4 +1,4 @@
-package com.twentiethcenturygangsta.jamboard.dto;
+package com.twentiethcenturygangsta.ourboard.dto;
 
 import lombok.Builder;
 import lombok.Getter;

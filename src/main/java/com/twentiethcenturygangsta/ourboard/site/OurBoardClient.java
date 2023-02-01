@@ -1,8 +1,8 @@
-package com.twentiethcenturygangsta.jamboard.site;
+package com.twentiethcenturygangsta.ourboard.site;
 
-import com.twentiethcenturygangsta.jamboard.auth.UserCredentials;
-import com.twentiethcenturygangsta.jamboard.database.UserDatabaseCredentials;
-import com.twentiethcenturygangsta.jamboard.trace.JamBoardEntity;
+import com.twentiethcenturygangsta.ourboard.auth.UserCredentials;
+import com.twentiethcenturygangsta.ourboard.database.UserDatabaseCredentials;
+import com.twentiethcenturygangsta.ourboard.trace.JamBoardEntity;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import org.reflections.Reflections;

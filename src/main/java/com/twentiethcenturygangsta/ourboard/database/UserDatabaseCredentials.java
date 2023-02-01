@@ -1,9 +1,9 @@
-package com.twentiethcenturygangsta.jamboard.database;
+package com.twentiethcenturygangsta.ourboard.database;
 
-import com.twentiethcenturygangsta.jamboard.auth.JamBoardCredentials;
+import com.twentiethcenturygangsta.ourboard.auth.OurBoardCredentials;
 
 
-public class UserDatabaseCredentials implements JamBoardCredentials {
+public class UserDatabaseCredentials implements OurBoardCredentials {
     private final String databaseEndPoint;
     private final String databaseId;
     private final String databasePassword;

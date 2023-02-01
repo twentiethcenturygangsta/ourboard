@@ -1,4 +1,4 @@
-package com.twentiethcenturygangsta.jamboard.auth;
+package com.twentiethcenturygangsta.ourboard.auth;
 
 import lombok.Getter;
 

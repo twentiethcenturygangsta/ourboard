@@ -1,6 +1,6 @@
-package com.twentiethcenturygangsta.jamboard.repository;
+package com.twentiethcenturygangsta.ourboard.repository;
 
-import com.twentiethcenturygangsta.jamboard.dto.Table;
+import com.twentiethcenturygangsta.ourboard.dto.Table;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 

@@ -1,11 +1,11 @@
-package com.twentiethcenturygangsta.jamboard.services;
+package com.twentiethcenturygangsta.ourboard.services;
 
-import com.twentiethcenturygangsta.jamboard.dto.Table;
-import com.twentiethcenturygangsta.jamboard.dto.TablesInfo;
-import com.twentiethcenturygangsta.jamboard.repository.ListRepository;
-import com.twentiethcenturygangsta.jamboard.site.OurBoardClient;
-import com.twentiethcenturygangsta.jamboard.trace.JamBoardEntity;
-import com.twentiethcenturygangsta.jamboard.trace.Trace;
+import com.twentiethcenturygangsta.ourboard.dto.Table;
+import com.twentiethcenturygangsta.ourboard.dto.TablesInfo;
+import com.twentiethcenturygangsta.ourboard.repository.ListRepository;
+import com.twentiethcenturygangsta.ourboard.site.OurBoardClient;
+import com.twentiethcenturygangsta.ourboard.trace.JamBoardEntity;
+import com.twentiethcenturygangsta.ourboard.trace.Trace;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
