@@ -12,7 +12,7 @@
     position : relative;
     transform : translateY(-100%);
     margin : auto;
-    font-size: 8px;
+    font-size: 10px;
     text-align: center;
 }
 
@@ -94,7 +94,14 @@
 }
 
 .mainDiv {
+    width: 100%;
+    position : relative;
+    min-height: 100%;
+    margin: auto;
+}
+.contents {
     width: 80%;
+    position : relative;
     margin: auto;
 }
 
