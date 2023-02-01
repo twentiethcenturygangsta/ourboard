@@ -2,7 +2,7 @@ package com.twentiethcenturygangsta.ourboard.site;
 
 import com.twentiethcenturygangsta.ourboard.auth.UserCredentials;
 import com.twentiethcenturygangsta.ourboard.database.UserDatabaseCredentials;
-import com.twentiethcenturygangsta.ourboard.trace.JamBoardEntity;
+import com.twentiethcenturygangsta.ourboard.trace.OurBoardEntity;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import org.reflections.Reflections;
@@ -15,7 +15,7 @@ import java.util.Set;
 
 @Slf4j
 public class OurBoardClient {
-    private final String ourBoardBasePackage = "com.twentiethcenturygangsta.jamboard";
+    private final String ourBoardBasePackage = "com.twentiethcenturygangsta.ourboard";
     private final UserDatabaseCredentials userDatabaseCredentials;
     private final UserCredentials userCredentials;
     private final String basePackagePath;
@@ -59,8 +59,8 @@ public class OurBoardClient {
     }
 
     public Set<Class<?>> registerTables(String basePackagePath) {
-        Set<Class<?>> baseClasses = new Reflections(ourBoardBasePackage).getTypesAnnotatedWith(JamBoardEntity.class);
-        baseClasses.addAll(new Reflections(basePackagePath).getTypesAnnotatedWith(JamBoardEntity.class));
+        Set<Class<?>> baseClasses = new Reflections(ourBoardBasePackage).getTypesAnnotatedWith(OurBoardEntity.class);
+        baseClasses.addAll(new Reflections(basePackagePath).getTypesAnnotatedWith(OurBoardEntity.class));
         return baseClasses;
     }
 
