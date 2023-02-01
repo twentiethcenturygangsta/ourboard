@@ -13,7 +13,7 @@ publishing {
 	publications {
 		maven(MavenPublication) {
 			groupId = 'com.twentiethcenturygangsta'
-			artifactId = 'jam-board'
+			artifactId = 'our-board'
 			version = '1.0'
 			from components.java
 
