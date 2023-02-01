@@ -1,12 +1,12 @@
 package com.twentiethcenturygangsta.ourboard.site;
 
+import com.twentiethcenturygangsta.ourboard.auth.Role;
 import com.twentiethcenturygangsta.ourboard.auth.UserCredentials;
 import com.twentiethcenturygangsta.ourboard.database.UserDatabaseCredentials;
 import com.twentiethcenturygangsta.ourboard.trace.OurBoardEntity;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import org.reflections.Reflections;
-
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -67,9 +67,14 @@ public class OurBoardClient {
     public void createAuthenticatedMember() throws SQLException {
         String sql = "CREATE TABLE IF NOT EXISTS OurBoardMember (" +
                 "id BIGINT NOT NULL AUTO_INCREMENT," +
-                "username VARCHAR(100) NOT NULL," +
+                "memberId VARCHAR(100) NOT NULL," +
+                "password VARCHAR(100) NOT NULL," +
+                "role VARCHAR(100) NOT NULL," +
                 "hasCreateAuthority boolean," +
-                "hasReadAuthority boolean, PRIMARY KEY (id)" +
+                "hasReadAuthority boolean," +
+                "hasUpdateAuthority boolean," +
+                "hasDeleteAuthority boolean," +
+                "PRIMARY KEY (id)" +
                 ");";
 
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -87,15 +92,15 @@ public class OurBoardClient {
     }
 
     public boolean isExistAuthenticatedMember() throws SQLException {
-        String sql = "SELECT * FROM OurBoardMember WHERE username = " + String.format("'%s'", userCredentials.getUserName());
+        String sql = "SELECT * FROM OurBoardMember WHERE memberId = " + String.format("'%s'", userCredentials.getMemberId());
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         ResultSet resultSet = preparedStatement.executeQuery();
         return resultSet.next();
     }
 
     public void createAuthenticatedSuperMember() throws SQLException {
-        String sql = String.format("INSERT INTO OurBoardMember (username, hasCreateAuthority, hasReadAuthority) " +
-                "VALUES ('%s', true, true);", userCredentials.getUserName());
+        String sql = String.format("INSERT INTO OurBoardMember (memberId, password, role, hasCreateAuthority, hasReadAuthority, hasUpdateAuthority, hasDeleteAuthority) " +
+                "VALUES ('%s', '%s', '%s', true, true, true, true);", userCredentials.getMemberId(), userCredentials.getPassword(), Role.SUPER_USER);
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.execute();
     }
