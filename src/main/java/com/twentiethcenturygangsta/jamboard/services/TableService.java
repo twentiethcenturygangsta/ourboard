@@ -3,7 +3,7 @@ package com.twentiethcenturygangsta.jamboard.services;
 import com.twentiethcenturygangsta.jamboard.dto.Table;
 import com.twentiethcenturygangsta.jamboard.dto.TablesInfo;
 import com.twentiethcenturygangsta.jamboard.repository.ListRepository;
-import com.twentiethcenturygangsta.jamboard.site.JamBoardClient;
+import com.twentiethcenturygangsta.jamboard.site.OurBoardClient;
 import com.twentiethcenturygangsta.jamboard.trace.JamBoardEntity;
 import com.twentiethcenturygangsta.jamboard.trace.Trace;
 import lombok.RequiredArgsConstructor;
@@ -21,19 +21,19 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class TableService {
-    private final JamBoardClient jamBoardClient;
+    private final OurBoardClient ourBoardClient;
     private final ListRepository listRepository;
 
     @Trace
     public Table getTableData(String tableName) throws SQLException {
-        log.info("connection ={} ", jamBoardClient.getConnection());
-        return listRepository.findAll(tableName, jamBoardClient.getConnection());
+        log.info("connection ={} ", ourBoardClient.getConnection());
+        return listRepository.findAll(tableName, ourBoardClient.getConnection());
     }
 
     public HashMap<String, ArrayList<TablesInfo>> getTableSimpleNames() {
         List<String> tableSimpleNames = new ArrayList<>();
         HashMap<String, ArrayList<TablesInfo>> dict = new HashMap<>();
-        for (Class table : jamBoardClient.getTables()) {
+        for (Class table : ourBoardClient.getTables()) {
             tableSimpleNames.add(table.getSimpleName());
 
             log.info("annotation = {}", table.getAnnotation(JamBoardEntity.class));

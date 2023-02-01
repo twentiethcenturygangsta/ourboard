@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @RequiredArgsConstructor
 public class AuthMember {
-    private final JamBoardClient jamBoardClient;
+    private final OurBoardClient ourBoardClient;
 //
 //    @Bean
 //    public void createAuthenticatedAdminMember() {
 //        AuthenticatedAdminMember authenticatedAdminMember = AuthenticatedAdminMember.builder()
-//                .memberId(jamBoardClient.getUserCredentials().getUserName())
+//                .memberId(ourBoardClient.getUserCredentials().getUserName())
 //                .build();
 //        log.info("authenticatedMember = {}", authenticatedAdminMember);
 //        authenticatedAdminMemberRepository.save(authenticatedAdminMember);

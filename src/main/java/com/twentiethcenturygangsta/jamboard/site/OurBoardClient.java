@@ -14,8 +14,8 @@ import java.util.Set;
 
 
 @Slf4j
-public class JamBoardClient {
-    private final String jamBoardBasePackage = "com.twentiethcenturygangsta.jamboard";
+public class OurBoardClient {
+    private final String ourBoardBasePackage = "com.twentiethcenturygangsta.jamboard";
     private final UserDatabaseCredentials userDatabaseCredentials;
     private final UserCredentials userCredentials;
     private final String basePackagePath;
@@ -23,7 +23,7 @@ public class JamBoardClient {
     private final Set<Class<?>> tables;
 
     @Builder
-    public JamBoardClient(UserDatabaseCredentials userDatabaseCredentials, UserCredentials userCredentials, String basePackagePath) throws SQLException {
+    public OurBoardClient(UserDatabaseCredentials userDatabaseCredentials, UserCredentials userCredentials, String basePackagePath) throws SQLException {
         this.userDatabaseCredentials = userDatabaseCredentials;
         this.userCredentials = userCredentials;
         this.basePackagePath = basePackagePath;
@@ -59,13 +59,13 @@ public class JamBoardClient {
     }
 
     public Set<Class<?>> registerTables(String basePackagePath) {
-        Set<Class<?>> baseClasses = new Reflections(jamBoardBasePackage).getTypesAnnotatedWith(JamBoardEntity.class);
+        Set<Class<?>> baseClasses = new Reflections(ourBoardBasePackage).getTypesAnnotatedWith(JamBoardEntity.class);
         baseClasses.addAll(new Reflections(basePackagePath).getTypesAnnotatedWith(JamBoardEntity.class));
         return baseClasses;
     }
 
     public void createAuthenticatedMember() throws SQLException {
-        String sql = "CREATE TABLE IF NOT EXISTS AuthenticatedAdminMember (" +
+        String sql = "CREATE TABLE IF NOT EXISTS OurBoardMember (" +
                 "id BIGINT NOT NULL AUTO_INCREMENT," +
                 "username VARCHAR(100) NOT NULL," +
                 "hasCreateAuthority boolean," +
@@ -87,14 +87,14 @@ public class JamBoardClient {
     }
 
     public boolean isExistAuthenticatedMember() throws SQLException {
-        String sql = "SELECT * FROM AuthenticatedAdminMember WHERE username = " + String.format("'%s'", userCredentials.getUserName());
+        String sql = "SELECT * FROM OurBoardMember WHERE username = " + String.format("'%s'", userCredentials.getUserName());
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         ResultSet resultSet = preparedStatement.executeQuery();
         return resultSet.next();
     }
 
     public void createAuthenticatedSuperMember() throws SQLException {
-        String sql = String.format("INSERT INTO AuthenticatedAdminMember (username, hasCreateAuthority, hasReadAuthority) " +
+        String sql = String.format("INSERT INTO OurBoardMember (username, hasCreateAuthority, hasReadAuthority) " +
                 "VALUES ('%s', true, true);", userCredentials.getUserName());
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.execute();
