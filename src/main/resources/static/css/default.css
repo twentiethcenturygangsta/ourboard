@@ -4,6 +4,8 @@ html, body {
     padding: 0;
     background-color: #F9FAFB;
     color: #202632;
+
+    height: 100%;
 }
 
 a {
@@ -11,6 +13,23 @@ a {
 }
 
 input {
+    background: #FFFFFF;
+    border: 0.5px solid #727C89;
+    border-radius: 15px;
+    padding-left: 20px;
+    font-size: 20px;
+    color: #202632;
+}
+
+input[type="checkbox"] {
+    display: inline-block;
+    width: 21px;
+    height: 21px;
+    border: 1px solid #202632;
+    border-radius: 5px;
+}
+
+select {
     background: #FFFFFF;
     border: 0.5px solid #727C89;
     border-radius: 15px;
@@ -37,6 +56,10 @@ input::placeholder {
     color: #E5E8EB;
 }
 
+.logo {
+    color: #202632;
+}
+
 .white {
     color: #FFFFFF;
 }
@@ -51,4 +74,87 @@ input::placeholder {
 
 .pointer {
     cursor: pointer;
+}
+
+.link {
+    color: #0042EF;
+    font-weight: 600;
+}
+
+.actionButton {
+    width: 137px;
+    height: 49px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 20px;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.deleteButton {
+    float: right;
+    color: #DF4949;
+    border: 2px solid #DF4949;
+}
+
+.deleteButton:hover {
+    background: #DF4949;
+    color: #FFFFFF;
+}
+
+.deleteButton:active {
+    background: #C12929;
+    border: 1px solid #DF4949;
+    box-shadow: inset 4px 4px 4px rgba(0, 0, 0, 0.3);
+}
+
+.addButton {
+    float: right;
+    color: #2FCE49;
+    border: 2px solid #2FCE49;
+}
+
+.addButton:hover {
+    background: #2FCE49;
+    color: #FFFFFF;
+}
+
+.addButton:active {
+    background: #1DB736;
+    border: 1px solid #2FCE49;
+    box-shadow: inset 4px 4px 4px rgba(0, 0, 0, 0.3);
+}
+
+.updateButton {
+    float: right;
+    color: #EE9919;
+    border: 2px solid #EE9919;
+}
+
+.updateButton:hover {
+    background: #EE9919;
+    color: #FFFFFF;
+}
+
+.updateButton:active {
+    background: #E19524;
+    border: 1px solid #EE9919;
+    box-shadow: inset 4px 4px 4px rgba(0, 0, 0, 0.3);
+}
+
+.backButton {
+    float: right;
+    color: #707070;
+    border: 2px solid #707070;
+}
+
+.backButton:hover {
+    background: #707070;
+    color: #FFFFFF;
+}
+
+.backButton:active {
+    background: #616060;
+    border: 1px solid #707070;
+    box-shadow: inset 4px 4px 4px rgba(0, 0, 0, 0.3);
 }

@@ -1,19 +1,155 @@
 <!DOCTYPE html>
-
-<head>
-    <meta charset="UTF-8">
-    <title>Jam Board</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:block th:replace="~{fragments/header :: AdminHeadFragment}"/>
 <body>
-<h1>Table</h1>
-<table>
-    <tr th:text="${data.fields}">
-    </tr>
-    <tr><hr /></tr>
-    <tr th:each="data1 : ${data.datasets}">
-        <td th:text="${data1}"></td>
-    </tr>
-</table>
-</body>
+    <th:block th:replace="~{fragments/navbar :: AdminNavbarFragment}"/>
+    <div class="mainDiv">
+        <div class = "contents">
+            <th:block th:replace="~{fragments/welcome :: AdminRouteFragment}"/>
+            <div class="menuDiv">
+                <select class="columnSelect">
+                    <option>asdasd</option>
+                </select>
+                <input class="searchInput" type="text"><button class="searchButton whiteBg" type="button">
+                    <svg width="23" height="25" viewBox="0 0 23 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="9.5" cy="9.5" r="8" stroke="#E5E8EB" stroke-width="3"/>
+                        <line x1="14.1289" y1="16.0122" x2="21.1289" y2="24.0122" stroke="#E5E8EB" stroke-width="3"/>
+                    </svg>
+                </button>
 
+                <button class="actionButton addButton whiteBg" type="button">ADD</button>
+                <button class="actionButton deleteButton whiteBg" type="button">DELETE</button>
+            </div>
+
+            <div class="countDiv innerText">
+                1,080 TAPE
+            </div>
+
+            <table class="dataTable">
+                <thead>
+                <th class="mainColorBg dataThFirst">
+                    <input type="checkbox" id="allCheck">
+                </th>
+                <th class="dataTh mainColorBg white">TAPE_ID</th>
+                <th class="dataTh mainColorBg white">MEMBER_ID</th>
+                <th class="dataTh mainColorBg white">COLOR_CODE</th>
+                <th class="dataTh mainColorBg white">TITLE</th>
+                <th class="dataTh mainColorBg white dataThLast">NAME</th>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="whiteBg dataTdBorder">
+                        <input type="checkbox">
+                    </td>
+                    <td class="dataTd whiteBg dataTdBorder">
+                        <a class="link pointer">1</a>
+                    </td>
+                    <td class="dataTd whiteBg dataTdBorder">1</td>
+                    <td class="dataTd whiteBg dataTdBorder">DarkOrange</td>
+                    <td class="dataTd whiteBg dataTdBorder">나를 응원해줘!</td>
+                    <td class="dataTd whiteBg dataTdBorder">한준혁</td>
+                </tr>
+                <tr>
+                    <td class="whiteBg dataTdBorder">
+                        <input type="checkbox">
+                    </td>
+                    <td class="dataTd whiteBg dataTdBorder">
+                        <a class="link pointer">1</a>
+                    </td>
+                    <td class="dataTd whiteBg dataTdBorder">1</td>
+                    <td class="dataTd whiteBg dataTdBorder">DarkOrange</td>
+                    <td class="dataTd whiteBg dataTdBorder">나를 응원해줘!</td>
+                    <td class="dataTd whiteBg dataTdBorder">한준혁</td>
+                </tr>
+                <tr>
+                    <td class="whiteBg dataTdBorder">
+                        <input type="checkbox">
+                    </td>
+                    <td class="dataTd whiteBg dataTdBorder">
+                        <a class="link pointer">1</a>
+                    </td>
+                    <td class="dataTd whiteBg dataTdBorder">1</td>
+                    <td class="dataTd whiteBg dataTdBorder">DarkOrange</td>
+                    <td class="dataTd whiteBg dataTdBorder">나를 응원해줘!</td>
+                    <td class="dataTd whiteBg dataTdBorder">한준혁</td>
+                </tr>
+                <tr>
+                    <td class="whiteBg dataTdBorder">
+                        <input type="checkbox">
+                    </td>
+                    <td class="dataTd whiteBg dataTdBorder">
+                        <a class="link pointer">1</a>
+                    </td>
+                    <td class="dataTd whiteBg dataTdBorder">1</td>
+                    <td class="dataTd whiteBg dataTdBorder">DarkOrange</td>
+                    <td class="dataTd whiteBg dataTdBorder">나를 응원해줘!</td>
+                    <td class="dataTd whiteBg dataTdBorder">한준혁</td>
+                </tr>
+                <tr>
+                    <td class="whiteBg dataTdBorder">
+                        <input type="checkbox">
+                    </td>
+                    <td class="dataTd whiteBg dataTdBorder">
+                        <a class="link pointer">1</a>
+                    </td>
+                    <td class="dataTd whiteBg dataTdBorder">1</td>
+                    <td class="dataTd whiteBg dataTdBorder">DarkOrange</td>
+                    <td class="dataTd whiteBg dataTdBorder">나를 응원해줘!</td>
+                    <td class="dataTd whiteBg dataTdBorder">한준혁</td>
+                </tr>
+                <tr>
+                    <td class="whiteBg dataTdFirst">
+                        <input type="checkbox">
+                    </td>
+                    <td class="dataTd whiteBg">
+                        <a class="link pointer">1</a>
+                    </td>
+                    <td class="dataTd whiteBg">1</td>
+                    <td class="dataTd whiteBg">DarkOrange</td>
+                    <td class="dataTd whiteBg">나를 응원해줘!</td>
+                    <td class="dataTd whiteBg dataTdLast">한준혁</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pagingDiv">
+            <div class="pagingArrow whiteBg pointer">&lt;</div>
+            <ul class="pagingUl whiteBg">
+                <li class="pagingLi">
+                    <a class="pagingA pointer pagingActive">1</a>
+                </li>
+                <li class="pagingLi">
+                    <a class="pagingA pointer">2</a>
+                </li>
+                <li class="pagingLi">
+                    <a class="pagingA pointer">3</a>
+                </li>
+                <li class="pagingLi">
+                    <a class="pagingA pointer">4</a>
+                </li>
+                <li class="pagingLi">
+                    <a class="pagingA pointer">5</a>
+                </li>
+                <li class="pagingLi">
+                    <a class="pagingA pointer">6</a>
+                </li>
+                <li class="pagingLi">
+                    <a class="pagingA pointer">7</a>
+                </li>
+                <li class="pagingLi">
+                    <a class="pagingA pointer">8</a>
+                </li>
+                <li class="pagingLi">
+                    <a class="pagingA pointer">9</a>
+                </li>
+                <li class="pagingLi">
+                    <a class="pagingA pointer">10</a>
+                </li>
+            </ul>
+            <div class="pagingArrow whiteBg pointer">&gt;</div>
+        </div>
+    </div>
+    <th:block th:replace="~{fragments/footer :: AdminFooterFragment}"/>
+</body>
 </html>
