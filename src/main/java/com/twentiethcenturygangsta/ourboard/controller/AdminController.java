@@ -62,4 +62,15 @@ public class AdminController {
     public String responseLoginView() {
         return "login";
     }
+
+    @GetMapping("/admin/{groupName}/{tableName}/add")
+    public String responseInstanceCreateView(@PathVariable("groupName") String groupName,
+                                             @PathVariable("tableName") String tableName,
+                                             Model model) throws SQLException {
+        Table table = tableService.getTableData(tableName);
+        model.addAttribute("groupName", groupName);
+        model.addAttribute("tableName", tableName);
+        model.addAttribute("data", table);
+        return "createView";
+    }
 }
