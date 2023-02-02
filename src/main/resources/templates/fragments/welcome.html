@@ -30,4 +30,20 @@
             <span class="routeSpan navActive" th:text="${tableName}"/>
         </div>
     </th:block>
+
+    <!-- Admin Route -->
+    <th:block th:fragment="AdminCreateRouteFragment">
+        <div class="welcomeDiv">
+            <a class="pointer" th:href="@{/admin}">
+                <span class="routeSpan innerText pointer" th:text="'HOME > '"/>
+            </a>
+            <a class="pointer" th:href="@{/admin/{groupName}(groupName=${groupName})}">
+                <span class="routeSpan innerText pointer" th:text="${groupName} + ' > '"/>
+            </a>
+            <a class="pointer" th:href="@{/admin/{groupName}/{tableName}(groupName=${groupName}, tableName=${tableName})}">
+                <span class="routeSpan innerText pointer" th:text="${tableName} + ' > '"/>
+            </a>
+            <span class="routeSpan navActive" th:text="${tableName} + ' ADD'"/>
+        </div>
+    </th:block>
 </html>
