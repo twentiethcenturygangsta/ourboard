@@ -2,6 +2,7 @@ package com.twentiethcenturygangsta.ourboard.site;
 
 import com.twentiethcenturygangsta.ourboard.auth.Role;
 import com.twentiethcenturygangsta.ourboard.auth.UserCredentials;
+import com.twentiethcenturygangsta.ourboard.config.EncryptionConfig;
 import com.twentiethcenturygangsta.ourboard.database.UserDatabaseCredentials;
 import com.twentiethcenturygangsta.ourboard.trace.OurBoardEntity;
 import lombok.Builder;
@@ -21,13 +22,15 @@ public class OurBoardClient {
     private final String basePackagePath;
     private Connection connection;
     private final Set<Class<?>> tables;
+    private final String key;
 
     @Builder
-    public OurBoardClient(UserDatabaseCredentials userDatabaseCredentials, UserCredentials userCredentials, String basePackagePath) throws SQLException {
+    public OurBoardClient(UserDatabaseCredentials userDatabaseCredentials, UserCredentials userCredentials, String basePackagePath, String key) throws Exception {
         this.userDatabaseCredentials = userDatabaseCredentials;
         this.userCredentials = userCredentials;
         this.basePackagePath = basePackagePath;
         this.tables = registerTables(basePackagePath);
+        this.key = key;
 
         connectDB(userDatabaseCredentials);
         createAuthenticatedMember();
@@ -64,7 +67,7 @@ public class OurBoardClient {
         return baseClasses;
     }
 
-    public void createAuthenticatedMember() throws SQLException {
+    public void createAuthenticatedMember() throws Exception {
         String sql = "CREATE TABLE IF NOT EXISTS OurBoardMember (" +
                 "id BIGINT NOT NULL AUTO_INCREMENT," +
                 "memberId VARCHAR(100) NOT NULL," +
@@ -98,9 +101,10 @@ public class OurBoardClient {
         return resultSet.next();
     }
 
-    public void createAuthenticatedSuperMember() throws SQLException {
+    public void createAuthenticatedSuperMember() throws Exception {
+        String encodePassword = EncryptionConfig.encrypt(key, userCredentials.getPassword());
         String sql = String.format("INSERT INTO OurBoardMember (memberId, password, role, hasCreateAuthority, hasReadAuthority, hasUpdateAuthority, hasDeleteAuthority) " +
-                "VALUES ('%s', '%s', '%s', true, true, true, true);", userCredentials.getMemberId(), userCredentials.getPassword(), Role.SUPER_USER);
+                "VALUES ('%s', '%s', '%s', true, true, true, true);", userCredentials.getMemberId(), encodePassword, Role.SUPER_USER);
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.execute();
     }
