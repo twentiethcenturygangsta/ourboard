@@ -125,23 +125,6 @@ input::placeholder {
     box-shadow: inset 4px 4px 4px rgba(0, 0, 0, 0.3);
 }
 
-.backButton {
-    float: right;
-    color: #707070;
-    border: 2px solid #707070;
-}
-
-.backButton:hover {
-    background: #707070;
-    color: #FFFFFF;
-}
-
-.backButton:active {
-    background: #707070;
-    border: 1px solid #616060;
-    box-shadow: inset 4px 4px 4px rgba(0, 0, 0, 0.3);
-}
-
 .updateButton {
     float: right;
     color: #EE9919;
