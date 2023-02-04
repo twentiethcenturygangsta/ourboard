@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:block th:replace="~{fragments/header :: AdminHeadFragment}"/>
+<body>
+<th:block th:replace="~{fragments/navbar :: AdminNavbarFragment}"/>
+<div class="mainDiv">
+    <div class = "contents">
+        <th:block th:replace="~{fragments/welcome :: AdminCreateRouteFragment}"/>
+
+        <table class="dataTable">
+            <tbody>
+            <tr class="dataTrForm">
+                <td class="mainColorBg dataTdBorder dataThFirst white dataTdTextForm">
+                    TAPE_ID
+                </td>
+                <td class="dataTd whiteBg dataTdBorder dataThLast dataTdInputForm">AUTO_INCREMENT</td>
+            </tr>
+            <tr class="dataTrForm">
+                <td class="mainColorBg dataTdBorder white dataTdTextForm">
+                    MEMBER_ID
+                </td>
+                <td class="dataTd whiteBg dataTdBorder dataTdInputForm">...</td>
+            </tr>
+            <tr class="dataTrForm">
+                <td class="mainColorBg dataTdBorder white dataTdTextForm">
+                    COLOR_CODE
+                </td>
+                <td class="dataTd whiteBg dataTdBorder dataTdInputForm">
+                    <input class="dataInput" type="text" placeholder="">
+                </td>
+            </tr>
+            <tr class="dataTrForm">
+                <td class="mainColorBg dataTdBorder white dataTdTextForm">
+                    TITLE
+                </td>
+                <td class="dataTd whiteBg dataTdBorder dataTdInputForm">
+                    <input class="dataInput" type="text" placeholder="">
+                </td>
+            </tr>
+            <tr class="dataTrForm">
+                <td class="mainColorBg dataTdBorder white dataTdTextForm">
+                    NAME
+                </td>
+                <td class="dataTd whiteBg dataTdBorder dataTdInputForm">
+                    <input class="dataInput" type="text" placeholder="">
+                </td>
+            </tr>
+            <tr class="dataTrForm">
+                <td class="mainColorBg dataTdBorder white dataTdTextForm">
+                    TAPE_LINK
+                </td>
+                <td class="dataTd whiteBg dataTdBorder dataTdInputForm">
+                    <input class="dataInput" type="text" placeholder="">
+                </td>
+            </tr>
+            <tr class="dataTrForm">
+                <td class="mainColorBg dataTdBorder white dataTdTextForm">
+                    FILE_NAME
+                </td>
+                <td class="dataTd whiteBg dataTdBorder dataTdInputForm">
+                    <input class="dataInput" type="text" placeholder="">
+                </td>
+            </tr>
+            <tr class="dataTrForm">
+                <td class="mainColorBg dataTdBorder dataTdFirst white dataTdTextForm">
+                    AUDIO_LINK
+                </td>
+                <td class="dataTd whiteBg dataTdBorder dataTdLast dataTdInputForm">
+                    <input class="dataInput" type="text" placeholder="">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="eventDiv">
+            <button class="actionButton backButton whiteBg" type="button">BACK</button>
+            <button class="actionButton addButton whiteBg" type="button">ADD</button>
+        </div>
+    </div>
+</div>
+<th:block th:replace="~{fragments/footer :: AdminFooterFragment}"/>
+</body>
+</html>

@@ -40,6 +40,13 @@
     margin-bottom: 2%;
 }
 
+.dataInput {
+    width : 50%;
+    height : 30px;
+    font-size: 18px;
+    border-radius: 5px;
+}
+
 .loginGuide {
     font-weight: 400;
     font-size: 15px;
@@ -238,6 +245,28 @@
 
 .dataTdLast {
     border-radius: 0px 0px 10px 0px;
+}
+
+.dataTdInputForm {
+    font-size: 18px;
+    width : 80%;
+    text-align: left;
+    padding: 0 0 0 38px;
+}
+
+.dataTdTextForm {
+    width : 20%;
+    font-size: 20px;
+}
+
+.dataTrForm {
+    width : 100%;
+}
+
+.eventDiv {
+    width: 100%;
+    text-align: right;
+    margin: 5% 0% 0% 0%;
 }
 
 .pagingDiv {

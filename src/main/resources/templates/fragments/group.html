@@ -12,7 +12,7 @@
                         <span class="tableSpan tableName pointer" th:text="${table.getTableName()}"/>
                     </a>
                     <span class="tableSpan innerText" th:text="${table.getDescription()}"/>
-                    <a th:href="@{/admin/{groupName}/{tableName}(groupName=${groupName}, tableName=${table.getTableName()})}">
+                    <a th:href="@{/admin/{groupName}/{tableName}/add(groupName=${groupName}, tableName=${table.getTableName()})}">
                         <span class="tableSpan tableAdd add pointer">+ ADD</span>
                     </a>
                 </div>
@@ -31,7 +31,7 @@
                     <span class="tableSpan tableName pointer" th:text="${table.getTableName()}"/>
                 </a>
                 <span class="tableSpan innerText" th:text="${table.getDescription()}"/>
-                <a th:href="@{/admin/{groupName}/{tableName}(groupName=${groupName}, tableName=${table.getTableName()})}">
+                <a th:href="@{/admin/{groupName}/{tableName}/add(groupName=${groupName}, tableName=${table.getTableName()})}">
                     <span class="tableSpan tableAdd add pointer">+ ADD</span>
                 </a>
             </div>
