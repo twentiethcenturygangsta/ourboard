@@ -7,7 +7,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Getter
 @Entity
@@ -33,14 +32,10 @@ public class OurBoardMember {
     public OurBoardMember(String memberId, String password) {
         this.memberId = memberId;
         this.password = password;
-        this.role = Role.DEFAULT_USER;
+        this.role = Role.SUPER_USER;
         this.hasCreateAuthority = true;
         this.hasReadAuthority = true;
         this.hasUpdateAuthority = true;
         this.hasDeleteAuthority = true;
-    }
-
-    public void encryptPassword(PasswordEncoder passwordEncoder) {
-        this.password = passwordEncoder.encode(this.password);
     }
 }

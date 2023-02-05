@@ -2,12 +2,12 @@ package com.twentiethcenturygangsta.ourboard.site;
 
 import com.twentiethcenturygangsta.ourboard.auth.Role;
 import com.twentiethcenturygangsta.ourboard.auth.UserCredentials;
-import com.twentiethcenturygangsta.ourboard.config.EncryptionConfig;
 import com.twentiethcenturygangsta.ourboard.database.UserDatabaseCredentials;
 import com.twentiethcenturygangsta.ourboard.trace.OurBoardEntity;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import org.reflections.Reflections;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -22,15 +22,14 @@ public class OurBoardClient {
     private final String basePackagePath;
     private Connection connection;
     private final Set<Class<?>> tables;
-    private final String key;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     @Builder
-    public OurBoardClient(UserDatabaseCredentials userDatabaseCredentials, UserCredentials userCredentials, String basePackagePath, String key) throws Exception {
+    public OurBoardClient(UserDatabaseCredentials userDatabaseCredentials, UserCredentials userCredentials, String basePackagePath) throws Exception {
         this.userDatabaseCredentials = userDatabaseCredentials;
         this.userCredentials = userCredentials;
         this.basePackagePath = basePackagePath;
         this.tables = registerTables(basePackagePath);
-        this.key = key;
 
         connectDB(userDatabaseCredentials);
         createAuthenticatedMember();
@@ -102,7 +101,8 @@ public class OurBoardClient {
     }
 
     public void createAuthenticatedSuperMember() throws Exception {
-        String encodePassword = EncryptionConfig.encrypt(key, userCredentials.getPassword());
+        String encodePassword = bCryptPasswordEncoder.encode(userCredentials.getPassword());
+
         String sql = String.format("INSERT INTO OurBoardMember (memberId, password, role, hasCreateAuthority, hasReadAuthority, hasUpdateAuthority, hasDeleteAuthority) " +
                 "VALUES ('%s', '%s', '%s', true, true, true, true);", userCredentials.getMemberId(), encodePassword, Role.SUPER_USER);
         PreparedStatement preparedStatement = connection.prepareStatement(sql);

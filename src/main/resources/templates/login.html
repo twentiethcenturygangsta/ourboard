@@ -6,10 +6,10 @@
         <span class="loginLogo">OUR BOARD</span>
         <div class="loginInputDiv whiteBg">
             <div class="loginAlignDiv">
-                <input class="loginInput" type="text" placeholder="ID">
-                <input class="loginInput" type="password" placeholder="PW"><br>
+                <input class="loginInput" type="text" placeholder="ID" th:id="memberId" onkeypress="enterKeyPress(event, 'loginButton')">
+                <input class="loginInput" type="password" placeholder="PW" th:id="password" onkeypress="enterKeyPress(event, 'loginButton')"><br>
                 <span class="loginGuide">Write down your properties file OUR BOARD ID, PW</span>
-                <button class="loginButton mainColorBg white" type="button">LOGIN</button>
+                <button class="loginButton mainColorBg white" type="button" th:id="loginButton">LOGIN</button>
             </div>
         </div>
     </div>

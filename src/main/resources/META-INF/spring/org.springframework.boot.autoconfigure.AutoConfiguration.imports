@@ -1,7 +1,14 @@
-com.twentiethcenturygangsta.ourboard.controller.AdminController
-com.twentiethcenturygangsta.ourboard.services.TableService
-com.twentiethcenturygangsta.ourboard.repository.ListRepository
 com.twentiethcenturygangsta.ourboard.config.MvcConfiguration
 com.twentiethcenturygangsta.ourboard.config.security.SecurityConfig
+
+com.twentiethcenturygangsta.ourboard.controller.AdminController
+com.twentiethcenturygangsta.ourboard.controller.MemberController
+
+com.twentiethcenturygangsta.ourboard.services.TableService
+com.twentiethcenturygangsta.ourboard.services.MemberService
+
+com.twentiethcenturygangsta.ourboard.repository.ListRepository
+
 com.twentiethcenturygangsta.ourboard.entity.OurBoardMember
+
 com.twentiethcenturygangsta.ourboard.site.AuthMember
