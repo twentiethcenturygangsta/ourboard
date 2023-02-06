@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import org.reflections.Reflections;
 
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Set;
@@ -68,6 +67,7 @@ public class OurBoardClient {
         String sql = "CREATE TABLE IF NOT EXISTS OurBoardMember (" +
                 "id BIGINT NOT NULL AUTO_INCREMENT," +
                 "username VARCHAR(100) NOT NULL," +
+                "password VARCHAR(100) NOT NULL," +
                 "hasCreateAuthority boolean," +
                 "hasReadAuthority boolean, PRIMARY KEY (id)" +
                 ");";
@@ -94,8 +94,8 @@ public class OurBoardClient {
     }
 
     public void createAuthenticatedSuperMember() throws SQLException {
-        String sql = String.format("INSERT INTO OurBoardMember (username, hasCreateAuthority, hasReadAuthority) " +
-                "VALUES ('%s', true, true);", userCredentials.getUserName());
+        String sql = String.format("INSERT INTO OurBoardMember (username, password, hasCreateAuthority, hasReadAuthority) " +
+                "VALUES ('%s', '%s', true, true);", userCredentials.getUserName(), userCredentials.getPassword());
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.execute();
     }
