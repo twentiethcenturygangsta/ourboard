@@ -1,4 +1,4 @@
-package com.twentiethcenturygangsta.ourboard.manager;
+package com.twentiethcenturygangsta.ourboard.manager.session;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
