@@ -5,7 +5,7 @@
     <div class="loginDiv">
         <span class="loginLogo">OUR BOARD</span>
         <div class="loginInputDiv whiteBg">
-가            <form th:action="@{/our-board/api/login}" class="loginAlignDiv" method="POST" th:object="${loginForm}">
+            <form th:action="@{/our-board/api/login}" class="loginAlignDiv" method="POST" th:object="${loginForm}">
                 <input class="loginInput" type="text" placeholder="ID" name="memberId" id="memberId" th:field="*{memberId}">
                 <input class="loginInput" type="password" placeholder="PW" name="password" id="password" th:field="*{password}"><br>
                 <span class="loginGuide">Write down your properties file OUR BOARD ID, PW</span>

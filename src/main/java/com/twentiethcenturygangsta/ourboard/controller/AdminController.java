@@ -2,16 +2,22 @@ package com.twentiethcenturygangsta.ourboard.controller;
 
 import com.twentiethcenturygangsta.ourboard.dto.Table;
 import com.twentiethcenturygangsta.ourboard.dto.TablesInfo;
+import com.twentiethcenturygangsta.ourboard.entity.OurBoardMember;
+import com.twentiethcenturygangsta.ourboard.form.LoginForm;
+import com.twentiethcenturygangsta.ourboard.manager.session.SessionConst;
+import com.twentiethcenturygangsta.ourboard.services.LoginService;
 import com.twentiethcenturygangsta.ourboard.services.TableService;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -20,9 +26,11 @@ import java.util.HashMap;
 @Slf4j
 @Configuration(proxyBeanMethods = false)
 @Controller
+@RequestMapping("/our-board")
 @RequiredArgsConstructor
 public class AdminController {
     private final TableService tableService;
+    private final LoginService loginService;
 
     /**
      * TODO
@@ -30,7 +38,12 @@ public class AdminController {
      *
      */
     @GetMapping("/admin")
-    public String responseView(Model model) {
+    public String responseView(
+            @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) OurBoardMember loginMember,
+            Model model) {
+        if (!loginService.isOurBoardMember(loginMember)) {
+            return "login";
+        }
         HashMap<String, ArrayList<TablesInfo>> table = tableService.getTableSimpleNames();
         model.addAttribute("userName", "JUNHYEOK");
         model.addAttribute("data", table);
@@ -59,8 +72,26 @@ public class AdminController {
     }
 
     @GetMapping("/admin/login")
-    public String responseLoginView() {
+    public String responseLoginView(@ModelAttribute LoginForm loginForm) {
         return "login";
+    }
+
+    @PostMapping("/api/login")
+    public String loginAPI(@ModelAttribute("loginForm") LoginForm form, BindingResult bindingResult, HttpServletRequest request) {
+        log.info("bindingResult = {}", bindingResult);
+        if (bindingResult.hasErrors()) {
+            return "login";
+        }
+        OurBoardMember ourBoardMember = loginService.login(form.getMemberId(), form.getPassword());
+        log.info("ourBoardMember = {}", ourBoardMember);
+        if (ourBoardMember == null) {
+            bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
+            return "login";
+        }
+
+        HttpSession session = request.getSession();
+        session.setAttribute(SessionConst.LOGIN_MEMBER, ourBoardMember);
+        return "redirect:/our-board/admin";
     }
 
     @GetMapping("/admin/{groupName}/{tableName}/add")
