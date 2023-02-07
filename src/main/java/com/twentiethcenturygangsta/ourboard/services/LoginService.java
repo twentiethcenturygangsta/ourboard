@@ -17,4 +17,11 @@ public class LoginService {
         log.info("OurBoardMember = {}", member);
         return member != null;
     }
+
+    public OurBoardMember login(String loginId, String password) {
+        log.info("Login = {}, {}", loginId, password);
+        return ourBoardMemberRepository.findOurBoardMemberByMemberId(loginId)
+                .filter(m -> m.getPassword().equals(password))
+                .orElse(null);
+    }
 }
