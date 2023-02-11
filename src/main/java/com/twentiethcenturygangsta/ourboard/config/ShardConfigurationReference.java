@@ -1,4 +1,4 @@
-package com.twentiethcenturygangsta.ourboard.annoatation;
+package com.twentiethcenturygangsta.ourboard.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

@@ -4,7 +4,7 @@ import com.twentiethcenturygangsta.ourboard.dto.Table;
 import com.twentiethcenturygangsta.ourboard.dto.TablesInfo;
 import com.twentiethcenturygangsta.ourboard.repository.ListRepository;
 import com.twentiethcenturygangsta.ourboard.site.OurBoardClient;
-import com.twentiethcenturygangsta.ourboard.trace.OurBoardEntity;
+import com.twentiethcenturygangsta.ourboard.annoatation.OurBoardEntity;
 import com.twentiethcenturygangsta.ourboard.trace.Trace;
 import lombok.RequiredArgsConstructor;
 

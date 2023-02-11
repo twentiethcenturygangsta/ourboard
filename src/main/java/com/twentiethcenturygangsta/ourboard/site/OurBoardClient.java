@@ -2,7 +2,7 @@ package com.twentiethcenturygangsta.ourboard.site;
 
 import com.twentiethcenturygangsta.ourboard.auth.UserCredentials;
 import com.twentiethcenturygangsta.ourboard.database.UserDatabaseCredentials;
-import com.twentiethcenturygangsta.ourboard.trace.OurBoardEntity;
+import com.twentiethcenturygangsta.ourboard.annoatation.OurBoardEntity;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import org.reflections.Reflections;
