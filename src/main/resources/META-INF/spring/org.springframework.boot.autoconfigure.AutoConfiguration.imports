@@ -1,4 +1,4 @@
-com.twentiethcenturygangsta.ourboard.controller.AdminController
+com.twentiethcenturygangsta.ourboard.controller.AdminViewController
 com.twentiethcenturygangsta.ourboard.services.TableService
 com.twentiethcenturygangsta.ourboard.repository.ListRepository
 com.twentiethcenturygangsta.ourboard.config.MvcConfiguration

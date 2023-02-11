@@ -8,27 +8,25 @@ import com.twentiethcenturygangsta.ourboard.manager.session.SessionConst;
 import com.twentiethcenturygangsta.ourboard.services.LoginService;
 import com.twentiethcenturygangsta.ourboard.services.TableService;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
 @Slf4j
 @Configuration(proxyBeanMethods = false)
 @Controller
-@RequestMapping("/our-board")
+@RequestMapping("/our-board/admin")
 @RequiredArgsConstructor
-public class AdminController {
+public class AdminViewController {
     private final TableService tableService;
     private final LoginService loginService;
 
@@ -37,7 +35,7 @@ public class AdminController {
      * Need to get userName from userCredentials
      *
      */
-    @GetMapping("/admin")
+    @GetMapping
     public String responseView(
             @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) OurBoardMember loginMember,
             Model model) {
@@ -50,7 +48,7 @@ public class AdminController {
         return "main";
     }
 
-    @GetMapping("/admin/{groupName}")
+    @GetMapping("/{groupName}")
     public String responseGroupView(@PathVariable("groupName") String groupName,
                                Model model) {
         HashMap<String, ArrayList<TablesInfo>> table = tableService.getTableSimpleNames();
@@ -60,7 +58,7 @@ public class AdminController {
         return "main";
     }
 
-    @GetMapping("/admin/{groupName}/{tableName}")
+    @GetMapping("/{groupName}/{tableName}")
     public String responseTableListView(@PathVariable("groupName") String groupName,
                                         @PathVariable("tableName") String tableName,
                                         Model model) throws SQLException {
@@ -71,30 +69,12 @@ public class AdminController {
         return "table";
     }
 
-    @GetMapping("/admin/login")
+    @GetMapping("/login")
     public String responseLoginView(@ModelAttribute("loginForm") LoginForm loginForm) {
         return "login";
     }
 
-    @PostMapping("/api/login")
-    public String loginAPI(@ModelAttribute("loginForm") LoginForm loginForm, BindingResult bindingResult, HttpServletRequest request) {
-        log.info("bindingResult = {}", bindingResult);
-        if (bindingResult.hasErrors()) {
-            return "redirect:/our-board/admin/login";
-        }
-        OurBoardMember ourBoardMember = loginService.login(loginForm.getMemberId(), loginForm.getPassword());
-        log.info("ourBoardMember = {}", ourBoardMember);
-        if (ourBoardMember == null) {
-            bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
-            return "redirect:/our-board/admin/login";
-        }
-
-        HttpSession session = request.getSession();
-        session.setAttribute(SessionConst.LOGIN_MEMBER, ourBoardMember);
-        return "redirect:/our-board/admin";
-    }
-
-    @GetMapping("/admin/{groupName}/{tableName}/add")
+    @GetMapping("/{groupName}/{tableName}/add")
     public String responseInstanceCreateView(@PathVariable("groupName") String groupName,
                                              @PathVariable("tableName") String tableName,
                                              Model model) throws SQLException {
