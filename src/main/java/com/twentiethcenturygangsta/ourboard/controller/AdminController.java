@@ -42,7 +42,7 @@ public class AdminController {
             @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) OurBoardMember loginMember,
             Model model) {
         if (!loginService.isOurBoardMember(loginMember)) {
-            return "login";
+            return "redirect:/our-board/admin/login";
         }
         HashMap<String, ArrayList<TablesInfo>> table = tableService.getTableSimpleNames();
         model.addAttribute("userName", "JUNHYEOK");
@@ -72,21 +72,21 @@ public class AdminController {
     }
 
     @GetMapping("/admin/login")
-    public String responseLoginView(@ModelAttribute LoginForm loginForm) {
+    public String responseLoginView(@ModelAttribute("loginForm") LoginForm loginForm) {
         return "login";
     }
 
     @PostMapping("/api/login")
-    public String loginAPI(@ModelAttribute("loginForm") LoginForm form, BindingResult bindingResult, HttpServletRequest request) {
+    public String loginAPI(@ModelAttribute("loginForm") LoginForm loginForm, BindingResult bindingResult, HttpServletRequest request) {
         log.info("bindingResult = {}", bindingResult);
         if (bindingResult.hasErrors()) {
-            return "login";
+            return "redirect:/our-board/admin/login";
         }
-        OurBoardMember ourBoardMember = loginService.login(form.getMemberId(), form.getPassword());
+        OurBoardMember ourBoardMember = loginService.login(loginForm.getMemberId(), loginForm.getPassword());
         log.info("ourBoardMember = {}", ourBoardMember);
         if (ourBoardMember == null) {
             bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
-            return "login";
+            return "redirect:/our-board/admin/login";
         }
 
         HttpSession session = request.getSession();
