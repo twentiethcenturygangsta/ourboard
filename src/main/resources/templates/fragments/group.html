@@ -8,11 +8,11 @@
             </div>
             <th:block th:each="table : ${data.get(groupName)}">
                 <div class="whiteBg" th:classappend="${tableStat.last ? 'tableBodyLast' : 'tableBodyBorder'}">
-                    <a th:href="@{/admin/{groupName}/{tableName}(groupName=${groupName}, tableName=${table.getTableName()})}">
+                    <a th:href="@{/our-board/admin/{groupName}/{tableName}(groupName=${groupName}, tableName=${table.getTableName()})}">
                         <span class="tableSpan tableName pointer" th:text="${table.getTableName()}"/>
                     </a>
                     <span class="tableSpan innerText" th:text="${table.getDescription()}"/>
-                    <a th:href="@{/admin/{groupName}/{tableName}/add(groupName=${groupName}, tableName=${table.getTableName()})}">
+                    <a th:href="@{/our-board/admin/{groupName}/{tableName}/add(groupName=${groupName}, tableName=${table.getTableName()})}">
                         <span class="tableSpan tableAdd add pointer">+ ADD</span>
                     </a>
                 </div>
@@ -27,11 +27,11 @@
         </div>
         <th:block th:each="table : ${data.get(groupName)}">
             <div class="whiteBg" th:classappend="${tableStat.last ? 'tableBodyLast' : 'tableBodyBorder'}">
-                <a th:href="@{/admin/{groupName}/{tableName}(groupName=${groupName}, tableName=${table.getTableName()})}">
+                <a th:href="@{/our-board/admin/{groupName}/{tableName}(groupName=${groupName}, tableName=${table.getTableName()})}">
                     <span class="tableSpan tableName pointer" th:text="${table.getTableName()}"/>
                 </a>
                 <span class="tableSpan innerText" th:text="${table.getDescription()}"/>
-                <a th:href="@{/admin/{groupName}/{tableName}/add(groupName=${groupName}, tableName=${table.getTableName()})}">
+                <a th:href="@{/our-board/admin/{groupName}/{tableName}/add(groupName=${groupName}, tableName=${table.getTableName()})}">
                     <span class="tableSpan tableAdd add pointer">+ ADD</span>
                 </a>
             </div>
