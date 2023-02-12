@@ -1,4 +1,4 @@
-package com.twentiethcenturygangsta.ourboard.trace;
+package com.twentiethcenturygangsta.ourboard.annoatation;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -10,7 +10,7 @@ import java.lang.reflect.Method;
 @Aspect
 public class OurBoardEntityAspect {
 
-    @Before("@annotation(com.twentiethcenturygangsta.ourboard.trace.OurBoardEntity)")
+    @Before("@annotation(com.twentiethcenturygangsta.ourboard.annoatation.OurBoardEntity)")
     public String getGroup(JoinPoint joinPoint) {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         Method method = methodSignature.getMethod();

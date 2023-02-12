@@ -1,4 +1,4 @@
-package com.twentiethcenturygangsta.ourboard.trace;
+package com.twentiethcenturygangsta.ourboard.annoatation;
 
 import org.springframework.stereotype.Component;
 

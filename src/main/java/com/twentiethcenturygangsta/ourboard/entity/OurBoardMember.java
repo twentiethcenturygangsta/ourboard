@@ -1,6 +1,6 @@
 package com.twentiethcenturygangsta.ourboard.entity;
 
-import com.twentiethcenturygangsta.ourboard.trace.OurBoardEntity;
+import com.twentiethcenturygangsta.ourboard.annoatation.OurBoardEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

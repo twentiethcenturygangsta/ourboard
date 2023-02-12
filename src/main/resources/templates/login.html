@@ -5,12 +5,12 @@
     <div class="loginDiv">
         <span class="loginLogo">OUR BOARD</span>
         <div class="loginInputDiv whiteBg">
-            <div class="loginAlignDiv">
-                <input class="loginInput" type="text" placeholder="ID">
-                <input class="loginInput" type="password" placeholder="PW"><br>
+            <form th:action="@{/our-board/api/login}" class="loginAlignDiv" method="POST" th:object="${loginForm}">
+                <input class="loginInput" type="text" placeholder="ID" name="memberId" id="memberId" th:field="*{memberId}">
+                <input class="loginInput" type="password" placeholder="PW" name="password" id="password" th:field="*{password}"><br>
                 <span class="loginGuide">Write down your properties file OUR BOARD ID, PW</span>
-                <button class="loginButton mainColorBg white" type="button">LOGIN</button>
-            </div>
+                <button class="loginButton mainColorBg white" type="submit">LOGIN</button>
+            </form>
         </div>
     </div>
 <th:block th:replace="~{fragments/footer :: AdminFooterFragment}"/>

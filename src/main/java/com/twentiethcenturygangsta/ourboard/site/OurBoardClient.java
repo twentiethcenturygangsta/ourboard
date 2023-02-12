@@ -2,11 +2,10 @@ package com.twentiethcenturygangsta.ourboard.site;
 
 import com.twentiethcenturygangsta.ourboard.auth.UserCredentials;
 import com.twentiethcenturygangsta.ourboard.database.UserDatabaseCredentials;
-import com.twentiethcenturygangsta.ourboard.trace.OurBoardEntity;
+import com.twentiethcenturygangsta.ourboard.annoatation.OurBoardEntity;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import org.reflections.Reflections;
-
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -30,7 +29,6 @@ public class OurBoardClient {
         this.tables = registerTables(basePackagePath);
 
         connectDB(userDatabaseCredentials);
-        createAuthenticatedMember();
     }
 
     public UserCredentials getUserCredentials() {
@@ -64,39 +62,9 @@ public class OurBoardClient {
         return baseClasses;
     }
 
-    public void createAuthenticatedMember() throws SQLException {
-        String sql = "CREATE TABLE IF NOT EXISTS OurBoardMember (" +
-                "id BIGINT NOT NULL AUTO_INCREMENT," +
-                "username VARCHAR(100) NOT NULL," +
-                "hasCreateAuthority boolean," +
-                "hasReadAuthority boolean, PRIMARY KEY (id)" +
-                ");";
-
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.execute();
-
-        if (!isExistAuthenticatedMember()) {
-            createAuthenticatedSuperMember();
-        }
-    }
-
     @Deprecated
     public void register(ArrayList<Class> tables) throws SQLException {
         connectDB(userDatabaseCredentials);
         log.info("connection = OK");
-    }
-
-    public boolean isExistAuthenticatedMember() throws SQLException {
-        String sql = "SELECT * FROM OurBoardMember WHERE username = " + String.format("'%s'", userCredentials.getUserName());
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        return resultSet.next();
-    }
-
-    public void createAuthenticatedSuperMember() throws SQLException {
-        String sql = String.format("INSERT INTO OurBoardMember (username, hasCreateAuthority, hasReadAuthority) " +
-                "VALUES ('%s', true, true);", userCredentials.getUserName());
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.execute();
     }
 }
