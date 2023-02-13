@@ -38,7 +38,7 @@ public class AdminViewController {
     @GetMapping
     public String responseView(
             @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) OurBoardMember loginMember,
-            Model model) {
+            Model model) throws SQLException {
         if (!loginService.isOurBoardMember(loginMember)) {
             return "redirect:/our-board/admin/login";
         }
@@ -50,7 +50,7 @@ public class AdminViewController {
 
     @GetMapping("/{groupName}")
     public String responseGroupView(@PathVariable("groupName") String groupName,
-                               Model model) {
+                               Model model) throws SQLException {
         HashMap<String, ArrayList<TablesInfo>> table = tableService.getTableSimpleNames();
         model.addAttribute("userName", "JUNHYEOK");
         model.addAttribute("groupName", groupName);

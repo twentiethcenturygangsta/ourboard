@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.lang.annotation.Annotation;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,11 +32,19 @@ public class TableService {
         return listRepository.findAll(tableName, ourBoardClient.getConnection());
     }
 
-    public HashMap<String, ArrayList<TablesInfo>> getTableSimpleNames() {
-        List<String> tableSimpleNames = new ArrayList<>();
+    public HashMap<String, ArrayList<TablesInfo>> getTableSimpleNames() throws SQLException {
         HashMap<String, ArrayList<TablesInfo>> dict = new HashMap<>();
-        for (Class table : ourBoardClient.getTables()) {
-            tableSimpleNames.add(table.getSimpleName());
+        DatabaseMetaData databaseMetaData = ourBoardClient.getConnection().getMetaData();
+
+        ResultSet resultSet = databaseMetaData.getTables(null, null, null, new String[] {"TABLE"});
+
+        while (resultSet.next()) {
+            String name = resultSet.getString("TABLE_NAME");
+            String schema = resultSet.getString("TABLE_SCHEM");
+            log.info("result datatables = {} {}", name, schema );
+        }
+        log.info("databaseMetaData = {}", databaseMetaData);
+        for (Class<?> table : ourBoardClient.getTables()) {
 
             log.info("annotation = {}", table.getAnnotation(OurBoardEntity.class));
 
@@ -63,6 +73,25 @@ public class TableService {
         }
         log.info("result = {}", dict);
         return dict;
+    }
+
+    private String camelToSnakeDatabaseTableName(String camel) {
+        String tableName = "";
+
+
+        for(int i = 0; i < camel.length(); i++) {
+            if(i == 0) {
+                tableName = tableName + Character.toLowerCase(camel.charAt(0));
+            } else {
+                if (Character.isUpperCase(camel.charAt(i))) {
+                    tableName = tableName + "_";
+                    tableName = tableName + Character.toLowerCase(camel.charAt(i));
+                } else {
+                    tableName = tableName + camel.charAt(i);
+                }
+            }
+        }
+        return tableName;
     }
 
 }
