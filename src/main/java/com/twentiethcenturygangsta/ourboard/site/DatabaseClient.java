@@ -42,4 +42,8 @@ public class DatabaseClient {
         log.info("databaseMetaData = {}", databaseMetaData);
         databaseSchemas = databaseTableSchemas;
     }
+
+    public List<DatabaseSchema> getDatabaseSchemas() {
+        return databaseSchemas;
+    }
 }
