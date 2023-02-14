@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 @Slf4j
@@ -63,9 +64,13 @@ public class AdminViewController {
                                         @PathVariable("tableName") String tableName,
                                         Model model) throws SQLException {
         Table table = tableService.getTableData(tableName);
+        List<?> data = tableService.getObjects(tableName);
+        List<String> fields = tableService.getFields(tableName);
         model.addAttribute("groupName", groupName);
         model.addAttribute("tableName", tableName);
+        model.addAttribute("data", data);
         model.addAttribute("data", table);
+        model.addAttribute("fields", fields);
         return "table";
     }
 

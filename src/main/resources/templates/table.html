@@ -25,6 +25,11 @@
                 1,080 TAPE
             </div>
 
+            <tr th:each="object : ${data}">
+                <td th:each="fieldName : ${fields}"
+                    th:text="${@tableService.getFieldValue(object, fieldName)}"></td>
+            </tr>
+
             <table class="dataTable">
                 <thead>
                 <th class="mainColorBg dataThFirst">
