@@ -13,7 +13,5 @@ import java.lang.annotation.*;
 public @interface EnableOurBoard {
 
     String[] value() default {};
-
     String[] basePackages() default {};
-
 }

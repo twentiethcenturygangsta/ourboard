@@ -45,12 +45,11 @@ public class OurBoardClient {
 
     public void connectDB(UserDatabaseCredentials userDatabaseCredentials) {
         try {
-            Connection connection = DriverManager.getConnection(
+            this.connection = DriverManager.getConnection(
                     userDatabaseCredentials.getUserDatabaseEndpoint(),
                     userDatabaseCredentials.getUserDatabaseId(),
                     userDatabaseCredentials.getUserDatabasePassword()
             );
-            this.connection = connection;
         } catch (SQLException e) {
             throw new IllegalStateException(e);
         }
