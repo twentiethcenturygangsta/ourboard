@@ -36,6 +36,7 @@ public class ListRepository {
             }
             dataset.add(row);
         }
+        log.info("dataset = {} {}", dataset, columns);
         return Table.builder()
                 .fields(columns)
                 .dataset(dataset)

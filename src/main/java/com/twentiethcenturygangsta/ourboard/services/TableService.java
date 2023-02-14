@@ -12,12 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.lang.annotation.Annotation;
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 @Service
 @Slf4j
@@ -28,22 +25,12 @@ public class TableService {
 
     @Trace
     public Table getTableData(String tableName) throws SQLException {
-        log.info("connection ={} ", ourBoardClient.getConnection());
         return listRepository.findAll(tableName, ourBoardClient.getConnection());
     }
 
     public HashMap<String, ArrayList<TablesInfo>> getTableSimpleNames() throws SQLException {
         HashMap<String, ArrayList<TablesInfo>> dict = new HashMap<>();
-        DatabaseMetaData databaseMetaData = ourBoardClient.getConnection().getMetaData();
 
-        ResultSet resultSet = databaseMetaData.getTables(null, null, null, new String[] {"TABLE"});
-
-        while (resultSet.next()) {
-            String name = resultSet.getString("TABLE_NAME");
-            String schema = resultSet.getString("TABLE_SCHEM");
-            log.info("result datatables = {} {}", name, schema );
-        }
-        log.info("databaseMetaData = {}", databaseMetaData);
         for (Class<?> table : ourBoardClient.getTables()) {
 
             log.info("annotation = {}", table.getAnnotation(OurBoardEntity.class));
@@ -53,7 +40,8 @@ public class TableService {
                     if (dict.containsKey(myAnnotation.group())) {
                         dict.get(myAnnotation.group()).add(
                                 TablesInfo.builder()
-                                        .tableName(table.getSimpleName())
+                                        .tableName(camelToSnakeDatabaseTableName(table.getSimpleName()))
+                                        .entityClassName(table.getSimpleName())
                                         .description(myAnnotation.description())
                                         .build()
                         );
@@ -61,7 +49,8 @@ public class TableService {
                         dict.put(myAnnotation.group(), new ArrayList<>());
                         dict.get(myAnnotation.group()).add(
                                 TablesInfo.builder()
-                                        .tableName(table.getSimpleName())
+                                        .tableName(camelToSnakeDatabaseTableName(table.getSimpleName()))
+                                        .entityClassName(table.getSimpleName())
                                         .description(myAnnotation.description())
                                         .build()
                         );
@@ -78,20 +67,18 @@ public class TableService {
     private String camelToSnakeDatabaseTableName(String camel) {
         String tableName = "";
 
-
         for(int i = 0; i < camel.length(); i++) {
             if(i == 0) {
-                tableName = tableName + Character.toLowerCase(camel.charAt(0));
+                tableName = tableName + camel.charAt(0);
             } else {
                 if (Character.isUpperCase(camel.charAt(i))) {
                     tableName = tableName + "_";
-                    tableName = tableName + Character.toLowerCase(camel.charAt(i));
-                } else {
                     tableName = tableName + camel.charAt(i);
+                } else {
+                    tableName = tableName + Character.toUpperCase(camel.charAt(i));
                 }
             }
         }
         return tableName;
     }
-
 }
