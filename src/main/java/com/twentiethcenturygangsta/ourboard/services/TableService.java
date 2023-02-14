@@ -20,6 +20,7 @@ import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.util.*;
 
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -28,17 +29,8 @@ public class TableService {
     private final ListRepository listRepository;
     private final ApplicationContext appContext;
 
-    public List getObjects(String tableName) {
-        JpaRepository repo = null;
-
-        for (Class<?> table : ourBoardClient.getTables()) {
-            if (tableName.equals(camelToSnakeDatabaseTableName(table.getSimpleName()))) {
-                Repositories repositories = new Repositories(appContext);
-                repo = (JpaRepository) repositories.
-                        getRepositoryFor(table).get();
-            }
-        }
-        return repo.findAll();
+    public List<Object> getObjects(String entity) {
+        return getRepository(entity).findAll();
     }
 
     public List<String> getFields(String tableName) {
@@ -55,6 +47,7 @@ public class TableService {
     }
 
     @Trace
+    @Deprecated
     public Table getTableData(String tableName) throws SQLException {
         return listRepository.findAll(tableName, ourBoardClient.getConnection());
     }
@@ -109,6 +102,19 @@ public class TableService {
             // log exception
         }
        return null;
+    }
+
+    private JpaRepository getRepository(String entity) {
+        JpaRepository repo = null;
+
+        for (Class<?> table : ourBoardClient.getTables()) {
+            if (entity.equals(camelToSnakeDatabaseTableName(table.getSimpleName()))) {
+                Repositories repositories = new Repositories(appContext);
+                repo = (JpaRepository) repositories.
+                        getRepositoryFor(table).get();
+            }
+        }
+        return repo;
     }
 
     private String camelToSnakeDatabaseTableName(String camel) {
