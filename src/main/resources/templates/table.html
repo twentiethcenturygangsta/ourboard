@@ -22,7 +22,7 @@
             </div>
 
             <div class="countDiv innerText">
-                <span th:text="${data.size}"></span> Tape
+                <span th:text="|${data.size} ${tableName}|"></span>
             </div>
             <th:block th:replace="~{fragments/tableInfo :: TableFragment}"/>
         </div>
