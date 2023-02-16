@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- TableInfo Group -->
+<th:block th:fragment="TableFragment">
+    <table class="dataTable">
+        <thead>
+        <th:block th:each="fieldName, i : ${fields}">
+        <th class="mainColorBg dataThFirst" th:if="${i.count eq 1}">
+            <input type="checkbox" id="allCheck">
+        </th>
+
+        <th class="dataTh mainColorBg white" th:classappend="${i.count eq i.size ? 'dataThLast' : ''}" th:text="${fieldName}"></th>
+        </th:block>
+        </thead>
+        <tbody>
+
+        <tr th:each="object ,i : ${data}">
+            <th:block th:each="fieldName, j : ${fields}">
+                <td class="whiteBg dataTdBorder" th:if="${j.count eq 1 and i.count ne i.size}">
+                    <input type="checkbox">
+                </td>
+                <td class="whiteBg dataTdFirst" th:if="${j.count eq 1 and i.count eq i.size}">
+                    <input type="checkbox">
+                </td>
+                <td class="dataTd whiteBg dataTdBorder" th:if="${j.count eq 1 and i.count ne i.size}">
+                    <a class="link pointer" th:text="${@tableService.getFieldValue(object, fieldName)}"></a>
+                </td>
+                <td class="dataTd whiteBg" th:if="${j.count eq 1 and i.count eq i.size}">
+                    <a class="link pointer" th:text="${@tableService.getFieldValue(object, fieldName)}"></a>
+                </td>
+                <td class="dataTd whiteBg dataTdBorder" th:if="${i.count ne i.size and j.count ne 1}"
+                    th:text="${@tableService.getFieldValue(object, fieldName)}"></td>
+                <td class="dataTd whiteBg dataTdLast" th:if="${i.count eq i.size and j.count ne 1 }"
+                    th:text="${@tableService.getFieldValue(object, fieldName)}"></td>
+            </th:block>
+        </tr>
+        </tbody>
+    </table>
+</th:block>
