@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface OurBoardMemberRepository extends JpaRepository<OurBoardMember, Long> {
 
     Optional<OurBoardMember> findOurBoardMemberByMemberId(String memberId);
+    boolean existsOurBoardMemberByMemberIdAndPassword(String memberId, String password);
 }

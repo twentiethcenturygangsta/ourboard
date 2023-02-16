@@ -17,10 +17,16 @@ public class OurBoardAuthService {
 
     @Bean
     public void createOurBoardAdminMember() {
-        OurBoardMember ourBoardMember = OurBoardMember.builder()
-                .memberId(ourBoardClient.getUserCredentials().getUserName())
-                .password(ourBoardClient.getUserCredentials().getPassword())
-                .build();
-        ourBoardMemberRepository.save(ourBoardMember);
+        if (!ourBoardMemberRepository.existsOurBoardMemberByMemberIdAndPassword(
+                ourBoardClient.getUserCredentials().getUserName(),
+                ourBoardClient.getUserCredentials().getPassword()
+        )) {
+            OurBoardMember ourBoardMember = OurBoardMember.builder()
+                    .memberId(ourBoardClient.getUserCredentials().getUserName())
+                    .password(ourBoardClient.getUserCredentials().getPassword())
+                    .build();
+            ourBoardMemberRepository.save(ourBoardMember);
+        }
+
     }
 }
