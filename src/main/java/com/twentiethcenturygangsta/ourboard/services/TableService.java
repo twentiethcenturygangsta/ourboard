@@ -3,6 +3,7 @@ package com.twentiethcenturygangsta.ourboard.services;
 import com.twentiethcenturygangsta.ourboard.dto.Table;
 import com.twentiethcenturygangsta.ourboard.dto.TablesInfo;
 import com.twentiethcenturygangsta.ourboard.repository.ListRepository;
+import com.twentiethcenturygangsta.ourboard.site.DatabaseClient;
 import com.twentiethcenturygangsta.ourboard.site.OurBoardClient;
 import com.twentiethcenturygangsta.ourboard.annoatation.OurBoardEntity;
 import com.twentiethcenturygangsta.ourboard.trace.Trace;
@@ -25,6 +26,7 @@ import java.util.*;
 @Slf4j
 @RequiredArgsConstructor
 public class TableService {
+    private final DatabaseClient databaseClient;
     private final OurBoardClient ourBoardClient;
     private final ListRepository listRepository;
     private final ApplicationContext appContext;
@@ -35,7 +37,7 @@ public class TableService {
 
     public List<String> getFields(String tableName) {
         List<String> fields = new ArrayList();
-        for (Class<?> table : ourBoardClient.getTables()) {
+        for (Class<?> table : databaseClient.getTables()) {
             if (tableName.equals(camelToSnakeDatabaseTableName(table.getSimpleName()))) {
                 for(Field field : table.getDeclaredFields()) {
                     fields.add(field.getName());
@@ -55,7 +57,7 @@ public class TableService {
     public HashMap<String, ArrayList<TablesInfo>> getTableSimpleNames() throws SQLException {
         HashMap<String, ArrayList<TablesInfo>> dict = new HashMap<>();
 
-        for (Class<?> table : ourBoardClient.getTables()) {
+        for (Class<?> table : databaseClient.getTables()) {
 
             log.info("annotation = {}", table.getAnnotation(OurBoardEntity.class));
 
@@ -107,7 +109,7 @@ public class TableService {
     private JpaRepository getRepository(String entity) {
         JpaRepository repo = null;
 
-        for (Class<?> table : ourBoardClient.getTables()) {
+        for (Class<?> table : databaseClient.getTables()) {
             if (entity.equals(camelToSnakeDatabaseTableName(table.getSimpleName()))) {
                 Repositories repositories = new Repositories(appContext);
                 repo = (JpaRepository) repositories.
