@@ -11,6 +11,9 @@ import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.support.Repositories;
 import org.springframework.stereotype.Service;
@@ -31,8 +34,8 @@ public class TableService {
     private final ListRepository listRepository;
     private final ApplicationContext appContext;
 
-    public List<Object> getObjects(String entity) {
-        return getRepository(entity).findAll();
+    public Page<Object> getObjects(String entity, int page) {
+        return getRepository(entity).findAll(PageRequest.of(page, 10, Sort.by("id").descending()));
     }
 
     public List<String> getFields(String tableName) {
