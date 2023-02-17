@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.support.Repositories;
@@ -34,8 +35,11 @@ public class TableService {
     private final ListRepository listRepository;
     private final ApplicationContext appContext;
 
-    public Page<Object> getObjects(String entity, int page) {
-        return getRepository(entity).findAll(PageRequest.of(page, 10, Sort.by("id").descending()));
+    public Page<Object> getObjects(String entity, Pageable pageable) {
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); //
+        log.info("hasRepository = {}", getRepository(entity));
+        pageable= PageRequest.of(page,2, Sort.by("id").descending());
+        return getRepository(entity).findAll(pageable);
     }
 
     public List<String> getFields(String tableName) {
@@ -111,12 +115,14 @@ public class TableService {
 
     private JpaRepository getRepository(String entity) {
         JpaRepository repo = null;
-
+        log.info("getRepository1 = {}", entity);
+        log.info("getRepository2 = {}", databaseClient.getTables());
         for (Class<?> table : databaseClient.getTables()) {
             if (entity.equals(camelToSnakeDatabaseTableName(table.getSimpleName()))) {
                 Repositories repositories = new Repositories(appContext);
                 repo = (JpaRepository) repositories.
                         getRepositoryFor(table).get();
+                log.info("getRepository3 = {}", repo);
             }
         }
         return repo;

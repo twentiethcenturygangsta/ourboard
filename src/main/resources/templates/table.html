@@ -28,40 +28,77 @@
         </div>
 
         <div class="pagingDiv">
-            <div class="pagingArrow whiteBg pointer">&lt;</div>
-            <ul class="pagingUl whiteBg">
-                <li class="pagingLi">
-                    <a class="pagingA pointer pagingActive">1</a>
-                </li>
-                <li class="pagingLi">
-                    <a class="pagingA pointer">2</a>
-                </li>
-                <li class="pagingLi">
-                    <a class="pagingA pointer">3</a>
-                </li>
-                <li class="pagingLi">
-                    <a class="pagingA pointer">4</a>
-                </li>
-                <li class="pagingLi">
-                    <a class="pagingA pointer">5</a>
-                </li>
-                <li class="pagingLi">
-                    <a class="pagingA pointer">6</a>
-                </li>
-                <li class="pagingLi">
-                    <a class="pagingA pointer">7</a>
-                </li>
-                <li class="pagingLi">
-                    <a class="pagingA pointer">8</a>
-                </li>
-                <li class="pagingLi">
-                    <a class="pagingA pointer">9</a>
-                </li>
-                <li class="pagingLi">
-                    <a class="pagingA pointer">10</a>
-                </li>
+            <th:block th:with="
+                firstAddr=@{/our-board/admin/{groupName}/{tableName}(page=1, groupName=${groupName}, tableName=${tableName})},
+                prevAddr=@{/our-board/admin/{groupName}/{tableName}(page=${data.number}, groupName=${groupName}, tableName=${tableName})},
+                nextAddr=@{/our-board/admin/{groupName}/{tableName}(page=${data.number + 2}, groupName=${groupName}, tableName=${tableName})},
+                lastAddr=@{/our-board/admin/{groupName}/{tableName}(page=${data.totalPages}, groupName=${groupName}, tableName=${tableName})}">
+                <div class="pagingArrow whiteBg pointer">
+                    <a th:href="${firstAddr}" aria-label="First">
+                        <span aria-hidden="true">&lt;&lt;</span>
+                    </a>
+                </div>
+                <div class="pagingArrow whiteBg pointer" th:classappend="${data.first} ? 'disabled'">
+                    <a th:href="${data.first} ? '#' :${prevAddr}"
+                       aria-label="Previous">
+                        <span aria-hidden="true">&lt;</span>
+                    </a>
+                </div>
+            <ul class="pagingUl whiteBg"
+                th:with="start=${T(java.lang.Math).floor(data.number/10)*10 + 1},
+                    last=(${start + 9 < data.totalPages ? start + 9 : data.totalPages})">
+
+                    <li class="pagingLi" th:each="page: ${#numbers.sequence(start, last)}"
+                        th:classappend="${page == data.number + 1} ? 'active'">
+                        <a th:text="${page}" th:href="@{/our-board/admin/{groupName}/{tableName}(page=${page}, groupName=${groupName}, tableName=${tableName})}"></a>
+                    </li>
+
             </ul>
-            <div class="pagingArrow whiteBg pointer">&gt;</div>
+                <div class="pagingArrow whiteBg pointer" th:classappend="${data.last} ? 'disabled'">
+                    <a th:href="${data.last} ? '#' :${nextAddr}"
+                       aria-label="Next">
+                        <span aria-hidden="true">&gt;</span>
+                    </a>
+                </div>
+                <div class="pagingArrow whiteBg pointer">
+                    <a th:href="${lastAddr}" aria-label="Last">
+                        <span aria-hidden="true">&gt;&gt;</span>
+                    </a>
+                </div>
+            </th:block>
+<!--            <ul class="pagingUl whiteBg">-->
+<!--                <li class="pagingLi">-->
+<!--                    <a class="pagingA pointer pagingActive">1</a>-->
+<!--                </li>-->
+<!--                <li class="pagingLi">-->
+<!--                    <a class="pagingA pointer">2</a>-->
+<!--                </li>-->
+<!--                <li class="pagingLi">-->
+<!--                    <a class="pagingA pointer">3</a>-->
+<!--                </li>-->
+<!--                <li class="pagingLi">-->
+<!--                    <a class="pagingA pointer">4</a>-->
+<!--                </li>-->
+<!--                <li class="pagingLi">-->
+<!--                    <a class="pagingA pointer">5</a>-->
+<!--                </li>-->
+<!--                <li class="pagingLi">-->
+<!--                    <a class="pagingA pointer">6</a>-->
+<!--                </li>-->
+<!--                <li class="pagingLi">-->
+<!--                    <a class="pagingA pointer">7</a>-->
+<!--                </li>-->
+<!--                <li class="pagingLi">-->
+<!--                    <a class="pagingA pointer">8</a>-->
+<!--                </li>-->
+<!--                <li class="pagingLi">-->
+<!--                    <a class="pagingA pointer">9</a>-->
+<!--                </li>-->
+<!--                <li class="pagingLi">-->
+<!--                    <a class="pagingA pointer">10</a>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--            <div class="pagingArrow whiteBg pointer">&gt;</div>-->
         </div>
     </div>
     <th:block th:replace="~{fragments/footer :: AdminFooterFragment}"/>
