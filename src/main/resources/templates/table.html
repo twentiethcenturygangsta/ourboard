@@ -22,7 +22,7 @@
             </div>
 
             <div class="countDiv innerText">
-                <span th:text="|${data.size} ${tableName}|"></span>
+                <span th:text="|${data.getTotalElements()} ${tableName}|"></span>
             </div>
             <th:block th:replace="~{fragments/tableInfo :: TableFragment}"/>
         </div>
@@ -34,12 +34,12 @@
                 nextAddr=@{/our-board/admin/{groupName}/{tableName}(page=${data.number + 2}, groupName=${groupName}, tableName=${tableName})},
                 lastAddr=@{/our-board/admin/{groupName}/{tableName}(page=${data.totalPages}, groupName=${groupName}, tableName=${tableName})}">
                 <div class="pagingArrow whiteBg pointer">
-                    <a th:href="${firstAddr}" aria-label="First">
+                    <a th:href="${firstAddr}" aria-label="First" class="link">
                         <span aria-hidden="true">&lt;&lt;</span>
                     </a>
                 </div>
                 <div class="pagingArrow whiteBg pointer" th:classappend="${data.first} ? 'disabled'">
-                    <a th:href="${data.first} ? '#' :${prevAddr}"
+                    <a th:href="${data.first} ? '#' :${prevAddr}" class="link"
                        aria-label="Previous">
                         <span aria-hidden="true">&lt;</span>
                     </a>
@@ -55,13 +55,13 @@
 
             </ul>
                 <div class="pagingArrow whiteBg pointer" th:classappend="${data.last} ? 'disabled'">
-                    <a th:href="${data.last} ? '#' :${nextAddr}"
+                    <a th:href="${data.last} ? '#' :${nextAddr}" class="link"
                        aria-label="Next">
                         <span aria-hidden="true">&gt;</span>
                     </a>
                 </div>
                 <div class="pagingArrow whiteBg pointer">
-                    <a th:href="${lastAddr}" aria-label="Last">
+                    <a th:href="${lastAddr}" aria-label="Last" class="link">
                         <span aria-hidden="true">&gt;&gt;</span>
                     </a>
                 </div>
