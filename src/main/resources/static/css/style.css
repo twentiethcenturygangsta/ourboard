@@ -292,10 +292,10 @@
 .pagingUl {
     list-style: none;
     display: inline-block;
-    padding: 0;
+    padding: 0px 20px 0px 20px;
     border: 1px solid #E5E8EB;
     border-radius: 10px;
-    width: 400px;
+    /*width: 400px;*/
     height: 40px;
     line-height: 40px;
     vertical-align: middle;
@@ -304,7 +304,7 @@
 .pagingLi {
     display: inline;
     text-align: center;
-    width: 10%;
+    margin: 10px;
 }
 
 .pagingA {
