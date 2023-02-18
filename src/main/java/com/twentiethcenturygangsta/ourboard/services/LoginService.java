@@ -1,5 +1,6 @@
 package com.twentiethcenturygangsta.ourboard.services;
 
+import com.twentiethcenturygangsta.ourboard.config.EncryptionConfig;
 import com.twentiethcenturygangsta.ourboard.entity.OurBoardMember;
 import com.twentiethcenturygangsta.ourboard.repository.OurBoardMemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,10 +19,11 @@ public class LoginService {
         return member != null;
     }
 
-    public OurBoardMember login(String loginId, String password) {
+    public OurBoardMember login(String loginId, String password) throws Exception {
         log.info("Login = {}, {}", loginId, password);
+        String encryptPassword = EncryptionConfig.encrypt(password);
         return ourBoardMemberRepository.findOurBoardMemberByMemberId(loginId)
-                .filter(m -> m.getPassword().equals(password))
+                .filter(m -> m.getPassword().equals(encryptPassword))
                 .orElse(null);
     }
 }

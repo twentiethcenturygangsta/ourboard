@@ -18,11 +18,11 @@ public class OurBoardAuthService {
     @Bean
     public void createOurBoardAdminMember() {
         if (!ourBoardMemberRepository.existsOurBoardMemberByMemberIdAndPassword(
-                ourBoardClient.getUserCredentials().getUserName(),
+                ourBoardClient.getUserCredentials().getMemberId(),
                 ourBoardClient.getUserCredentials().getPassword()
         )) {
             OurBoardMember ourBoardMember = OurBoardMember.builder()
-                    .memberId(ourBoardClient.getUserCredentials().getUserName())
+                    .memberId(ourBoardClient.getUserCredentials().getMemberId())
                     .password(ourBoardClient.getUserCredentials().getPassword())
                     .build();
             ourBoardMemberRepository.save(ourBoardMember);

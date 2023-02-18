@@ -25,6 +25,8 @@ public class OurBoardMember {
     private String password;
     private Boolean hasCreateAuthority;
     private Boolean hasReadAuthority;
+    private Boolean hasUpdateAuthority;
+    private Boolean hasDeleteAuthority;
 
     @Builder
     public OurBoardMember(String memberId, String password) {
@@ -32,5 +34,7 @@ public class OurBoardMember {
         this.password = password;
         this.hasCreateAuthority = true;
         this.hasReadAuthority = true;
+        this.hasUpdateAuthority = true;
+        this.hasDeleteAuthority = true;
     }
 }

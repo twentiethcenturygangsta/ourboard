@@ -1,26 +1,32 @@
 package com.twentiethcenturygangsta.ourboard.auth;
 
+import com.twentiethcenturygangsta.ourboard.config.EncryptionConfig;
 import lombok.Getter;
 
 @Getter
 public class UserCredentials {
 
-    private final String userName;
+    private final String memberId;
     private final String password;
     private final Role role;
 
-    public UserCredentials(String userName, String password, Role role) {
-        if (userName == null) {
-            throw new IllegalArgumentException("Username cannot be null.");
+    public UserCredentials(String encryptKey, String memberId, String password) throws Exception {
+        if (encryptKey == null) {
+            throw new IllegalArgumentException("EncryptKey cannot be null");
+        }
+        if (memberId == null) {
+            throw new IllegalArgumentException("MemberId cannot be null.");
         }
         if (password == null) {
             throw new IllegalArgumentException("Password cannot be null");
         }
-        if (role == null) {
-            throw new IllegalArgumentException("role cannot be null");
-        }
-        this.userName = userName;
-        this.password = password;
-        this.role = role;
+        setKey(encryptKey);
+        this.memberId = memberId;
+        this.password = EncryptionConfig.encrypt(password);
+        this.role = Role.SUPER_USER;
+    }
+
+    private void setKey(String key) {
+        EncryptionConfig.key = key;
     }
 }

@@ -44,7 +44,7 @@ public class AdminViewController {
             return "redirect:/our-board/admin/login";
         }
         HashMap<String, ArrayList<TablesInfo>> table = tableService.getTableSimpleNames();
-        model.addAttribute("userName", "JUNHYEOK");
+        model.addAttribute("userName", loginMember.getMemberId());
         model.addAttribute("data", table);
         return "main";
     }
