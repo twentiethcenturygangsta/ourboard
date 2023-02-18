@@ -24,7 +24,7 @@ public class AdminAPIController {
     private final LoginService loginService;
 
     @PostMapping("/login")
-    public String loginAPI(@ModelAttribute("loginForm") LoginForm loginForm, BindingResult bindingResult, HttpServletRequest request) {
+    public String loginAPI(@ModelAttribute("loginForm") LoginForm loginForm, BindingResult bindingResult, HttpServletRequest request) throws Exception {
         log.info("bindingResult = {}", bindingResult);
 
         // loginForm binding Error

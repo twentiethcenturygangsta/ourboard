@@ -4,7 +4,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 public class EncryptionConfig {
-    public static final String key = "dpdbqorcorrkqkd"; //회원정보 암호 복호 키값 절대 변경금지
+    public static String key;
 
     public static String encrypt(String value) throws Exception {
         String result = "";
