@@ -18,7 +18,6 @@ public class OurBoardExceptionControllerAdvice {
         Error errorResult = Error.builder()
                 .timestamp(timestamp)
                 .code(e.getExceptionCode().getCode())
-                .field(e.getExceptionCode().getField())
                 .message(e.getExceptionCode().getMessage())
                 .build();
         return new ResponseEntity<>(errorResult, e.getExceptionCode().getStatusCode());

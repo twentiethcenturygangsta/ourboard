@@ -26,6 +26,6 @@ public class LoginService {
         String encryptPassword = EncryptionConfig.encrypt(password);
         return ourBoardMemberRepository.findOurBoardMemberByMemberId(loginId)
                 .filter(m -> m.getPassword().equals(encryptPassword))
-                .orElseThrow(() -> new UserException(ExceptionCode.INVALID_INPUT_OUR_BOARD_MEMBER_NAME));
+                .orElseThrow(() -> new UserException(ExceptionCode.NOT_FOUND_OUR_BOARD_MEMBER));
     }
 }
