@@ -2,6 +2,8 @@ package com.twentiethcenturygangsta.ourboard.services;
 
 import com.twentiethcenturygangsta.ourboard.config.EncryptionConfig;
 import com.twentiethcenturygangsta.ourboard.entity.OurBoardMember;
+import com.twentiethcenturygangsta.ourboard.exception.ExceptionCode;
+import com.twentiethcenturygangsta.ourboard.exception.UserException;
 import com.twentiethcenturygangsta.ourboard.repository.OurBoardMemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +26,6 @@ public class LoginService {
         String encryptPassword = EncryptionConfig.encrypt(password);
         return ourBoardMemberRepository.findOurBoardMemberByMemberId(loginId)
                 .filter(m -> m.getPassword().equals(encryptPassword))
-                .orElse(null);
+                .orElseThrow(() -> new UserException(ExceptionCode.INVALID_INPUT_OUR_BOARD_MEMBER_NAME));
     }
 }
