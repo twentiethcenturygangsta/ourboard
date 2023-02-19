@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum ExceptionCode {
 
-    NOT_FOUND_OUR_BOARD_MEMBER(HttpStatus.BAD_REQUEST, "NOT_FOUND_OUR_BOARD_MEMBER", "입력한 아이디가 올바르지 않습니다.");
+    NOT_FOUND_OUR_BOARD_MEMBER(HttpStatus.BAD_REQUEST, "NOT_FOUND_OUR_BOARD_MEMBER", "입력하신 아이디 또는 비밀번호가 올바르지 않습니다.");
 
     private final HttpStatus statusCode;
     private final String code;
