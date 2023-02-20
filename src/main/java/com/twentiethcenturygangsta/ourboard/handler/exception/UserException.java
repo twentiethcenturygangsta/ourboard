@@ -1,4 +1,4 @@
-package com.twentiethcenturygangsta.ourboard.exception;
+package com.twentiethcenturygangsta.ourboard.handler.exception;
 
 
 import lombok.Getter;

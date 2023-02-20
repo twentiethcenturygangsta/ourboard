@@ -2,8 +2,8 @@ package com.twentiethcenturygangsta.ourboard.services;
 
 import com.twentiethcenturygangsta.ourboard.config.EncryptionConfig;
 import com.twentiethcenturygangsta.ourboard.entity.OurBoardMember;
-import com.twentiethcenturygangsta.ourboard.exception.ExceptionCode;
-import com.twentiethcenturygangsta.ourboard.exception.UserException;
+import com.twentiethcenturygangsta.ourboard.handler.exception.ExceptionCode;
+import com.twentiethcenturygangsta.ourboard.handler.exception.UserException;
 import com.twentiethcenturygangsta.ourboard.repository.OurBoardMemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
