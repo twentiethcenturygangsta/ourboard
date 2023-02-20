@@ -14,8 +14,8 @@ public class OurBoardEntityAspect {
     public String getGroup(JoinPoint joinPoint) {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         Method method = methodSignature.getMethod();
-        OurBoardEntity jamBoardEntity = method.getAnnotation(OurBoardEntity.class);
-        return jamBoardEntity.group();
+        OurBoardEntity ourBoardEntity = method.getAnnotation(OurBoardEntity.class);
+        return ourBoardEntity.group();
     }
 
 

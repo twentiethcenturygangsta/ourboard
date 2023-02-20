@@ -1,5 +1,6 @@
 package com.twentiethcenturygangsta.ourboard.entity;
 
+import com.twentiethcenturygangsta.ourboard.annoatation.OurBoardColumn;
 import com.twentiethcenturygangsta.ourboard.annoatation.OurBoardEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,13 +20,19 @@ public class OurBoardMember {
     @Id
     @GeneratedValue
     @Column(name = "our_board_member_id")
+    @OurBoardColumn(description = "AUTO_INCREMENT")
     private Long id;
 
+    @OurBoardColumn(description = "LOGIN ID")
     private String memberId;
     private String password;
+    @OurBoardColumn(description = "CREATE PERMISSION")
     private Boolean hasCreateAuthority;
+    @OurBoardColumn(description = "READ PERMISSION")
     private Boolean hasReadAuthority;
+    @OurBoardColumn(description = "UPDATE PERMISSION")
     private Boolean hasUpdateAuthority;
+    @OurBoardColumn(description = "DELETE PERMISSION")
     private Boolean hasDeleteAuthority;
 
     @Builder

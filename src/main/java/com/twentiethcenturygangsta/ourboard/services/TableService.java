@@ -1,5 +1,6 @@
 package com.twentiethcenturygangsta.ourboard.services;
 
+import com.twentiethcenturygangsta.ourboard.annoatation.OurBoardColumn;
 import com.twentiethcenturygangsta.ourboard.dto.Table;
 import com.twentiethcenturygangsta.ourboard.dto.TablesInfo;
 import com.twentiethcenturygangsta.ourboard.repository.ListRepository;
@@ -42,12 +43,16 @@ public class TableService {
         return getRepository(entity).findAll(pageable);
     }
 
-    public List<String> getFields(String tableName) {
-        List<String> fields = new ArrayList();
+    public LinkedHashMap<String, String> getFields(String tableName) {
+        LinkedHashMap<String, String> fields = new LinkedHashMap<>();
         for (Class<?> table : databaseClient.getTables()) {
             if (tableName.equals(camelToSnakeDatabaseTableName(table.getSimpleName()))) {
                 for(Field field : table.getDeclaredFields()) {
-                    fields.add(field.getName());
+                    OurBoardColumn ourBoardColumn = field.getAnnotation(OurBoardColumn.class);
+                    if (ourBoardColumn != null && ourBoardColumn.enable()) {
+                        String description = ourBoardColumn.description();
+                        fields.put(field.getName(), description);
+                    }
                 }
             }
         }
