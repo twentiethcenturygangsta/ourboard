@@ -20,9 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 
 @Slf4j
@@ -53,8 +51,7 @@ public class AdminViewController {
     }
 
     @GetMapping("/{groupName}")
-    public String responseGroupView(@PathVariable("groupName") String groupName,
-                               Model model) throws SQLException {
+    public String responseGroupView(@PathVariable("groupName") String groupName, Model model) throws SQLException {
         HashMap<String, ArrayList<TablesInfo>> table = tableService.getTableSimpleNames();
         model.addAttribute("userName", "JUNHYEOK");
         model.addAttribute("groupName", groupName);
@@ -68,7 +65,7 @@ public class AdminViewController {
                                         @PageableDefault Pageable pageable,
                                         Model model) throws SQLException {
         Page<?> data = tableService.getObjects(tableName, pageable);
-        List<String> fields = tableService.getFields(tableName);
+        LinkedHashMap<String, String> fields = tableService.getFields(tableName);
         model.addAttribute("groupName", groupName);
         model.addAttribute("tableName", tableName);
         model.addAttribute("data", data);
