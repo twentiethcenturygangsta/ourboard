@@ -50,9 +50,8 @@ public class TableService {
                 for(Field field : table.getDeclaredFields()) {
                     OurBoardColumn ourBoardColumn = field.getAnnotation(OurBoardColumn.class);
                     if (ourBoardColumn != null && ourBoardColumn.enable()) {
-                        String fieldName = ourBoardColumn.fieldName().isEmpty() ? field.getName() : ourBoardColumn.fieldName();
                         String description = ourBoardColumn.description();
-                        fields.put(fieldName, description);
+                        fields.put(field.getName(), description);
                     }
                 }
             }

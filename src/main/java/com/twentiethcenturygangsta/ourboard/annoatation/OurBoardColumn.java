@@ -12,6 +12,5 @@ import java.lang.annotation.Target;
 @Component
 public @interface OurBoardColumn {
     boolean enable() default true;
-    String fieldName() default "";
     String description() default "";
 }
