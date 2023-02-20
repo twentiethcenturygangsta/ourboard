@@ -9,7 +9,7 @@
             <input type="checkbox" id="allCheck">
         </th>
 
-        <th class="dataTh mainColorBg white" th:classappend="${i.count eq i.size ? 'dataThLast' : ''}" th:text="${field.key}"></th>
+        <th class="dataTh mainColorBg white" th:classappend="${i.count eq i.size ? 'dataThLast' : ''}" th:text="${field.key}" th:title="${field.value}"></th>
         </th:block>
         </thead>
         <tbody>
