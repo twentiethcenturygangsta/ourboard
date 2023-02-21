@@ -26,7 +26,6 @@
             APICall.post("/our-board/api/login", data).then(() => {
                 location.href="/our-board/admin"
             }).catch((error) => {
-                console.log("error =>", error);
                 let errorMessage =  "<span class='errorMessage'>"+ error.response.data.message + "</span>"
                 $(".loginGuide").replaceWith(
                     errorMessage

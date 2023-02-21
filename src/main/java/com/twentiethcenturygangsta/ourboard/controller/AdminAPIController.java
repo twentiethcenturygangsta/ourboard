@@ -32,12 +32,6 @@ public class AdminAPIController {
         OurBoardMember ourBoardMember = loginService.login(loginForm.getMemberId(), loginForm.getPassword());
         log.info("ourBoardMember = {}", ourBoardMember);
 
-        // userName, password에 해당하지 않는 경우
-//        if (ourBoardMember == null) {
-//            bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
-//            return "redirect:/our-board/admin/login";
-//        }
-
         HttpSession session = request.getSession();
         session.setAttribute(SessionConst.LOGIN_MEMBER, ourBoardMember);
         return ResponseHandler.generateResponse(HttpStatus.OK, loginForm);
