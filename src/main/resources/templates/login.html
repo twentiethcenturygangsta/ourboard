@@ -5,14 +5,29 @@
     <div class="loginDiv">
         <span class="loginLogo">OUR BOARD</span>
         <div class="loginInputDiv whiteBg">
-            <form th:action="@{/our-board/api/login}" class="loginAlignDiv" method="POST" th:object="${loginForm}">
+            <form class="loginAlignDiv" method="POST" th:object="${loginForm}">
                 <input class="loginInput" type="text" placeholder="ID" name="memberId" id="memberId" th:field="*{memberId}">
                 <input class="loginInput" type="password" placeholder="PW" name="password" id="password" th:field="*{password}"><br>
                 <span class="loginGuide">Write down your properties file OUR BOARD ID, PW</span>
-                <button class="loginButton mainColorBg white" type="submit">LOGIN</button>
             </form>
+            <button id="submit-button" class="loginButton mainColorBg white" type="submit">LOGIN</button>
         </div>
     </div>
-<th:block th:replace="~{fragments/footer :: AdminFooterFragment}"/>
+    <th:block th:replace="~{fragments/footer :: AdminFooterFragment}"/>
+    <script th:inline="javascript">
+        $('#submit-button').on("click", () => {
+            const id = $('#memberId').val();
+            const password = $('#password').val();
+            const data = JSON.stringify({
+                "memberId": id,
+                "password": password
+            })
+            APICall.post("/our-board/api/login", data).then(() => {
+                location.href="/가our-board/admin"
+            }).catch((error) => {
+                console.log("error =>", error);
+            })
+        })
+    </script>
 </body>
 </html>
