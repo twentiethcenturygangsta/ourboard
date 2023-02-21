@@ -8,14 +8,12 @@ import lombok.Data;
 public class Error {
     private String timestamp;
     private String code;
-    private String field;
     private String message;
 
     @Builder
-    public Error(String timestamp, String code, String field, String message) {
+    public Error(String timestamp, String code, String message) {
         this.timestamp = timestamp;
         this.code = code;
-        this.field = field;
         this.message = message;
     }
 }

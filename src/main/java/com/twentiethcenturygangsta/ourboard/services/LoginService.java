@@ -3,7 +3,7 @@ package com.twentiethcenturygangsta.ourboard.services;
 import com.twentiethcenturygangsta.ourboard.config.EncryptionConfig;
 import com.twentiethcenturygangsta.ourboard.entity.OurBoardMember;
 import com.twentiethcenturygangsta.ourboard.handler.exception.ExceptionCode;
-import com.twentiethcenturygangsta.ourboard.handler.exception.UserException;
+import com.twentiethcenturygangsta.ourboard.handler.exception.OurBoardException;
 import com.twentiethcenturygangsta.ourboard.repository.OurBoardMemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +26,6 @@ public class LoginService {
         String encryptPassword = EncryptionConfig.encrypt(password);
         return ourBoardMemberRepository.findOurBoardMemberByMemberId(loginId)
                 .filter(m -> m.getPassword().equals(encryptPassword))
-                .orElseThrow(() -> new UserException(ExceptionCode.NOT_FOUND_OUR_BOARD_MEMBER));
+                .orElseThrow(() -> new OurBoardException(ExceptionCode.NOT_FOUND_OUR_BOARD_MEMBER));
     }
 }
