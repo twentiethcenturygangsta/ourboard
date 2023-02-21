@@ -18,6 +18,10 @@
         $('#submit-button').on("click", () => {
             const id = $('#memberId').val();
             const password = $('#password').val();
+
+            // Check input data
+            checkInputForm([$('#memberId'), $('#password')])
+
             const data = JSON.stringify({
                 "memberId": id,
                 "password": password
