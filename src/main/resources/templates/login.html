@@ -10,7 +10,7 @@
                 <input class="loginInput" type="password" placeholder="PW" name="password" id="password" th:field="*{password}"><br>
                 <span class="loginGuide">Write down your properties file OUR BOARD ID, PW</span>
             </form>
-            <button id="submit-button" class="loginButton mainColorBg white" type="submit">LOGIN</button>
+            <button id="submit-button" class="loginButton mainColorBg white" type="button">LOGIN</button>
         </div>
     </div>
     <th:block th:replace="~{fragments/footer :: AdminFooterFragment}"/>
@@ -22,10 +22,15 @@
                 "memberId": id,
                 "password": password
             })
+
             APICall.post("/our-board/api/login", data).then(() => {
-                location.href="/가our-board/admin"
+                location.href="/our-board/admin"
             }).catch((error) => {
                 console.log("error =>", error);
+                let errorMessage =  "<span class='errorMessage'>"+ error.response.data.message + "</span>"
+                $(".loginGuide").replaceWith(
+                    errorMessage
+                )
             })
         })
     </script>
