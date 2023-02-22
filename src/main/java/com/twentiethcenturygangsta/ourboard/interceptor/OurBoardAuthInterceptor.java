@@ -1,4 +1,4 @@
-package com.twentiethcenturygangsta.ourboard.filter;
+package com.twentiethcenturygangsta.ourboard.interceptor;
 
 import com.twentiethcenturygangsta.ourboard.manager.session.SessionConst;
 import jakarta.servlet.http.HttpServletRequest;

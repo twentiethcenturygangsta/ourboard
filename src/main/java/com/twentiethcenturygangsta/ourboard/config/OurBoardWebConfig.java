@@ -1,6 +1,6 @@
 package com.twentiethcenturygangsta.ourboard.config;
 
-import com.twentiethcenturygangsta.ourboard.filter.OurBoardAuthInterceptor;
+import com.twentiethcenturygangsta.ourboard.interceptor.OurBoardAuthInterceptor;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
