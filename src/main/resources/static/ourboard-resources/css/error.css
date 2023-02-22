@@ -1,0 +1,10 @@
+.errorMessage {
+    color: #DF4949;
+    width: 100%;
+    font-weight: 400;
+    font-size: 15px;
+}
+
+.errorInput {
+    border-color: #DF4949;
+}
