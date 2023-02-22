@@ -34,6 +34,6 @@ public class AdminAPIController {
 
         HttpSession session = request.getSession();
         session.setAttribute(SessionConst.LOGIN_MEMBER, ourBoardMember);
-        return ResponseHandler.generateResponse(HttpStatus.OK, loginForm);
+        return ResponseHandler.generateResponse(HttpStatus.OK, "Successful login");
     }
 }
