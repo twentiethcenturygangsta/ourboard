@@ -30,7 +30,6 @@ import java.util.*;
 @RequiredArgsConstructor
 public class AdminViewController {
     private final TableService tableService;
-    private final LoginService loginService;
 
     /**
      * TODO
@@ -41,9 +40,7 @@ public class AdminViewController {
     public String responseView(
             @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) OurBoardMember loginMember,
             Model model) throws SQLException {
-        if (!loginService.isOurBoardMember(loginMember)) {
-            return "redirect:/our-board/admin/login";
-        }
+
         HashMap<String, ArrayList<TablesInfo>> table = tableService.getTableSimpleNames();
         model.addAttribute("userName", loginMember.getMemberId());
         model.addAttribute("data", table);

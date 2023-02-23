@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 public class LoginService {
     private final OurBoardMemberRepository ourBoardMemberRepository;
 
+    @Deprecated
     public boolean isOurBoardMember(OurBoardMember member) {
         log.info("OurBoardMember = {}", member);
         return member != null;
