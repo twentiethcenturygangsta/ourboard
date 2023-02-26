@@ -15,6 +15,7 @@ import org.reflections.Reflections;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.management.relation.RelationType;
 import java.lang.reflect.Field;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
@@ -30,22 +31,22 @@ public class DatabaseClient {
     private static final String ourBoardBasePackage = "com.twentiethcenturygangsta.ourboard";
     private final OurBoardClient ourBoardClient;
     private final ShardConfigurationReference shardConfigurationReference;
-    private LinkedHashMap<String, List<DatabaseColumn>> databaseSchemas;
-    private HashMap<String, Class<?>> tables;
+    private LinkedHashMap<String, LinkedHashMap<String, DatabaseColumn>> databaseSchemas;
+    private HashMap<String, Class<?>> entities;
 
     @Bean
-    public void registerTables() {
-        HashMap<String, Class<?>> tables = new HashMap<>();
+    public void registerEntityTables() {
+        HashMap<String, Class<?>> entities = new HashMap<>();
         Set<Class<?>> baseClasses = new Reflections(ourBoardBasePackage).getTypesAnnotatedWith(OurBoardEntity.class);
         baseClasses.addAll(new Reflections(shardConfigurationReference.registerBasePackage()).getTypesAnnotatedWith(OurBoardEntity.class));
         for(Class<?> object : baseClasses) {
-            tables.put(object.getSimpleName(), object);
+            entities.put(DatabaseUtils.getSnakeNameForDatabase(object.getSimpleName()), object);
         }
-        this.tables = tables;
+        this.entities = entities;
     }
     @Bean
     public void registerDatabaseSchema() throws SQLException {
-        LinkedHashMap<String, List<DatabaseColumn>> databaseTableSchemas = new LinkedHashMap<>();
+        LinkedHashMap<String, LinkedHashMap<String, DatabaseColumn>> databaseTableSchemas = new LinkedHashMap<>();
         DatabaseMetaData databaseMetaData = ourBoardClient.getConnection().getMetaData();
         ResultSet resultSet = databaseMetaData.getTables(null, null, null, new String[] {"TABLE"});
 
@@ -62,74 +63,51 @@ public class DatabaseClient {
 
     public LinkedHashMap<String, FieldInfo> getFields(String tableName) {
         LinkedHashMap<String, FieldInfo> fields = new LinkedHashMap<>();
-        tables
-        for (Class<?> table : tables) {
-            if (tableName.equals(DatabaseUtils.getSnakeNameForDatabase(table.getSimpleName()))) {
-                List<DatabaseColumn> columns = databaseSchemas.get(tableName);
-                for(Field field : table.getDeclaredFields()) {
-                    String name = getFieldName(field);
-                    String description = "";
+        Class<?> entity = entities.get(tableName);
+        LinkedHashMap<String, DatabaseColumn> columns = databaseSchemas.get(tableName);
+        log.info("columns = {}", columns);
+        for(Field field : entity.getDeclaredFields()) {
+            String fieldName = getFieldName(field);
+            DatabaseRelationType relationType = getDatabaseRelationType(field);
+            String description = "";
 
-                    if(field.isAnnotationPresent(OurBoardColumn.class)) {
-                        description = field.getAnnotation(OurBoardColumn.class).description();
-                    }
+            if(field.isAnnotationPresent(OurBoardColumn.class)) {
+                description = field.getAnnotation(OurBoardColumn.class).description();
+            }
+            if (field.isAnnotationPresent(JoinColumn.class)) {
+                fieldName = DatabaseUtils.getSnakeNameForDatabase(field.getAnnotation(JoinColumn.class).name());
+            }
 
-                    if (field.isAnnotationPresent(JoinColumn.class)) {
-                        name = DatabaseUtils.getSnakeNameForDatabase(field.getAnnotation(JoinColumn.class).name());
-                    }
-                    for (DatabaseColumn databaseColumn : columns) {
-
-                        if(databaseColumn.getName().equals(name)) {
-                            fields.put(
-                                    name,
-                                    FieldInfo.builder()
-                                            .description(description)
-                                            .type(field.getType())
-                                            .databaseFieldName(DatabaseUtils.getSnakeNameForDatabase(table.getSimpleName()))
-                                            .databaseRelationType(getDatabaseRelationType(field))
-                                            .databaseColumn(databaseColumn)
-                                            .build()
-                            );
-                        }
-                    }
-                    if (getDatabaseRelationType(field) == DatabaseRelationType.ONE_TO_MANY){
-
-                        for (Class<?> searchedTable : tables) {
-                            for (Field searchedField : searchedTable.getDeclaredFields()) {
-                                if (searchedField.getName().equals(field.getAnnotation(OneToMany.class).mappedBy())) {
-                                    name = DatabaseUtils.getSnakeNameForDatabase(searchedTable.getSimpleName()) + "_ID";
-                                }
-                            }
-                        }
-                        fields.put(
-                                name,
-                                FieldInfo.builder()
-                                        .description(description)
-                                        .type(field.getType())
-                                        .databaseFieldName(DatabaseUtils.getSnakeNameForDatabase(table.getSimpleName()))
-                                        .databaseRelationType(getDatabaseRelationType(field))
-                                        .build()
-                        );
-                    }
+            DatabaseColumn databaseColumn = columns.get(fieldName);
+            if(databaseColumn != null || relationType.equals(DatabaseRelationType.ONE_TO_MANY)) {
+                if (relationType.equals(DatabaseRelationType.ONE_TO_MANY)) {
+                    fieldName = getOneToManyFieldName(field);
                 }
+
+                fields.put(
+                        fieldName,
+                        FieldInfo.builder()
+                                .description(description)
+                                .type(field.getType())
+                                .databaseRelationType(relationType)
+                                .databaseColumn(databaseColumn)
+                                .build()
+                );
             }
         }
         return fields;
     }
 
-    public LinkedHashMap<String, List<DatabaseColumn>> getDatabaseSchemas() {
-        return databaseSchemas;
+    public HashMap<String, Class<?>> getEntities() {
+        return entities;
     }
 
-    public Set<Class<?>> getTables() {
-        return tables;
-    }
-
-    private List<DatabaseColumn> getColumnsInfo(ResultSet resultSet) throws SQLException {
-        List<DatabaseColumn> columns = new ArrayList<>();
+    private LinkedHashMap<String, DatabaseColumn> getColumnsInfo(ResultSet resultSet) throws SQLException {
+        LinkedHashMap<String, DatabaseColumn> columns = new LinkedHashMap<>();
 
         while(resultSet.next()){
-            columns.add(
+            columns.put(
+                    resultSet.getString("COLUMN_NAME"),
                     DatabaseColumn.builder()
                             .name(resultSet.getString("COLUMN_NAME"))
                             .displaySize(resultSet.getString("COLUMN_SIZE"))
@@ -162,10 +140,15 @@ public class DatabaseClient {
         return DatabaseUtils.getSnakeNameForDatabase(field.getName());
     }
 
-    private String getJoinColumnName(Field field) {
-        if(field.isAnnotationPresent(JoinColumn.class)) {
-            return DatabaseUtils.getSnakeNameForDatabase(field.getAnnotation(JoinColumn.class).name());
+    private String getOneToManyFieldName(Field field) {
+        String fieldName = "";
+        for(Map.Entry<String, Class<?>> searchedEntity: entities.entrySet()) {
+            for (Field searchedField : searchedEntity.getValue().getDeclaredFields()) {
+                if (searchedField.getName().equals(field.getAnnotation(OneToMany.class).mappedBy())) {
+                    fieldName = DatabaseUtils.getSnakeNameForDatabase(searchedEntity.getValue().getSimpleName()) + "_ID";
+                }
+            }
         }
-        return DatabaseUtils.getSnakeNameForDatabase(field.getName());
+        return fieldName;
     }
 }

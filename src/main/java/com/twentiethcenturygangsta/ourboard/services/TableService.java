@@ -54,20 +54,23 @@ public class TableService {
         return listRepository.findAll(tableName, ourBoardClient.getConnection());
     }
 
+    public LinkedHashMap<String, FieldInfo> getFields(String tableName) {
+        return databaseClient.getFields(tableName);
+    }
+
     public HashMap<String, ArrayList<TablesInfo>> getTableSimpleNames() throws SQLException {
         HashMap<String, ArrayList<TablesInfo>> dict = new HashMap<>();
+        HashMap<String, Class<?>> entities = databaseClient.getEntities();
 
-        for (Class<?> table : databaseClient.getTables()) {
+        for (Map.Entry<String, Class<?>> entity : entities.entrySet()) {
 
-            log.info("annotation = {}", table.getAnnotation(OurBoardEntity.class));
-
-            for (Annotation annotation : table.getAnnotations()) {
+            for (Annotation annotation : entity.getValue().getAnnotations()) {
                 if (annotation instanceof OurBoardEntity myAnnotation) {
                     if (dict.containsKey(myAnnotation.group())) {
                         dict.get(myAnnotation.group()).add(
                                 TablesInfo.builder()
-                                        .tableName(DatabaseUtils.getSnakeNameForDatabase(table.getSimpleName()))
-                                        .entityClassName(table.getSimpleName())
+                                        .tableName(entity.getKey())
+                                        .entityClassName(entity.getValue().getSimpleName())
                                         .description(myAnnotation.description())
                                         .build()
                         );
@@ -75,8 +78,8 @@ public class TableService {
                         dict.put(myAnnotation.group(), new ArrayList<>());
                         dict.get(myAnnotation.group()).add(
                                 TablesInfo.builder()
-                                        .tableName(DatabaseUtils.getSnakeNameForDatabase(table.getSimpleName()))
-                                        .entityClassName(table.getSimpleName())
+                                        .tableName(entity.getKey())
+                                        .entityClassName(entity.getValue().getSimpleName())
                                         .description(myAnnotation.description())
                                         .build()
                         );
@@ -86,7 +89,6 @@ public class TableService {
                 }
             }
         }
-        log.info("result = {}", dict);
         return dict;
     }
 
@@ -106,16 +108,14 @@ public class TableService {
        return null;
     }
 
-    private JpaRepository getRepository(String entity) {
+    private JpaRepository getRepository(String entityName) {
         JpaRepository repo = null;
-        log.info("getRepository1 = {}", entity);
-        log.info("getRepository2 = {}", databaseClient.getTables());
-        for (Class<?> table : databaseClient.getTables()) {
-            if (entity.equals(DatabaseUtils.getSnakeNameForDatabase(table.getSimpleName()))) {
+        HashMap<String, Class<?>> entities = databaseClient.getEntities();
+        for (Map.Entry<String, Class<?>> entity : entities.entrySet()) {
+            if (entityName.equals(entity.getKey())) {
                 Repositories repositories = new Repositories(appContext);
                 repo = (JpaRepository) repositories.
-                        getRepositoryFor(table).get();
-                log.info("getRepository3 = {}", repo);
+                        getRepositoryFor(entity.getValue()).get();
             }
         }
         return repo;
