@@ -4,7 +4,6 @@ import com.twentiethcenturygangsta.ourboard.annoatation.OurBoardColumn;
 import com.twentiethcenturygangsta.ourboard.annoatation.OurBoardEntity;
 import com.twentiethcenturygangsta.ourboard.config.ShardConfigurationReference;
 import com.twentiethcenturygangsta.ourboard.dto.DatabaseColumn;
-import com.twentiethcenturygangsta.ourboard.dto.DatabaseSchema;
 import com.twentiethcenturygangsta.ourboard.dto.FieldInfo;
 import com.twentiethcenturygangsta.ourboard.entity.DatabaseRelationType;
 import com.twentiethcenturygangsta.ourboard.util.DatabaseUtils;
@@ -15,12 +14,10 @@ import org.reflections.Reflections;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.management.relation.RelationType;
 import java.lang.reflect.Field;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.*;
 
 

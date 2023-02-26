@@ -6,7 +6,6 @@ import com.twentiethcenturygangsta.ourboard.dto.TablesInfo;
 import com.twentiethcenturygangsta.ourboard.entity.OurBoardMember;
 import com.twentiethcenturygangsta.ourboard.form.LoginForm;
 import com.twentiethcenturygangsta.ourboard.manager.session.SessionConst;
-import com.twentiethcenturygangsta.ourboard.services.LoginService;
 import com.twentiethcenturygangsta.ourboard.services.TableService;
 
 import lombok.RequiredArgsConstructor;

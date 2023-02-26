@@ -1,18 +1,14 @@
 package com.twentiethcenturygangsta.ourboard.services;
 
-import com.twentiethcenturygangsta.ourboard.annoatation.OurBoardColumn;
-import com.twentiethcenturygangsta.ourboard.dto.DatabaseColumn;
+
 import com.twentiethcenturygangsta.ourboard.dto.FieldInfo;
 import com.twentiethcenturygangsta.ourboard.dto.Table;
 import com.twentiethcenturygangsta.ourboard.dto.TablesInfo;
-import com.twentiethcenturygangsta.ourboard.entity.DatabaseRelationType;
 import com.twentiethcenturygangsta.ourboard.repository.ListRepository;
 import com.twentiethcenturygangsta.ourboard.site.DatabaseClient;
 import com.twentiethcenturygangsta.ourboard.site.OurBoardClient;
 import com.twentiethcenturygangsta.ourboard.annoatation.OurBoardEntity;
 import com.twentiethcenturygangsta.ourboard.trace.Trace;
-import com.twentiethcenturygangsta.ourboard.util.DatabaseUtils;
-import jakarta.persistence.*;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
@@ -46,7 +42,6 @@ public class TableService {
         pageable= PageRequest.of(page,2, Sort.by("id").descending());
         return getRepository(entity).findAll(pageable);
     }
-
 
     @Trace
     @Deprecated
