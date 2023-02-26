@@ -1,5 +1,6 @@
 package com.twentiethcenturygangsta.ourboard.controller;
 
+import com.twentiethcenturygangsta.ourboard.dto.FieldInfo;
 import com.twentiethcenturygangsta.ourboard.dto.Table;
 import com.twentiethcenturygangsta.ourboard.dto.TablesInfo;
 import com.twentiethcenturygangsta.ourboard.entity.OurBoardMember;
@@ -62,7 +63,7 @@ public class AdminViewController {
                                         @PageableDefault Pageable pageable,
                                         Model model) throws SQLException {
         Page<?> data = tableService.getObjects(tableName, pageable);
-        LinkedHashMap<String, String> fields = tableService.getFields(tableName);
+        LinkedHashMap<String, FieldInfo> fields = tableService.getFields(tableName);
         model.addAttribute("groupName", groupName);
         model.addAttribute("tableName", tableName);
         model.addAttribute("data", data);
@@ -80,9 +81,12 @@ public class AdminViewController {
                                              @PathVariable("tableName") String tableName,
                                              Model model) throws SQLException {
         Table table = tableService.getTableData(tableName);
+        LinkedHashMap<String, FieldInfo> fields = tableService.getFields(tableName);
+
         model.addAttribute("groupName", groupName);
         model.addAttribute("tableName", tableName);
         model.addAttribute("data", table);
+        model.addAttribute("fields", fields);
         return "createView";
     }
 }

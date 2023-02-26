@@ -1,13 +1,17 @@
 package com.twentiethcenturygangsta.ourboard.services;
 
 import com.twentiethcenturygangsta.ourboard.annoatation.OurBoardColumn;
+import com.twentiethcenturygangsta.ourboard.dto.DatabaseColumn;
+import com.twentiethcenturygangsta.ourboard.dto.FieldInfo;
 import com.twentiethcenturygangsta.ourboard.dto.Table;
 import com.twentiethcenturygangsta.ourboard.dto.TablesInfo;
+import com.twentiethcenturygangsta.ourboard.entity.DatabaseRelationType;
 import com.twentiethcenturygangsta.ourboard.repository.ListRepository;
 import com.twentiethcenturygangsta.ourboard.site.DatabaseClient;
 import com.twentiethcenturygangsta.ourboard.site.OurBoardClient;
 import com.twentiethcenturygangsta.ourboard.annoatation.OurBoardEntity;
 import com.twentiethcenturygangsta.ourboard.trace.Trace;
+import jakarta.persistence.*;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
@@ -37,26 +41,66 @@ public class TableService {
     private final ApplicationContext appContext;
 
     public Page<Object> getObjects(String entity, Pageable pageable) {
-        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); //
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
         log.info("hasRepository = {}", getRepository(entity));
         pageable= PageRequest.of(page,2, Sort.by("id").descending());
         return getRepository(entity).findAll(pageable);
     }
 
-    public LinkedHashMap<String, String> getFields(String tableName) {
-        LinkedHashMap<String, String> fields = new LinkedHashMap<>();
-        for (Class<?> table : databaseClient.getTables()) {
+    public LinkedHashMap<String, FieldInfo> getFields(String tableName) {
+        LinkedHashMap<String, FieldInfo> fields = new LinkedHashMap<>();
+        Set<Class<?>> tables = databaseClient.getTables();
+        for (Class<?> table : tables) {
             if (tableName.equals(camelToSnakeDatabaseTableName(table.getSimpleName()))) {
+                List<DatabaseColumn> columns = databaseClient.getDatabaseSchemas().get(tableName);
                 for(Field field : table.getDeclaredFields()) {
-                    OurBoardColumn ourBoardColumn = field.getAnnotation(OurBoardColumn.class);
-                    if (ourBoardColumn != null && ourBoardColumn.enable()) {
-                        String description = ourBoardColumn.description();
-                        fields.put(field.getName(), description);
+                    String name = getFieldName(field);
+                    String description = "";
+
+                    if(field.isAnnotationPresent(OurBoardColumn.class)) {
+                        description = field.getAnnotation(OurBoardColumn.class).description();
+                    }
+
+                    if (field.isAnnotationPresent(JoinColumn.class)) {
+                        name = camelToSnakeDatabaseTableName(field.getAnnotation(JoinColumn.class).name());
+                    }
+                    for (DatabaseColumn databaseColumn : columns) {
+
+                        if(databaseColumn.getName().equals(name)) {
+                            fields.put(
+                                    name,
+                                    FieldInfo.builder()
+                                            .description(description)
+                                            .type(field.getType())
+                                            .databaseFieldName(camelToSnakeDatabaseTableName(table.getSimpleName()))
+                                            .databaseRelationType(getDatabaseRelationType(field))
+                                            .databaseColumn(databaseColumn)
+                                            .build()
+                            );
+                        }
+                    }
+                    if (getDatabaseRelationType(field) == DatabaseRelationType.ONE_TO_MANY){
+
+                        for (Class<?> searchedTable : tables) {
+                            for (Field searchedField : searchedTable.getDeclaredFields()) {
+                                if (searchedField.getName().equals(field.getAnnotation(OneToMany.class).mappedBy())) {
+                                    name = camelToSnakeDatabaseTableName(searchedTable.getSimpleName()) + "_ID";
+                                }
+                            }
+                        }
+                        fields.put(
+                                name,
+                                FieldInfo.builder()
+                                        .description(description)
+                                        .type(field.getType())
+                                        .databaseFieldName(camelToSnakeDatabaseTableName(table.getSimpleName()))
+                                        .databaseRelationType(getDatabaseRelationType(field))
+                                        .build()
+                        );
                     }
                 }
             }
         }
-        log.info("fields = {}", fields);
         return fields;
     }
 
@@ -149,5 +193,35 @@ public class TableService {
             }
         }
         return tableName;
+    }
+
+    private DatabaseRelationType getDatabaseRelationType(Field field) {
+        if(field.isAnnotationPresent(OneToOne.class)) {
+            return DatabaseRelationType.ONE_TO_ONE;
+        }
+        if(field.isAnnotationPresent(OneToMany.class)) {
+            return DatabaseRelationType.ONE_TO_MANY;
+        }
+        if(field.isAnnotationPresent(ManyToOne.class)) {
+            return DatabaseRelationType.MANY_TO_ONE;
+        }
+        if(field.isAnnotationPresent(ManyToMany.class)) {
+            return DatabaseRelationType.MANY_TO_MANY;
+        }
+        return DatabaseRelationType.NON_RELATIONSHIP;
+    }
+
+    private String getFieldName(Field field) {
+        if(field.isAnnotationPresent(Column.class)) {
+            return camelToSnakeDatabaseTableName(field.getAnnotation(Column.class).name());
+        }
+        return camelToSnakeDatabaseTableName(field.getName());
+    }
+
+    private String getJoinColumnName(Field field) {
+        if(field.isAnnotationPresent(JoinColumn.class)) {
+            return camelToSnakeDatabaseTableName(field.getAnnotation(JoinColumn.class).name());
+        }
+        return camelToSnakeDatabaseTableName(field.getName());
     }
 }

@@ -46,12 +46,12 @@ public class DatabaseClient {
             String name = resultSet.getString("TABLE_NAME");
             String schema = resultSet.getString("TABLE_SCHEM");
             ResultSet resultSetTable = databaseMetaData.getColumns(null, null, name, null);
-
+            log.info("dbTableName = {}", name);
             if (Objects.equals(schema, "PUBLIC")) {
                 databaseTableSchemas.put(name, getColumnsInfo(resultSetTable));
             }
         }
-        log.info("databaseMetaData = {}", databaseMetaData);
+//        log.info("databaseMetaData = {}", databaseMetaData);
         databaseSchemas = databaseTableSchemas;
     }
 
@@ -67,6 +67,7 @@ public class DatabaseClient {
         List<DatabaseColumn> columns = new ArrayList<>();
 
         while(resultSet.next()){
+            log.info("columnsInfo = {}", resultSet.getString("COLUMN_NAME"));
             columns.add(
                     DatabaseColumn.builder()
                             .name(resultSet.getString("COLUMN_NAME"))

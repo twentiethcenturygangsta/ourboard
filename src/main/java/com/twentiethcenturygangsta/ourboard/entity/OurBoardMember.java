@@ -30,7 +30,7 @@ public class OurBoardMember {
     private Boolean hasCreateAuthority;
     @OurBoardColumn(description = "READ PERMISSION")
     private Boolean hasReadAuthority;
-    @OurBoardColumn(description = "UPDATE PERMISSION")
+    @OurBoardColumn
     private Boolean hasUpdateAuthority;
     @OurBoardColumn(description = "DELETE PERMISSION")
     private Boolean hasDeleteAuthority;
