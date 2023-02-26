@@ -2,7 +2,9 @@ package com.twentiethcenturygangsta.ourboard.site;
 
 import com.twentiethcenturygangsta.ourboard.annoatation.OurBoardEntity;
 import com.twentiethcenturygangsta.ourboard.config.ShardConfigurationReference;
+import com.twentiethcenturygangsta.ourboard.dto.DatabaseColumn;
 import com.twentiethcenturygangsta.ourboard.dto.DatabaseSchema;
+import com.twentiethcenturygangsta.ourboard.dto.FieldInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.reflections.Reflections;
@@ -12,20 +14,18 @@ import org.springframework.context.annotation.Configuration;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.sql.Statement;
+import java.util.*;
 
 
 @Configuration
 @Slf4j
 @RequiredArgsConstructor
 public class DatabaseClient {
-    private final String ourBoardBasePackage = "com.twentiethcenturygangsta.ourboard";
+    private static final String ourBoardBasePackage = "com.twentiethcenturygangsta.ourboard";
     private final OurBoardClient ourBoardClient;
     private final ShardConfigurationReference shardConfigurationReference;
-    private List<DatabaseSchema> databaseSchemas;
+    private LinkedHashMap<String, List<DatabaseColumn>> databaseSchemas;
     private Set<Class<?>> tables;
 
     @Bean
@@ -37,30 +37,43 @@ public class DatabaseClient {
     }
     @Bean
     public void registerDatabaseSchema() throws SQLException {
-        List<DatabaseSchema> databaseTableSchemas = new ArrayList<>();
+        LinkedHashMap<String, List<DatabaseColumn>> databaseTableSchemas = new LinkedHashMap<>();
         DatabaseMetaData databaseMetaData = ourBoardClient.getConnection().getMetaData();
         ResultSet resultSet = databaseMetaData.getTables(null, null, null, new String[] {"TABLE"});
 
         while (resultSet.next()) {
+
             String name = resultSet.getString("TABLE_NAME");
             String schema = resultSet.getString("TABLE_SCHEM");
-            log.info("result datatables = {} {}", name, schema );
+            ResultSet resultSetTable = databaseMetaData.getColumns(null, null, name, null);
+
             if (Objects.equals(schema, "PUBLIC")) {
-                databaseTableSchemas.add(DatabaseSchema.builder()
-                        .name(name)
-                        .schema(schema)
-                        .build());
+                databaseTableSchemas.put(name, getColumnsInfo(resultSetTable));
             }
         }
         log.info("databaseMetaData = {}", databaseMetaData);
         databaseSchemas = databaseTableSchemas;
     }
 
-    public List<DatabaseSchema> getDatabaseSchemas() {
+    public LinkedHashMap<String, List<DatabaseColumn>> getDatabaseSchemas() {
         return databaseSchemas;
     }
 
     public Set<Class<?>> getTables() {
         return tables;
+    }
+
+    private List<DatabaseColumn> getColumnsInfo(ResultSet resultSet) throws SQLException {
+        List<DatabaseColumn> columns = new ArrayList<>();
+
+        while(resultSet.next()){
+            columns.add(
+                    DatabaseColumn.builder()
+                            .name(resultSet.getString("COLUMN_NAME"))
+                            .displaySize(resultSet.getString("COLUMN_SIZE"))
+                            .typeName(resultSet.getString("TYPE_NAME"))
+                            .build());
+        }
+        return columns;
     }
 }
