@@ -65,20 +65,15 @@ public class DatabaseClient {
         LinkedHashMap<String, FieldInfo> fields = new LinkedHashMap<>();
         Class<?> entity = entities.get(tableName);
         LinkedHashMap<String, DatabaseColumn> columns = databaseSchemas.get(tableName);
-        log.info("columns = {}", columns);
+
         for(Field field : entity.getDeclaredFields()) {
             String fieldName = getFieldName(field);
+            Boolean hasIdAnnotation = hasIdAnnotation(field);
             DatabaseRelationType relationType = getDatabaseRelationType(field);
-            String description = "";
-
-            if(field.isAnnotationPresent(OurBoardColumn.class)) {
-                description = field.getAnnotation(OurBoardColumn.class).description();
-            }
-            if (field.isAnnotationPresent(JoinColumn.class)) {
-                fieldName = DatabaseUtils.getSnakeNameForDatabase(field.getAnnotation(JoinColumn.class).name());
-            }
+            String description = getFieldDescription(field);
 
             DatabaseColumn databaseColumn = columns.get(fieldName);
+
             if(databaseColumn != null || relationType.equals(DatabaseRelationType.ONE_TO_MANY)) {
                 if (relationType.equals(DatabaseRelationType.ONE_TO_MANY)) {
                     fieldName = getOneToManyFieldName(field);
@@ -90,6 +85,7 @@ public class DatabaseClient {
                                 .description(description)
                                 .type(field.getType())
                                 .databaseRelationType(relationType)
+                                .hasIdAnnotation(hasIdAnnotation)
                                 .databaseColumn(databaseColumn)
                                 .build()
                 );
@@ -137,6 +133,9 @@ public class DatabaseClient {
         if(field.isAnnotationPresent(Column.class)) {
             return DatabaseUtils.getSnakeNameForDatabase(field.getAnnotation(Column.class).name());
         }
+        if (field.isAnnotationPresent(JoinColumn.class)) {
+            return DatabaseUtils.getSnakeNameForDatabase(field.getAnnotation(JoinColumn.class).name());
+        }
         return DatabaseUtils.getSnakeNameForDatabase(field.getName());
     }
 
@@ -150,5 +149,16 @@ public class DatabaseClient {
             }
         }
         return fieldName;
+    }
+
+    private Boolean hasIdAnnotation(Field field) {
+        return field.isAnnotationPresent(Id.class);
+    }
+
+    private String getFieldDescription(Field field) {
+        if(field.isAnnotationPresent(OurBoardColumn.class)) {
+            return field.getAnnotation(OurBoardColumn.class).description();
+        }
+        return "";
     }
 }
