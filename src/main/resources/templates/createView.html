@@ -9,66 +9,22 @@
 
         <table class="dataTable">
             <tbody>
-            <tr class="dataTrForm">
-                <td class="mainColorBg dataTdBorder dataThFirst white dataTdTextForm">
-                    TAPE_ID
-                </td>
-                <td class="dataTd whiteBg dataTdBorder dataThLast dataTdInputForm">AUTO_INCREMENT</td>
-            </tr>
-            <tr class="dataTrForm">
-                <td class="mainColorBg dataTdBorder white dataTdTextForm">
-                    MEMBER_ID
-                </td>
-                <td class="dataTd whiteBg dataTdBorder dataTdInputForm">...</td>
-            </tr>
-            <tr class="dataTrForm">
-                <td class="mainColorBg dataTdBorder white dataTdTextForm">
-                    COLOR_CODE
-                </td>
-                <td class="dataTd whiteBg dataTdBorder dataTdInputForm">
-                    <input class="dataInput" type="text" placeholder="">
-                </td>
-            </tr>
-            <tr class="dataTrForm">
-                <td class="mainColorBg dataTdBorder white dataTdTextForm">
-                    TITLE
-                </td>
-                <td class="dataTd whiteBg dataTdBorder dataTdInputForm">
-                    <input class="dataInput" type="text" placeholder="">
-                </td>
-            </tr>
-            <tr class="dataTrForm">
-                <td class="mainColorBg dataTdBorder white dataTdTextForm">
-                    NAME
-                </td>
-                <td class="dataTd whiteBg dataTdBorder dataTdInputForm">
-                    <input class="dataInput" type="text" placeholder="">
-                </td>
-            </tr>
-            <tr class="dataTrForm">
-                <td class="mainColorBg dataTdBorder white dataTdTextForm">
-                    TAPE_LINK
-                </td>
-                <td class="dataTd whiteBg dataTdBorder dataTdInputForm">
-                    <input class="dataInput" type="text" placeholder="">
-                </td>
-            </tr>
-            <tr class="dataTrForm">
-                <td class="mainColorBg dataTdBorder white dataTdTextForm">
-                    FILE_NAME
-                </td>
-                <td class="dataTd whiteBg dataTdBorder dataTdInputForm">
-                    <input class="dataInput" type="text" placeholder="">
-                </td>
-            </tr>
-            <tr class="dataTrForm">
-                <td class="mainColorBg dataTdBorder dataTdFirst white dataTdTextForm">
-                    AUDIO_LINK
-                </td>
-                <td class="dataTd whiteBg dataTdBorder dataTdLast dataTdInputForm">
-                    <input class="dataInput" type="text" placeholder="">
-                </td>
-            </tr>
+            <th:block th:each="field, i : ${fields.entrySet()}">
+                <tr class="dataTrForm">
+                    <td class="mainColorBg dataTdBorder white dataTdTextForm"
+                       th:classappend="${i.count eq 1 ? 'dataThFirst' :(i.count eq i.size ? 'dataTdFirst' : '')}">
+                        <div th:text="${field.key}"></div>
+                        <div th:text="${field.value.description}" th:style="${'font-size: 8px'}"></div>
+                    </td>
+                    <td class="dataTd whiteBg dataTdBorder dataTdInputForm"
+                        th:classappend="${i.count eq 1 ? 'dataThLast' :(i.count eq i.size ? 'dataTdLast' : '')}">
+                        <div th:text="${field.value.databaseRelationType}" th:style="${'font-size: 8px'}"></div>
+                        <div th:text="${field.value.hasIdAnnotation}" th:style="${'font-size: 8px'}"></div>
+                        <div th:text="${field.value.type.name}" th:style="${'font-size: 8px'}"></div>
+                        <input class="dataInput" type="text" placeholder="">
+                    </td>
+                </tr>
+            </th:block>
             </tbody>
         </table>
         <div class="eventDiv">
