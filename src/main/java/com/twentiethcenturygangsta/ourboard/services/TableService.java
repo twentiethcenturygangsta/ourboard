@@ -11,6 +11,7 @@ import com.twentiethcenturygangsta.ourboard.site.DatabaseClient;
 import com.twentiethcenturygangsta.ourboard.site.OurBoardClient;
 import com.twentiethcenturygangsta.ourboard.annoatation.OurBoardEntity;
 import com.twentiethcenturygangsta.ourboard.trace.Trace;
+import com.twentiethcenturygangsta.ourboard.util.DatabaseUtils;
 import jakarta.persistence.*;
 import lombok.RequiredArgsConstructor;
 
@@ -42,67 +43,10 @@ public class TableService {
 
     public Page<Object> getObjects(String entity, Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
-        log.info("hasRepository = {}", getRepository(entity));
         pageable= PageRequest.of(page,2, Sort.by("id").descending());
         return getRepository(entity).findAll(pageable);
     }
 
-    public LinkedHashMap<String, FieldInfo> getFields(String tableName) {
-        LinkedHashMap<String, FieldInfo> fields = new LinkedHashMap<>();
-        Set<Class<?>> tables = databaseClient.getTables();
-        for (Class<?> table : tables) {
-            if (tableName.equals(camelToSnakeDatabaseTableName(table.getSimpleName()))) {
-                List<DatabaseColumn> columns = databaseClient.getDatabaseSchemas().get(tableName);
-                for(Field field : table.getDeclaredFields()) {
-                    String name = getFieldName(field);
-                    String description = "";
-
-                    if(field.isAnnotationPresent(OurBoardColumn.class)) {
-                        description = field.getAnnotation(OurBoardColumn.class).description();
-                    }
-
-                    if (field.isAnnotationPresent(JoinColumn.class)) {
-                        name = camelToSnakeDatabaseTableName(field.getAnnotation(JoinColumn.class).name());
-                    }
-                    for (DatabaseColumn databaseColumn : columns) {
-
-                        if(databaseColumn.getName().equals(name)) {
-                            fields.put(
-                                    name,
-                                    FieldInfo.builder()
-                                            .description(description)
-                                            .type(field.getType())
-                                            .databaseFieldName(camelToSnakeDatabaseTableName(table.getSimpleName()))
-                                            .databaseRelationType(getDatabaseRelationType(field))
-                                            .databaseColumn(databaseColumn)
-                                            .build()
-                            );
-                        }
-                    }
-                    if (getDatabaseRelationType(field) == DatabaseRelationType.ONE_TO_MANY){
-
-                        for (Class<?> searchedTable : tables) {
-                            for (Field searchedField : searchedTable.getDeclaredFields()) {
-                                if (searchedField.getName().equals(field.getAnnotation(OneToMany.class).mappedBy())) {
-                                    name = camelToSnakeDatabaseTableName(searchedTable.getSimpleName()) + "_ID";
-                                }
-                            }
-                        }
-                        fields.put(
-                                name,
-                                FieldInfo.builder()
-                                        .description(description)
-                                        .type(field.getType())
-                                        .databaseFieldName(camelToSnakeDatabaseTableName(table.getSimpleName()))
-                                        .databaseRelationType(getDatabaseRelationType(field))
-                                        .build()
-                        );
-                    }
-                }
-            }
-        }
-        return fields;
-    }
 
     @Trace
     @Deprecated
@@ -122,7 +66,7 @@ public class TableService {
                     if (dict.containsKey(myAnnotation.group())) {
                         dict.get(myAnnotation.group()).add(
                                 TablesInfo.builder()
-                                        .tableName(camelToSnakeDatabaseTableName(table.getSimpleName()))
+                                        .tableName(DatabaseUtils.getSnakeNameForDatabase(table.getSimpleName()))
                                         .entityClassName(table.getSimpleName())
                                         .description(myAnnotation.description())
                                         .build()
@@ -131,7 +75,7 @@ public class TableService {
                         dict.put(myAnnotation.group(), new ArrayList<>());
                         dict.get(myAnnotation.group()).add(
                                 TablesInfo.builder()
-                                        .tableName(camelToSnakeDatabaseTableName(table.getSimpleName()))
+                                        .tableName(DatabaseUtils.getSnakeNameForDatabase(table.getSimpleName()))
                                         .entityClassName(table.getSimpleName())
                                         .description(myAnnotation.description())
                                         .build()
@@ -167,7 +111,7 @@ public class TableService {
         log.info("getRepository1 = {}", entity);
         log.info("getRepository2 = {}", databaseClient.getTables());
         for (Class<?> table : databaseClient.getTables()) {
-            if (entity.equals(camelToSnakeDatabaseTableName(table.getSimpleName()))) {
+            if (entity.equals(DatabaseUtils.getSnakeNameForDatabase(table.getSimpleName()))) {
                 Repositories repositories = new Repositories(appContext);
                 repo = (JpaRepository) repositories.
                         getRepositoryFor(table).get();
@@ -175,53 +119,5 @@ public class TableService {
             }
         }
         return repo;
-    }
-
-    private String camelToSnakeDatabaseTableName(String camel) {
-        String tableName = "";
-
-        for(int i = 0; i < camel.length(); i++) {
-            if(i == 0) {
-                tableName = tableName + Character.toUpperCase(camel.charAt(0));
-            } else {
-                if (Character.isUpperCase(camel.charAt(i))) {
-                    tableName = tableName + "_";
-                    tableName = tableName + camel.charAt(i);
-                } else {
-                    tableName = tableName + Character.toUpperCase(camel.charAt(i));
-                }
-            }
-        }
-        return tableName;
-    }
-
-    private DatabaseRelationType getDatabaseRelationType(Field field) {
-        if(field.isAnnotationPresent(OneToOne.class)) {
-            return DatabaseRelationType.ONE_TO_ONE;
-        }
-        if(field.isAnnotationPresent(OneToMany.class)) {
-            return DatabaseRelationType.ONE_TO_MANY;
-        }
-        if(field.isAnnotationPresent(ManyToOne.class)) {
-            return DatabaseRelationType.MANY_TO_ONE;
-        }
-        if(field.isAnnotationPresent(ManyToMany.class)) {
-            return DatabaseRelationType.MANY_TO_MANY;
-        }
-        return DatabaseRelationType.NON_RELATIONSHIP;
-    }
-
-    private String getFieldName(Field field) {
-        if(field.isAnnotationPresent(Column.class)) {
-            return camelToSnakeDatabaseTableName(field.getAnnotation(Column.class).name());
-        }
-        return camelToSnakeDatabaseTableName(field.getName());
-    }
-
-    private String getJoinColumnName(Field field) {
-        if(field.isAnnotationPresent(JoinColumn.class)) {
-            return camelToSnakeDatabaseTableName(field.getAnnotation(JoinColumn.class).name());
-        }
-        return camelToSnakeDatabaseTableName(field.getName());
     }
 }
