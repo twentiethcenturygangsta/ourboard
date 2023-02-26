@@ -3,11 +3,15 @@ Our Board is a management page library implemented using the Spring Framework.
 With Our Board, you can perform CRUD operations (Create, Read, Update, Delete) on the information stored in the database.   
 In addition, Our Board automatically recognizes information about database tables and generates management pages for those tables.
 
+<br/>
+
 ## Features
 - Automatic recognition of database table information
 - CRUD (Create, Read, Update, Delete) operations for database information
 - Support for search functionality
 - Support for pagination functionality
+
+<br/>
 
 ## Installation
 For Maven projects, add the following dependency in your **pom.xml** file
@@ -25,14 +29,16 @@ dependencies {
 }
 ```
 
+<br/>
+
 ## Usage
 1. Write the ID and password to be used as the Our Board admin account in the properties file.
 2. Write a 15-character key value for encrypting the Our Board admin account in the properties file.
-3. Use the **@OurBoardEntity** annotation on the class with the **@Entity** annotation.
-4. Write group and description in **@OurBoardEntity**.   
+3. Use the ``@OurBoardEntity`` annotation on the class with the ``@Entity`` annotation.
+4. Write group and description in ``@OurBoardEntity``   
    (Group is the group to which the table belongs. Description is a description of the table.)
-5. Use the **@OurBoardColumn** annotation on the class field with the **@OurBoardEntity** annotation.
-6. Write description in **@OurBoardColumn**.   
+5. Use the ``@OurBoardColumn`` annotation on the class field with the ``@OurBoardEntity`` annotation.
+6. Write description in ``@OurBoardColumn``  
    (Description is a description of the column.)
    ```java
    @Entity
@@ -55,8 +61,12 @@ dependencies {
 8. Log in with the ID and password you wrote in the properties file.
 9. Perfect! Now you can conveniently manage your database with Our Board!
 
+<br/>
+
 ## License
 Our Board is released under the MIT License. See the **[LICENSE][licenseLink]** file for details.
+
+<br/>
 
 ## Contributing
 If you find any issues or have suggestions for improving Our Board, feel free to open a GitHub issue or submit a pull request.   
