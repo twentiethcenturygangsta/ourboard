@@ -2,10 +2,7 @@ package com.twentiethcenturygangsta.ourboard.entity;
 
 import com.twentiethcenturygangsta.ourboard.annoatation.OurBoardColumn;
 import com.twentiethcenturygangsta.ourboard.annoatation.OurBoardEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class OurBoardMember {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "our_board_member_id")
     @OurBoardColumn(description = "AUTO_INCREMENT")
     private Long id;
