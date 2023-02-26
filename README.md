@@ -44,17 +44,19 @@ dependencies {
    @Entity
    @OurBoardEntity(group = "AUTHENTICATION AND AUTHORIZATION", description = "Admin Account")
    public class User {
+    
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @OurBoardColumn(description = "Login Id")
+        private Long id;
    
-   @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
-   @OurBoardColumn(description = "LOGIN Id")
-   private Long id;
+        @OurBoardColumn(description = "Login Password")
+        private String pw;
    
-   @OurBoardColumn(description = "LOGIN Password")
-   private String pw;
+        @OurBoardColumn(description = "User Name")
+        private String name;
    
-   @OurBoardColumn(description = "User Name")
-   private String name;
+        // ...
    }
    ``` 
 7. Access **http://localhost:8080/our-board/admin** in your browser.
