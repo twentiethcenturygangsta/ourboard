@@ -1,25 +1,30 @@
-package com.twentiethcenturygangsta.ourboard.exception;
+package com.twentiethcenturygangsta.ourboard.handler.exception;
 
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
 
-@ControllerAdvice
+@Slf4j
+@RestControllerAdvice
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class OurBoardExceptionControllerAdvice {
 
-    @ExceptionHandler(UserException.class)
-    public ResponseEntity<Error> UserExceptionHandle(UserException e) {
+    @ExceptionHandler(OurBoardException.class)
+    public ResponseEntity<Error> UserExceptionHandle(OurBoardException e) {
         String timestamp = String.valueOf(LocalDateTime.now());
         Error errorResult = Error.builder()
                 .timestamp(timestamp)
                 .code(e.getExceptionCode().getCode())
                 .message(e.getExceptionCode().getMessage())
                 .build();
+        log.info("OurBoardException = {}", e.getExceptionCode().getStatusCode());
         return new ResponseEntity<>(errorResult, e.getExceptionCode().getStatusCode());
+
     }
 }
