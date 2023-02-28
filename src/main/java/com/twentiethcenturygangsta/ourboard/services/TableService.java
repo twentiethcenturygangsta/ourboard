@@ -61,6 +61,11 @@ public class TableService {
         return instance;
     }
 
+    public void deleteObjects(String tableName, HashMap<String, List<Long>> data) {
+        JpaRepository jpaRepository = getRepository(tableName);
+        jpaRepository.deleteAllByIdInBatch(data.get("ids"));
+    }
+
     @Trace
     @Deprecated
     public Table getTableData(String tableName) throws SQLException {

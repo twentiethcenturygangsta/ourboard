@@ -162,3 +162,8 @@ input::placeholder {
 .tableDisplayNoneOption {
     display : none;
 }
+
+.allCheckbox{
+    accent-color: #FFFFFF;
+    /*border-color: #3288FF;*/
+}

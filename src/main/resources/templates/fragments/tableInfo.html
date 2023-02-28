@@ -6,7 +6,8 @@
         <thead>
         <th:block th:each="field, i : ${fields.entrySet()}">
         <th class="mainColorBg dataThFirst" th:if="${i.count eq 1}">
-            <input type="checkbox" id="allCheck">
+            <input type="checkbox" id="allCheckBox" class="allCheckbox" onclick="allChecked()">
+<!--            <label for="allCheckBox" class="allCheckBox"></label>-->
         </th>
 
         <th class="dataTh mainColorBg white" th:classappend="${i.count eq i.size ? 'dataThLast' : ''}" th:text="${field.key}" th:title="${field.value}"></th>
@@ -18,7 +19,7 @@
             <th:block th:each="field, j : ${fields.entrySet()}">
                 <td class="whiteBg" th:classappend="${j.count eq 1 ?
                 (i.count eq i.size ? 'dateTdFirst' : 'dataTdBorder') : 'tableDisplayNoneOption'}" >
-                    <input type="checkbox">
+                    <input type="checkbox" name="checkBox" class = "checkBox" id="checkBox" th:value="${@tableService.getFieldValue(object, field.value.entityFieldName)}">
                 </td>
 
                 <td class="dataTd whiteBg" th:classappend="${j.count eq 1 ?
@@ -33,4 +34,50 @@
         </tr>
         </tbody>
     </table>
+    <script th:inline="javascript">
+        function allChecked(target){
+
+            const checkbox = document.getElementById('allCheckBox');
+
+            const is_checked = checkbox.checked;
+
+            if(is_checked){
+                chkAllChecked()
+            }
+
+            else{
+                chkAllUnChecked()
+            }
+        }
+
+        function chkAllChecked(){
+            document.querySelectorAll(".checkBox").forEach(function(v, i) {
+                v.checked = true;
+            });
+        }
+
+        function chkAllUnChecked(){
+            document.querySelectorAll(".checkBox").forEach(function(v, i) {
+                v.checked = false;
+            });
+        }
+
+        function deleteAPI() {
+            const query = 'input[name="checkBox"]:checked'
+            const selectedElements = document.querySelectorAll(query)
+            const selectedElementsCnt = selectedElements.length;
+            const arr = new Array(selectedElementsCnt);
+            document.querySelectorAll('input[name="checkBox"]:checked').forEach(function(v, i) {
+
+                arr[i] = v.value;
+            });
+
+            const data = JSON.stringify({"ids" : arr});
+            APICall.post("/our-board/api/" + [[${tableName}]] + "/delete", data).then(() => {
+                location.href="/our-board/admin/" + [[${groupName}]] + "/" + [[${tableName}]];
+            }).catch((error) => {
+                // error raise
+            })
+        }
+    </script>
 </th:block>
