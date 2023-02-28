@@ -19,7 +19,7 @@
             <th:block th:each="field, j : ${fields.entrySet()}">
                 <td class="whiteBg" th:classappend="${j.count eq 1 ?
                 (i.count eq i.size ? 'dateTdFirst' : 'dataTdBorder') : 'tableDisplayNoneOption'}" >
-                    <input type="checkbox" name="checkBox" class = "checkBox" id="checkBox">
+                    <input type="checkbox" name="checkBox" class = "checkBox" id="checkBox" th:value="${@tableService.getFieldValue(object, field.value.entityFieldName)}">
                 </td>
 
                 <td class="dataTd whiteBg" th:classappend="${j.count eq 1 ?
@@ -60,6 +60,24 @@
             document.querySelectorAll(".checkBox").forEach(function(v, i) {
                 v.checked = false;
             });
+        }
+
+        function deleteAPI() {
+            const query = 'input[name="checkBox"]:checked'
+            const selectedElements = document.querySelectorAll(query)
+            const selectedElementsCnt = selectedElements.length;
+            const arr = new Array(selectedElementsCnt);
+            document.querySelectorAll('input[name="checkBox"]:checked').forEach(function(v, i) {
+
+                arr[i] = v.value;
+            });
+
+            const data = JSON.stringify({"ids" : arr});
+            APICall.post("/our-board/api/" + [[${tableName}]] + "/delete", data).then(() => {
+                location.href="/our-board/admin/" + [[${groupName}]] + "/" + [[${tableName}]];
+            }).catch((error) => {
+                // error raise
+            })
         }
     </script>
 </th:block>
