@@ -17,17 +17,18 @@ public class OurBoardMember {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "our_board_member_id")
-    @OurBoardColumn(description = "AUTO_INCREMENT")
+    @OurBoardColumn(description = "AUTO_INCREMENT (PRIMARY KEY)")
     private Long id;
 
     @OurBoardColumn(description = "LOGIN ID")
     private String memberId;
+    @OurBoardColumn(description = "LOGIN PASSWORD")
     private String password;
     @OurBoardColumn(description = "CREATE PERMISSION")
     private Boolean hasCreateAuthority;
     @OurBoardColumn(description = "READ PERMISSION")
     private Boolean hasReadAuthority;
-    @OurBoardColumn
+    @OurBoardColumn(description = "UPDATE PERMISSION")
     private Boolean hasUpdateAuthority;
     @OurBoardColumn(description = "DELETE PERMISSION")
     private Boolean hasDeleteAuthority;

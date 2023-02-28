@@ -31,8 +31,8 @@
         </div>
     </th:block>
 
-    <!-- Admin Create Route -->
-    <th:block th:fragment="AdminCreateRouteFragment">
+    <!-- Admin Event Route -->
+    <th:block th:fragment="AdminEventRouteFragment">
         <div class="welcomeDiv">
             <a class="pointer" th:href="@{/our-board/admin}">
                 <span class="routeSpan innerText pointer" th:text="'HOME > '"/>
@@ -43,7 +43,8 @@
             <a class="pointer" th:href="@{/our-board/admin/{groupName}/{tableName}(groupName=${groupName}, tableName=${tableName})}">
                 <span class="routeSpan innerText pointer" th:text="${tableName} + ' > '"/>
             </a>
-            <span class="routeSpan navActive" th:text="${tableName} + ' ADD'"/>
+            <span class="routeSpan navActive" th:if="${event eq 'add'}" th:text="'ADD'"/>
+            <span class="routeSpan navActive" id="route-span" th:if="${event != 'add'}" th:text="'SELECT'"/>
         </div>
     </th:block>
 </html>

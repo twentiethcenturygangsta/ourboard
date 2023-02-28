@@ -14,6 +14,7 @@
     margin : auto;
     font-size: 10px;
     text-align: center;
+    margin-top: 5%;
 }
 
 .loginLogo {
@@ -41,10 +42,9 @@
 }
 
 .dataInput {
-    width : 50%;
-    height : 30px;
+    width : 35%;
+    height: 50px;
     font-size: 18px;
-    border-radius: 5px;
 }
 
 .loginGuide {
@@ -262,12 +262,13 @@
 
 .dataTrForm {
     width : 100%;
+    height: 100px;
 }
 
 .eventDiv {
     width: 100%;
     text-align: right;
-    margin: 5% 0% 0% 0%;
+    margin: 5% 0% 10% 0%;
 }
 
 .pagingDiv {
@@ -318,4 +319,16 @@
 .pagingActive {
     font-weight: 500;
     color: #3288FF;
+}
+
+.descriptionSpan {
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 18px;
+    margin-left: 1%;
+}
+
+.buttonDiv {
+    display: inline-block;
+    float: right;
 }
