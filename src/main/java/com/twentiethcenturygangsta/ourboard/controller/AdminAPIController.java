@@ -56,8 +56,6 @@ public class AdminAPIController {
     @PostMapping("/{tableName}/delete")
     public ResponseEntity<Object> deleteInstanceAPI(@PathVariable("tableName") String tableName,
                                                     @RequestBody HashMap<String, List<Long>> requestBody) {
-        log.info("requestBody = {}", requestBody);
-        log.info("tableName = {}", tableName);
         tableService.deleteObjects(tableName, requestBody);
         return ResponseHandler.generateResponse(HttpStatus.OK, "Successful delete");
     }
