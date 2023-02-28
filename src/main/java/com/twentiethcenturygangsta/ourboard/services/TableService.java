@@ -107,9 +107,7 @@ public class TableService {
 
     public Object getFieldValue( Object root, String fieldName ) {
         try {
-            String convertedFieldName = DatabaseUtils.getCamelNameForClass(fieldName);
-            log.info("fieldName = {}", convertedFieldName);
-            Field field = root.getClass().getDeclaredField( convertedFieldName );
+            Field field = root.getClass().getDeclaredField( fieldName );
             Method getter = root.getClass().getDeclaredMethod(
                     (field.getType().equals( boolean.class ) ? "is" : "get")
                             + field.getName().substring(0, 1).toUpperCase( Locale.ROOT)

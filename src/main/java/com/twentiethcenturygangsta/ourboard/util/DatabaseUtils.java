@@ -22,31 +22,21 @@ public final class DatabaseUtils {
         return snakeName;
     }
 
-    public static String getCamelNameForClass(String snakeName) {
-        snakeName = snakeName.substring(0, 1).toUpperCase()
-                + snakeName.substring(1);
+    public static String getCamelNameForClass(String snakeName, char delimiter) {
+        boolean shouldConvertNextCharToLower = true;
+        StringBuilder builder = new StringBuilder();
 
-        // Convert to StringBuilder
-        StringBuilder builder
-                = new StringBuilder(snakeName);
-
-        // Traverse the string character by
-        // character and remove underscore
-        // and capitalize next letter
-        for (int i = 0; i < builder.length(); i++) {
-
-            // Check char is underscore
-            if (builder.charAt(i) == '_') {
-
-                builder.deleteCharAt(i);
-                builder.replace(
-                        i, i + 1,
-                        String.valueOf(
-                                Character.toUpperCase(
-                                        builder.charAt(i))));
+        for (int i = 0; i < snakeName.length(); i++) {
+            char currentChar = snakeName.charAt(i);
+            if (currentChar == delimiter) {
+                shouldConvertNextCharToLower = false;
+            } else if (shouldConvertNextCharToLower) {
+                builder.append(Character.toLowerCase(currentChar));
+            } else {
+                builder.append(Character.toUpperCase(currentChar));
+                shouldConvertNextCharToLower = true;
             }
         }
-
         return builder.toString();
     }
 }
