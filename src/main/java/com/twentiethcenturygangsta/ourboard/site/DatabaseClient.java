@@ -75,10 +75,10 @@ public class DatabaseClient {
                 if (relationType.equals(DatabaseRelationType.ONE_TO_MANY)) {
                     fieldName = getOneToManyFieldName(field);
                 }
-
                 fields.put(
                         fieldName,
                         FieldInfo.builder()
+                                .entityFieldName(field.getName())
                                 .description(description)
                                 .type(field.getType())
                                 .databaseRelationType(relationType)
