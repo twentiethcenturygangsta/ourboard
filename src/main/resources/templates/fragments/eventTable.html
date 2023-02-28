@@ -9,31 +9,35 @@
                     <td class="mainColorBg dataTdBorder white dataTdTextForm"
                         th:classappend="${i.count eq 1 ? 'dataThFirst' :(i.count eq i.size ? 'dataTdFirst' : '')}">
                         <div th:text="${field.key}"></div>
-                        <div th:text="${field.value.description}" th:style="${'font-size: 8px'}"></div>
                     </td>
                     <td class="dataTd whiteBg dataTdBorder dataTdInputForm"
                         th:classappend="${i.count eq 1 ? 'dataThLast' :(i.count eq i.size ? 'dataTdLast' : '')}">
+                        <!--
                         <div th:text="${field.value.databaseRelationType}" th:style="${'font-size: 8px'}"></div>
                         <div th:text="${field.value.hasIdAnnotation}" th:style="${'font-size: 8px'}"></div>
-                        <div th:text="${field.value.type.name}" th:style="${'font-size: 8px'}"></div>
+                        <div th:text="${field.value.type.name}" th:style="${'font-size: 8px'}"></div> -->
                         <input class="dataInput" th:name="${field.key}" th:id = "input + ${i.count}" type="text" placeholder="">
+                        <span class="descriptionSpan innerText" th:if="${field.value.description != ''}" th:text="'* ' + ${field.value.description}"/>
                     </td>
                 </tr>
             </th:block>
+        </th:block>
 
-            <th:block th:if="${event != 'add'}">
+        <th:block th:if="${event != 'add'}">
+            <th:block th:each="field, i : ${fields.entrySet()}">
                 <tr class="dataTrForm">
                     <td class="mainColorBg dataTdBorder white dataTdTextForm"
                         th:classappend="${i.count eq 1 ? 'dataThFirst' :(i.count eq i.size ? 'dataTdFirst' : '')}">
                         <div th:text="${field.key}"></div>
-                        <div th:text="${field.value.description}" th:style="${'font-size: 8px'}"></div>
                     </td>
                     <td class="dataTd whiteBg dataTdBorder dataTdInputForm"
                         th:classappend="${i.count eq 1 ? 'dataThLast' :(i.count eq i.size ? 'dataTdLast' : '')}">
+                        <!--
                         <div th:text="${field.value.databaseRelationType}" th:style="${'font-size: 8px'}"></div>
                         <div th:text="${field.value.hasIdAnnotation}" th:style="${'font-size: 8px'}"></div>
-                        <div th:text="${field.value.type.name}" th:style="${'font-size: 8px'}"></div>
+                        <div th:text="${field.value.type.name}" th:style="${'font-size: 8px'}"></div> -->
                         <input class="dataInput" th:name="${field.key}" th:id = "input + ${i.count}" type="text" placeholder="">
+                        <span class="descriptionSpan innerText" th:if="${field.value.description != ''}" th:text="'* ' + ${field.value.description}"/>
                     </td>
                 </tr>
             </th:block>

@@ -79,14 +79,14 @@ public class AdminViewController {
                                              @PathVariable("tableName") String tableName,
                                              @PathVariable("event") String event,
                                              Model model) throws SQLException {
-        Table table = tableService.getTableData(tableName);
         LinkedHashMap<String, FieldInfo> fields = tableService.getFields(tableName);
 
         model.addAttribute("groupName", groupName);
         model.addAttribute("tableName", tableName);
-        model.addAttribute("data", table);
-        model.addAttribute("fields", fields);
         model.addAttribute("event", event);
+
+        model.addAttribute("fields", fields);
+
         return "eventView";
     }
 }
