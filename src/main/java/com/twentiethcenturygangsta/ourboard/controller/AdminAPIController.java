@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.HashMap;
+import java.util.List;
 
 
 @Slf4j
@@ -49,5 +51,14 @@ public class AdminAPIController {
         log.info("tableName = {}", tableName);
         tableService.createObject(requestBody, tableName);
         return ResponseHandler.generateResponse(HttpStatus.OK, "Successful create");
+    }
+
+    @PostMapping("/{tableName}/delete")
+    public ResponseEntity<Object> deleteInstanceAPI(@PathVariable("tableName") String tableName,
+                                                    @RequestBody HashMap<String, List<Long>> requestBody) {
+        log.info("requestBody = {}", requestBody);
+        log.info("tableName = {}", tableName);
+        tableService.deleteObjects(tableName, requestBody);
+        return ResponseHandler.generateResponse(HttpStatus.OK, "Successful delete");
     }
 }
