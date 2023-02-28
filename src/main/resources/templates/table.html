@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <th:block th:replace="~{fragments/header :: AdminHeadFragment}"/>
 <body>
-    <th:block th:replace="~{fragments/navbar :: AdminNavbarFragment}"/>
     <div class="mainDiv">
+        <th:block th:replace="~{fragments/navbar :: AdminNavbarFragment}"/>
         <div class = "contents">
             <th:block th:replace="~{fragments/welcome :: AdminRouteFragment}"/>
             <div class="menuDiv">
@@ -68,6 +68,7 @@
             </th:block>
         </div>
     </div>
+
     <th:block th:replace="~{fragments/footer :: AdminFooterFragment}"/>
 </body>
 </html>

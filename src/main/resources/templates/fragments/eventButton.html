@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <!-- Admin Event Button -->
+    <th:block th:fragment="AdminEventButtonFragment">
+        <div class="eventDiv">
+            <th:block th:if="${event eq 'add'}">
+                <button class="actionButton addButton whiteBg" id="add-button" type="button">ADD</button>
+            </th:block>
+            <th:block th:if="${event != 'add'}">
+                <button class="actionButton updateButton whiteBg" id="update-button" type="button">UPDATE</button>
+                <button class="actionButton deleteButton whiteBg" id="delete-button" type="button">DELETE</button>
+            </th:block>
+            <button class="actionButton backButton whiteBg" id="back-button" type="button">BACK</button>
+        </div>
+    </th:block>
+</html>

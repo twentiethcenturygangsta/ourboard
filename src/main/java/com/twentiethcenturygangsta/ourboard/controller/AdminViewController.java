@@ -50,7 +50,6 @@ public class AdminViewController {
     @GetMapping("/{groupName}")
     public String responseGroupView(@PathVariable("groupName") String groupName, Model model) throws SQLException {
         HashMap<String, ArrayList<TablesInfo>> table = tableService.getTableSimpleNames();
-        model.addAttribute("userName", "JUNHYEOK");
         model.addAttribute("groupName", groupName);
         model.addAttribute("data", table);
         return "main";
@@ -75,9 +74,10 @@ public class AdminViewController {
         return "login";
     }
 
-    @GetMapping("/{groupName}/{tableName}/add")
-    public String responseInstanceCreateView(@PathVariable("groupName") String groupName,
+    @GetMapping("/{groupName}/{tableName}/{event}")
+    public String responseInstanceEventView(@PathVariable("groupName") String groupName,
                                              @PathVariable("tableName") String tableName,
+                                             @PathVariable("event") String event,
                                              Model model) throws SQLException {
         Table table = tableService.getTableData(tableName);
         LinkedHashMap<String, FieldInfo> fields = tableService.getFields(tableName);
@@ -86,6 +86,7 @@ public class AdminViewController {
         model.addAttribute("tableName", tableName);
         model.addAttribute("data", table);
         model.addAttribute("fields", fields);
-        return "createView";
+        model.addAttribute("event", event);
+        return "eventView";
     }
 }
