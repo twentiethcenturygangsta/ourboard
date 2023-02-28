@@ -211,6 +211,7 @@
     border: none;
     border-spacing: 0;
     text-align: center;
+    box-shadow: -20px 20px 60px rgba(0, 0, 0, 0.15);
 }
 
 .dataThFirst {
