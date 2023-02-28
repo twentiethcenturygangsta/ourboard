@@ -21,18 +21,41 @@
                         <div th:text="${field.value.databaseRelationType}" th:style="${'font-size: 8px'}"></div>
                         <div th:text="${field.value.hasIdAnnotation}" th:style="${'font-size: 8px'}"></div>
                         <div th:text="${field.value.type.name}" th:style="${'font-size: 8px'}"></div>
-                        <input class="dataInput" type="text" placeholder="">
+                        <input class="dataInput" th:name="${field.key}" th:id = "input + ${i.count}" type="text" placeholder="">
                     </td>
                 </tr>
             </th:block>
             </tbody>
         </table>
         <div class="eventDiv">
-            <button class="actionButton backButton whiteBg" type="button">BACK</button>
-            <button class="actionButton addButton whiteBg" type="button">ADD</button>
+            <button class="actionButton backButton whiteBg" id="back-button" type="button">BACK</button>
+            <button class="actionButton addButton whiteBg"  id="add-button" type="button">ADD</button>
         </div>
     </div>
 </div>
 <th:block th:replace="~{fragments/footer :: AdminFooterFragment}"/>
+<script th:inline="javascript">
+    let fields = [[${fields}]]
+    let fieldSize = [[${fields.size()}]];
+
+    $('#add-button').on("click", () => {
+        let dto = {};
+        for (let i = 1; i<=fieldSize; i++) {
+            let idName = "#input" + i;
+            let inputClass = $(idName);
+
+            if(!fields[inputClass.attr("name")].hasIdAnnotation) {
+                    dto[snakeToCamel(inputClass.attr("name"))] = inputClass.val();
+                }
+        }
+        const data = JSON.stringify(dto);
+        APICall.post("/our-board/api/" + [[${tableName}]], data).then(() => {
+            location.href="/our-board/admin/" + [[${groupName}]] + "/" + [[${tableName}]];
+        }).catch((error) => {
+            // error raise
+        })
+    });
+
+</script>
 </body>
 </html>

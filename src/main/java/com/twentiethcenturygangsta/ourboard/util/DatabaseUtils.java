@@ -21,4 +21,22 @@ public final class DatabaseUtils {
         }
         return snakeName;
     }
+
+    public static String getCamelNameForClass(String snakeName, char delimiter) {
+        boolean shouldConvertNextCharToLower = true;
+        StringBuilder builder = new StringBuilder();
+
+        for (int i = 0; i < snakeName.length(); i++) {
+            char currentChar = snakeName.charAt(i);
+            if (currentChar == delimiter) {
+                shouldConvertNextCharToLower = false;
+            } else if (shouldConvertNextCharToLower) {
+                builder.append(Character.toLowerCase(currentChar));
+            } else {
+                builder.append(Character.toUpperCase(currentChar));
+                shouldConvertNextCharToLower = true;
+            }
+        }
+        return builder.toString();
+    }
 }

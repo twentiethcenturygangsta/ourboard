@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class OurBoardMember {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "our_board_member_id")
     @OurBoardColumn(description = "AUTO_INCREMENT")
     private Long id;
