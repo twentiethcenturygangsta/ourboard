@@ -46,7 +46,7 @@
                 </div>
             <ul class="pagingUl whiteBg"
                 th:with="start=${T(java.lang.Math).floor(data.number/10)*10 + 1},
-                    last=(${start + 9 < data.totalPages ? start + 9 : data.totalPages})">
+                    last=(${start + 9 < data.totalPages ? start + 9 : (data.totalPages != 0 ? data.totalPages : start)})">
 
                     <li class="pagingLi" th:each="page: ${#numbers.sequence(start, last)}"
                         th:classappend="${page == data.number + 1} ? 'active'">
