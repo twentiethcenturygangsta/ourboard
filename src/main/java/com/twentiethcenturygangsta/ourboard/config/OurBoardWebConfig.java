@@ -13,6 +13,7 @@ public class OurBoardWebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new OurBoardAuthInterceptor())
                 .order(1)
-                .addPathPatterns("/our-board/admin");
+                .excludePathPatterns("/our-board/admin/login")
+                .addPathPatterns("/our-board/admin/**");
     }
 }
