@@ -20,6 +20,7 @@
 <script th:inline="javascript">
     let fields = [[${fields}]]
     let fieldSize = [[${fields.size()}]];
+    let pk = [[${event}]];
     let eventCheck = 0;
 
     $('#add-button').on("click", () => {
@@ -29,8 +30,9 @@
             let inputClass = $(idName);
 
             if(!fields[inputClass.attr("name")].hasIdAnnotation) {
-                    dto[snakeToCamel(inputClass.attr("name"))] = inputClass.val();
-                }
+                dto[snakeToCamel(inputClass.attr("name"))] = inputClass.val();
+                //dto[inputClass.attr("name")] = inputClass.val();
+            }
         }
         const data = JSON.stringify(dto);
         APICall.post("/our-board/api/" + [[${tableName}]], data).then(() => {
@@ -43,9 +45,22 @@
     $('#update-button').on("click", () => {
         if(eventCheck == 0) {
             $("#route-span").text("UPDATE");
+            $('.notInput, .notAllowed').not('.idClass').removeAttr('readonly').removeClass('notInput notAllowed');
             eventCheck = 1;
         } else {
-            alert("수정하기 시작");
+            let dto = {};
+            for (let i = 1; i<=fieldSize; i++) {
+                let idName = "#input" + i;
+                let inputClass = $(idName);
+
+                dto[inputClass.attr("name")] = inputClass.val();
+            }
+            const data = JSON.stringify(dto);
+            APICall.put("/our-board/api/" + [[${tableName}]] + "/" + pk, data).then(() => {
+                location.href="/our-board/admin/" + [[${groupName}]] + "/" + [[${tableName}]] + "/" + pk;
+            }).catch((error) => {
+                // error raise
+            })
         }
     });
 

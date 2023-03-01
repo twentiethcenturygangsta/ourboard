@@ -15,10 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -58,5 +55,15 @@ public class AdminAPIController {
                                                     @RequestBody HashMap<String, List<Long>> requestBody) {
         tableService.deleteObjects(tableName, requestBody);
         return ResponseHandler.generateResponse(HttpStatus.OK, "Successful delete");
+    }
+
+    @PutMapping("/{tableName}/{id}")
+    public ResponseEntity<Object> updateInstanceAPI(@PathVariable("tableName") String tableName, @PathVariable("id") Long id,
+                                                    @RequestBody HashMap<String, Object> requestBody) throws Exception {
+        log.info("requestBody = {}", requestBody);
+        log.info("tableName = {}", tableName);
+        log.info("id = {}", id);
+        tableService.updateObject(requestBody, tableName, id);
+        return ResponseHandler.generateResponse(HttpStatus.OK, "Successful update");
     }
 }

@@ -76,6 +76,10 @@ input::placeholder {
     cursor: pointer;
 }
 
+.notAllowed {
+    cursor: not-allowed;
+}
+
 .link {
     color: #0042EF;
     font-weight: 600;

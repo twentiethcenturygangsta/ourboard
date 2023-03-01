@@ -332,3 +332,8 @@
     display: inline-block;
     float: right;
 }
+
+.notInput {
+    border: none;
+    outline: none;
+}
