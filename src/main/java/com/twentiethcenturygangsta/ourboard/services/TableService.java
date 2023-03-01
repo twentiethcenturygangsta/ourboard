@@ -1,19 +1,16 @@
 package com.twentiethcenturygangsta.ourboard.services;
 
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.twentiethcenturygangsta.ourboard.config.EncryptionConfig;
 import com.twentiethcenturygangsta.ourboard.dto.FieldInfo;
 import com.twentiethcenturygangsta.ourboard.dto.Table;
 import com.twentiethcenturygangsta.ourboard.dto.TablesInfo;
-import com.twentiethcenturygangsta.ourboard.entity.OurBoardMember;
 import com.twentiethcenturygangsta.ourboard.repository.ListRepository;
 import com.twentiethcenturygangsta.ourboard.site.DatabaseClient;
 import com.twentiethcenturygangsta.ourboard.site.OurBoardClient;
 import com.twentiethcenturygangsta.ourboard.annoatation.OurBoardEntity;
 import com.twentiethcenturygangsta.ourboard.trace.Trace;
-import com.twentiethcenturygangsta.ourboard.util.DatabaseUtils;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
@@ -46,6 +43,10 @@ public class TableService {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
         pageable= PageRequest.of(page,2, Sort.by("id").descending());
         return getRepository(entity).findAll(pageable);
+    }
+
+    public Optional<Object> getObject(String entity, Long id) {
+        return getRepository(entity).findById(id);
     }
 
     public Object createObject(HashMap<String, Object> data, String tableName) throws Exception {

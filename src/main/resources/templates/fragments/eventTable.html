@@ -37,6 +37,11 @@
                         <div th:text="${field.value.hasIdAnnotation}" th:style="${'font-size: 8px'}"></div>
                         <div th:text="${field.value.type.name}" th:style="${'font-size: 8px'}"></div> -->
                         <input class="dataInput" th:name="${field.key}" th:id = "input + ${i.count}" type="text" placeholder="">
+
+                        <th:block th:if="${data.isPresent()}">
+                            <div th:text="${@tableService.getFieldValue(data.get(), field.value.entityFieldName)}"></div>
+                        </th:block>
+
                         <span class="descriptionSpan innerText" th:if="${field.value.description != ''}" th:text="'* ' + ${field.value.description}"/>
                     </td>
                 </tr>
