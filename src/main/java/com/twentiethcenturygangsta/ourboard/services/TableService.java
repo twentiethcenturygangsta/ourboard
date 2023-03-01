@@ -14,6 +14,9 @@ import com.twentiethcenturygangsta.ourboard.trace.Trace;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -62,6 +65,33 @@ public class TableService {
         return instance;
     }
 
+    public Object updateObject(HashMap<String, Object> data, String tableName, Long id) throws Exception {
+        Class<?> entity = databaseClient.getEntities().get(tableName);
+        ObjectMapper mapper = new ObjectMapper();
+        if (tableName.equals("OUR_BOARD_MEMBER")) {
+            data = getOurBoardMemberData(data);
+        }
+        Object object = mapper.convertValue(data, entity);
+        log.info("object = {}", object);
+        JpaRepository jpaRepository = getRepository(tableName);
+        Object instance = jpaRepository.save(object);
+        return instance;
+    }
+
+    private void testObject(Object obj) {
+        Class<?> clazz = obj.getClass();
+        Field[] fields = clazz.getDeclaredFields();
+        for (Field field : fields) {
+            field.setAccessible(true);
+            try {
+                Object value = field.get(obj);
+                log.info("테스트 값 :  " + field.getName() + " : " + value);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     @Trace
     @Deprecated
     public Table getTableData(String tableName) throws SQLException {
@@ -107,6 +137,7 @@ public class TableService {
     }
 
     public Object getFieldValue( Object root, String fieldName ) {
+
         try {
             Field field = root.getClass().getDeclaredField( fieldName );
             Method getter = root.getClass().getDeclaredMethod(
