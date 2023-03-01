@@ -33,7 +33,7 @@ public class AdminViewController {
 
     /**
      * TODO
-     * Need to get userName from userCredentials
+     *
      *
      */
     @GetMapping
@@ -80,6 +80,12 @@ public class AdminViewController {
                                              @PathVariable("event") String event,
                                              Model model) throws SQLException {
         LinkedHashMap<String, FieldInfo> fields = tableService.getFields(tableName);
+
+        if(!"add".equals(event)) {
+            Long id = Long.valueOf(event);
+            Optional<?> data = tableService.getObject(tableName, id);
+            model.addAttribute("data", data);
+        }
 
         model.addAttribute("groupName", groupName);
         model.addAttribute("tableName", tableName);
