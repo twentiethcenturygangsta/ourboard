@@ -69,6 +69,7 @@ public class TableService {
         JpaRepository jpaRepository = getRepository(tableName);
         jpaRepository.deleteAllByIdInBatch(data.get("ids"));
     }
+
     public Object updateObject(HashMap<String, Object> data, String tableName, Long id) throws Exception {
         Class<?> entity = databaseClient.getEntities().get(tableName);
         ObjectMapper mapper = new ObjectMapper();

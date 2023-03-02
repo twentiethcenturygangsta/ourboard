@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<!-- TableInfo Group -->
-    <th:block th:fragment="AdminTableFragment">
-        <table class="dataTable">
-            <thead>
-            <th:block th:each="field, i : ${fields.entrySet()}">
-            <th class="mainColorBg dataThFirst" th:if="${i.count eq 1}">
-                <input type="checkbox" id="allCheckBox" class="allCheckbox" onclick="allChecked()">
-    <!--            <label for="allCheckBox" class="allCheckBox"></label>-->
-            </th>
+
+    <!-- TableInfo Group -->
+        <th:block th:fragment="AdminTableFragment">
+            <table class="dataTable">
+                <thead>
+                <th:block th:each="field, i : ${fields.entrySet()}">
+                <th class="mainColorBg dataThFirst" th:if="${i.count eq 1}">
+                    <input type="checkbox" id="allCheckBox" class="allCheckbox" onclick="allChecked()">
+        <!--            <label for="allCheckBox" class="allCheckBox"></label>-->
+                </th>
 
                 <th class="dataTh mainColorBg white" th:classappend="${i.count eq i.size ? 'dataThLast' : ''}" th:text="${field.key}" th:title="${field.value}"></th>
                 </th:block>
@@ -20,6 +21,7 @@
                     <td class="whiteBg" th:classappend="${j.count eq 1 ?
                     (i.count eq i.size ? 'dateTdFirst' : 'dataTdBorder') : 'tableDisplayNoneOption'}" >
                         <input type="checkbox" name="checkBox" class = "checkBox" id="checkBox" th:value="${@tableService.getFieldValue(object, field.value.entityFieldName)}">
+
                     </td>
 
                     <td class="dataTd whiteBg" th:classappend="${j.count eq 1 ?
@@ -83,4 +85,4 @@
         }
     </script>
 </th:block>
-
+</html>
