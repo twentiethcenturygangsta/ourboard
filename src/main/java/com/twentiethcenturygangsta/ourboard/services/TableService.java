@@ -78,20 +78,6 @@ public class TableService {
         return instance;
     }
 
-    private void testObject(Object obj) {
-        Class<?> clazz = obj.getClass();
-        Field[] fields = clazz.getDeclaredFields();
-        for (Field field : fields) {
-            field.setAccessible(true);
-            try {
-                Object value = field.get(obj);
-                log.info("테스트 값 :  " + field.getName() + " : " + value);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     @Trace
     @Deprecated
     public Table getTableData(String tableName) throws SQLException {
