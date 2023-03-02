@@ -78,7 +78,7 @@
 
             const data = JSON.stringify({"ids" : arr});
             APICall.post("/our-board/api/" + [[${tableName}]] + "/delete", data).then(() => {
-                location.href="/our-board/admin/" + [[${groupName}]] + "/" + [[${tableName}]];
+                location.href="/our-board/admin/" + [[${groupName}]] + "/" + [[${tableName}]] + "/search?keyword=ALL&type=ALL";
             }).catch((error) => {
                 // error raise
             })

@@ -73,6 +73,10 @@ public class TableService {
         if (tableName.equals("OUR_BOARD_MEMBER")) {
             data = getOurBoardMemberData(data);
         }
+
+        for(Map.Entry<String, Object> dataSet: data.entrySet()) {
+            log.info("dataSet = {}", dataSet);
+        }
         Object object = mapper.convertValue(data, entity);
         log.info("object = {}", object);
         JpaRepository jpaRepository = getRepository(tableName);

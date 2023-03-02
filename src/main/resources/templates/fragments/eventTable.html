@@ -21,8 +21,28 @@
                         </th:block>
                         <th:block th:if="${!field.value.hasIdAnnotation}">
                             <th:block th:if="${field.value.databaseRelationType.name() == 'NON_RELATIONSHIP'}">
-                                <input class="dataInput" th:name="${field.key}" th:id = "input + ${i.count}" type="text" placeholder="">
-                            </th:block>
+                                <th:block th:text="${field.value.type}"></th:block>
+                                <th:block th:if="${field.value.type.getSimpleName() == 'String' || field.value.type.getSimpleName() == 'Long'}">
+                                    <input class="dataInput" th:name="${field.key}" th:id = "input + ${i.count}" type="text" placeholder="">
+                                </th:block>
+                                <th:block th:if="${field.value.type.getSimpleName() == 'Boolean'}">
+                                    <select class="booleanSelect dataInput notInput notAllowed" th:name="${field.key}" th:id="input + ${i.count}">
+                                        <option th:value="true" th:text="${true}"></option>
+                                        <option th:value="false" th:text="${false}"></option>
+                                    </select>
+                                </th:block>
+<!--                                <th:block th:if="${field.value.type.getSimpleName() != 'Boolean' ||-->
+<!--                                field.value.type.getSimpleName() != 'String' ||-->
+<!--                                field.value.type.getSimpleName() != 'Long' ||-->
+<!--                                field.value.type.getSimpleName() != 'Date'-->
+<!--                                }">-->
+<!--                                    <select class="booleanSelect dataInput notInput notAllowed" th:name="${field.key}" th:id="input + ${i.count}">-->
+<!--                                        <th:block th:each="enumOption: ${field.value.type}">-->
+<!--                                            <option th:value="enumOption" th:text="${enumOption}"></option>-->
+<!--                                        </th:block>-->
+<!--                                    </select>-->
+<!--                                </th:block>-->
+                                </th:block>
                             <th:block th:if="${field.value.databaseRelationType.name() != 'NON_RELATIONSHIP'}">
                                 <input class="dataInput relationClass" th:name="${field.key}" th:parameterName="${field.value.entityFieldName}" th:id="input + ${i.count}" type="text" placeholder="Choose a foreign key" th:onclick="popUpOn(this.getAttribute('parameterName'))" readonly>
                             </th:block>
@@ -50,8 +70,16 @@
 
                         <th:block th:if="${data.isPresent()}" th:with="object = ${@tableService.getFieldValue(data.get(), field.value.entityFieldName)}">
                             <th:block th:if="${field.value.databaseRelationType.name() == 'NON_RELATIONSHIP'}">
-                                <input class="dataInput notInput notAllowed" th:classappend="${field.value.hasIdAnnotation ? 'idClass' : ''}" th:name="${field.value.entityFieldName}" th:id="input + ${i.count}" type="text" th:value="${object}" disabled readonly>
-                            </th:block>
+                                <th:block th:if="${field.value.type.getSimpleName() == 'String' || field.value.type.getSimpleName() == 'Long'}">
+                                    <input class="dataInput notInput notAllowed" th:classappend="${field.value.hasIdAnnotation ? 'idClass' : ''}" th:name="${field.value.entityFieldName}" th:id="input + ${i.count}" type="text" th:value="${object}" disabled readonly>
+                                </th:block>
+                                <th:block th:if="${field.value.type.getSimpleName() == 'Boolean'}">
+                                    <select class="booleanSelect dataInput notInput notAllowed" th:name="${field.value.entityFieldName}" th:id="input + ${i.count}" disabled readonly>
+                                        <option th:value="true" th:text="${true}" th:selected="${object == true}"></option>
+                                        <option th:value="false" th:text="${false}" th:selected="${object == false}"></option>
+                                    </select>
+                                </th:block>
+                                </th:block>
 
                             <th:block th:if="${field.value.databaseRelationType.name() != 'NON_RELATIONSHIP'}">
                                 <input class="dataInput notInput notAllowed relationClass" th:name="${field.value.entityFieldName}" th:parameterName="${field.value.entityFieldName}" th:id="input + ${i.count}" type="text" th:value="${object}" th:onclick="popUpOn(this.getAttribute('parameterName'))" disabled readonly>

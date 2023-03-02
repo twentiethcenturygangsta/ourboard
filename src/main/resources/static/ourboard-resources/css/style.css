@@ -172,6 +172,13 @@
     border-radius: 10px;
 }
 
+.booleanSelect {
+    width: 37%;
+    height: 100%;
+    border: 1px solid #E5E8EB;
+    border-radius: 10px;
+}
+
 .searchInput {
     width: 340px;
     height: 94%;
