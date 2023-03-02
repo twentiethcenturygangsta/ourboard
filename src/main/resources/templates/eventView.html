@@ -14,7 +14,7 @@
             <th:block th:replace="~{fragments/eventButton :: AdminEventButtonFragment}"/>
         </div>
     </div>
-
+    <th:block th:replace="~{fragments/popUp :: AdminPopUpFragment}"/>
     <th:block th:replace="~{fragments/footer :: AdminFooterFragment}"/>
 
 <script th:inline="javascript">
@@ -31,7 +31,6 @@
 
             if(!fields[inputClass.attr("name")].hasIdAnnotation) {
                 dto[snakeToCamel(inputClass.attr("name"))] = inputClass.val();
-                //dto[inputClass.attr("name")] = inputClass.val();
             }
         }
         const data = JSON.stringify(dto);
@@ -45,7 +44,8 @@
     $('#update-button').on("click", () => {
         if(eventCheck == 0) {
             $("#route-span").text("UPDATE");
-            $('.notInput, .notAllowed').not('.idClass').removeAttr('readonly').removeClass('notInput notAllowed');
+            $('.notInput, .notAllowed').not('.idClass, .relationClass').removeAttr('readonly')
+            $('.notInput, .notAllowed').not('.idClass').removeClass('notInput notAllowed').removeAttr('disabled');
             eventCheck = 1;
         } else {
             let dto = {};
@@ -63,6 +63,19 @@
             })
         }
     });
+
+    function popUpOn(obj) {
+        let tableName = obj;
+        APICall.get("/our-board/admin/" + tableName).then(() => {
+            $(".overLayDiv, .popUpDiv").show();
+        }).catch((error) => {
+            // error raise
+        })
+    }
+
+    function popUpOff() {
+        $(".overLayDiv, .popUpDiv").hide();
+    }
 
 </script>
 </body>

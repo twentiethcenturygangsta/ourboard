@@ -17,10 +17,15 @@
                         <div th:text="${field.value.hasIdAnnotation}" th:style="${'font-size: 8px'}"></div>
                         <div th:text="${field.value.type.name}" th:style="${'font-size: 8px'}"></div> -->
                         <th:block th:if="${field.value.hasIdAnnotation}">
-                            <input class="dataInput notInput notAllowed" th:name="${field.key}" th:id = "input + ${i.count}" type="text" th:value="'Primary Key'" disabled>
+                            <input class="dataInput notInput notAllowed" th:name="${field.key}" th:id="input + ${i.count}" type="text" th:value="'Primary Key'" disabled readonly>
                         </th:block>
                         <th:block th:if="${!field.value.hasIdAnnotation}">
-                            <input class="dataInput" th:name="${field.key}" th:id = "input + ${i.count}" type="text" placeholder="">
+                            <th:block th:if="${field.value.databaseRelationType.name() == 'NON_RELATIONSHIP'}">
+                                <input class="dataInput" th:name="${field.key}" th:id = "input + ${i.count}" type="text" placeholder="">
+                            </th:block>
+                            <th:block th:if="${field.value.databaseRelationType.name() != 'NON_RELATIONSHIP'}">
+                                <input class="dataInput relationClass" th:name="${field.key}" th:parameterName="${field.value.entityFieldName}" th:id="input + ${i.count}" type="text" placeholder="Choose a foreign key" th:onclick="popUpOn(this.getAttribute('parameterName'))" readonly>
+                            </th:block>
                         </th:block>
 
                         <span class="descriptionSpan innerText" th:if="${field.value.description != ''}" th:text="'* ' + ${field.value.description}"/>
@@ -45,11 +50,11 @@
 
                         <th:block th:if="${data.isPresent()}" th:with="object = ${@tableService.getFieldValue(data.get(), field.value.entityFieldName)}">
                             <th:block th:if="${field.value.databaseRelationType.name() == 'NON_RELATIONSHIP'}">
-                                <input class="dataInput notInput notAllowed" th:classappend="${field.value.hasIdAnnotation ? 'idClass' : ''}" th:name="${field.value.entityFieldName}" th:id = "input + ${i.count}" type="text" th:value="${object}" readonly>
+                                <input class="dataInput notInput notAllowed" th:classappend="${field.value.hasIdAnnotation ? 'idClass' : ''}" th:name="${field.value.entityFieldName}" th:id="input + ${i.count}" type="text" th:value="${object}" disabled readonly>
                             </th:block>
 
                             <th:block th:if="${field.value.databaseRelationType.name() != 'NON_RELATIONSHIP'}">
-                                <input class="dataInput notInput notAllowed" th:name="${field.value.entityFieldName}" th:id = "input + ${i.count}" type="text" th:value="${object}" readonly>
+                                <input class="dataInput notInput notAllowed relationClass" th:name="${field.value.entityFieldName}" th:parameterName="${field.value.entityFieldName}" th:id="input + ${i.count}" type="text" th:value="${object}" th:onclick="popUpOn(this.getAttribute('parameterName'))" disabled readonly>
                                 <!--<div th:text="${@tableService.getField(object)} + '  $%$%'"></div>-->
                             </th:block>
                         </th:block>
