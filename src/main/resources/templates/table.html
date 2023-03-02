@@ -9,7 +9,7 @@
             <div class="menuDiv">
                 <select class="columnSelect">
                     <th:block th:each="field, j : ${fields.entrySet()}">
-                        <option th:text="${field.key}"></option>
+                        <option th:value="${field.value.entityFieldName}" th:text="${field.key}"></option>
                     </th:block>
                 </select>
                 <input class="searchInput" type="text"><button class="searchButton whiteBg" type="button">
@@ -31,10 +31,10 @@
 
         <div class="pagingDiv">
             <th:block th:with="
-                firstAddr=@{/our-board/admin/{groupName}/{tableName}(page=1, groupName=${groupName}, tableName=${tableName})},
-                prevAddr=@{/our-board/admin/{groupName}/{tableName}(page=${data.number}, groupName=${groupName}, tableName=${tableName})},
-                nextAddr=@{/our-board/admin/{groupName}/{tableName}(page=${data.number + 2}, groupName=${groupName}, tableName=${tableName})},
-                lastAddr=@{/our-board/admin/{groupName}/{tableName}(page=${data.totalPages}, groupName=${groupName}, tableName=${tableName})}">
+                firstAddr=@{/our-board/admin/{groupName}/{tableName}/search(page=1, groupName=${groupName}, tableName=${tableName}, keyword=${keyword}, type=${type})},
+                prevAddr=@{/our-board/admin/{groupName}/{tableName}/search(page=${data.number}, groupName=${groupName}, tableName=${tableName}, keyword=${keyword}, type=${type})},
+                nextAddr=@{/our-board/admin/{groupName}/{tableName}/search(page=${data.number + 2}, groupName=${groupName}, tableName=${tableName}, keyword=${keyword}, type=${type})},
+                lastAddr=@{/our-board/admin/{groupName}/{tableName}/search(page=${data.totalPages}, groupName=${groupName}, tableName=${tableName}, keyword=${keyword}, type=${type})}">
                 <div class="pagingArrow whiteBg pointer">
                     <a th:href="${firstAddr}" aria-label="First" class="link">
                         <span aria-hidden="true">&lt;&lt;</span>
@@ -52,7 +52,7 @@
 
                     <li class="pagingLi" th:each="page: ${#numbers.sequence(start, last)}"
                         th:classappend="${page == data.number + 1} ? 'active'">
-                        <a th:text="${page}" th:href="@{/our-board/admin/{groupName}/{tableName}(page=${page}, groupName=${groupName}, tableName=${tableName})}"></a>
+                        <a th:text="${page}" th:href="@{/our-board/admin/{groupName}/{tableName}/search(page=${page}, groupName=${groupName}, tableName=${tableName}, keyword=${keyword}, type=${type})}"></a>
                     </li>
 
             </ul>
@@ -72,5 +72,17 @@
     </div>
 
     <th:block th:replace="~{fragments/footer :: AdminFooterFragment}"/>
+<script th:inline="javascript">
+    $('.searchButton').on("click", () => {
+        let idName = ".searchInput";
+        let inputValue = $(idName).val();
+
+        let searchType = $(".columnSelect option:selected").val();
+
+
+        location.href="/our-board/admin/" + [[${groupName}]] + "/" + [[${tableName}]] + "/search?keyword="+inputValue + "&type=" + searchType;
+
+    });
+</script>
 </body>
 </html>

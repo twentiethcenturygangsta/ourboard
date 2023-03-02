@@ -80,15 +80,29 @@ public class TableService {
         return instance;
     }
 
-    public Page<Object> searchObjects(String keyword, String searchType, String tableName, Pageable pageable) {
-        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
-        pageable= PageRequest.of(page,2, Sort.by("id").descending());
+    public Page<Object> searchObjects(String searchKeyword, String searchType, String tableName, Pageable pageable) {
 
         Class<?> entity = databaseClient.getEntities().get(tableName);
 
-        JpaRepository jpaRepository = getRepository(tableName);
-        jpaRepository.findAll();
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+        pageable= PageRequest.of(page,2, Sort.by("id").descending());
 
+
+        JpaRepository jpaRepository = getRepository(tableName);
+        if (searchType.equals("ALL")) {
+            log.info("service = {}", searchKeyword);
+            return jpaRepository.findAll(pageable);
+        }
+        ObjectMapper mapper = new ObjectMapper();
+
+        HashMap<String, Object> data = new HashMap();
+        data.put(searchType, searchKeyword);
+        Object object = mapper.convertValue(data, entity);
+        ExampleMatcher matcher = ExampleMatcher
+                .matchingAll()
+                .withMatcher(searchType, ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
+
+        return jpaRepository.findAll(Example.of(object, matcher), pageable);
     }
 
     @Trace
