@@ -32,8 +32,28 @@ dependencies {
 <br/>
 
 ## Usage
-1. Write the ID and password to be used as the Our Board admin account in the properties file.
-2. Write a 15-character key value for encrypting the Our Board admin account in the properties file.
+1. Add ``@EnableOurBoard`` to the class with ``@SpringBootApplication`` annotation.
+2. Register a ``@Bean`` method.
+   ```java
+   @Bean
+   public OurBoardClient jamBoardClient() throws Exception {
+       UserDatabaseCredentials userDatabaseCredentials = new UserDatabaseCredentials(
+               url, //spring.datasource.url
+               userName, //spring.datasource.username
+               password //spring.datasource.password
+       );
+       UserCredentials userCredentials = new UserCredentials(
+               "dbdbdbdbdbdbdbq", //encryptKey
+               "admin", //memberId
+               "adminpassword" //password
+       );
+
+       return OurBoardClient.builder()
+               .userDatabaseCredentials(userDatabaseCredentials)
+               .userCredentials(userCredentials)
+               .build();
+   }
+   ``` 
 3. Use the ``@OurBoardEntity`` annotation on the class with the ``@Entity`` annotation.
 4. Write group and description in ``@OurBoardEntity``   
    (Group is the group to which the table belongs. Description is a description of the table.)
