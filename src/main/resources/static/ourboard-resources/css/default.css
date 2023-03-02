@@ -4,7 +4,6 @@ html, body {
     padding: 0;
     background-color: #F9FAFB;
     color: #202632;
-
     height: 100%;
 }
 
@@ -76,6 +75,10 @@ input::placeholder {
     cursor: pointer;
 }
 
+.notAllowed {
+    cursor: not-allowed;
+}
+
 .link {
     color: #0042EF;
     font-weight: 600;
@@ -92,7 +95,6 @@ input::placeholder {
 }
 
 .deleteButton {
-    float: right;
     color: #DF4949;
     border: 2px solid #DF4949;
 }
@@ -109,7 +111,6 @@ input::placeholder {
 }
 
 .addButton {
-    float: right;
     color: #2FCE49;
     border: 2px solid #2FCE49;
 }
@@ -126,7 +127,6 @@ input::placeholder {
 }
 
 .updateButton {
-    float: right;
     color: #EE9919;
     border: 2px solid #EE9919;
 }
@@ -143,7 +143,6 @@ input::placeholder {
 }
 
 .backButton {
-    float: right;
     color: #707070;
     border: 2px solid #707070;
 }

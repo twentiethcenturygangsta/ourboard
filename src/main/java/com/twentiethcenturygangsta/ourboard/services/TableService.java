@@ -1,22 +1,22 @@
 package com.twentiethcenturygangsta.ourboard.services;
 
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.twentiethcenturygangsta.ourboard.config.EncryptionConfig;
 import com.twentiethcenturygangsta.ourboard.dto.FieldInfo;
 import com.twentiethcenturygangsta.ourboard.dto.Table;
 import com.twentiethcenturygangsta.ourboard.dto.TablesInfo;
-import com.twentiethcenturygangsta.ourboard.entity.OurBoardMember;
 import com.twentiethcenturygangsta.ourboard.repository.ListRepository;
 import com.twentiethcenturygangsta.ourboard.site.DatabaseClient;
 import com.twentiethcenturygangsta.ourboard.site.OurBoardClient;
 import com.twentiethcenturygangsta.ourboard.annoatation.OurBoardEntity;
 import com.twentiethcenturygangsta.ourboard.trace.Trace;
-import com.twentiethcenturygangsta.ourboard.util.DatabaseUtils;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -48,6 +48,10 @@ public class TableService {
         return getRepository(entity).findAll(pageable);
     }
 
+    public Optional<Object> getObject(String entity, Long id) {
+        return getRepository(entity).findById(id);
+    }
+
     public Object createObject(HashMap<String, Object> data, String tableName) throws Exception {
         Class<?> entity = databaseClient.getEntities().get(tableName);
         ObjectMapper mapper = new ObjectMapper();
@@ -64,6 +68,19 @@ public class TableService {
     public void deleteObjects(String tableName, HashMap<String, List<Long>> data) {
         JpaRepository jpaRepository = getRepository(tableName);
         jpaRepository.deleteAllByIdInBatch(data.get("ids"));
+    }
+
+    public Object updateObject(HashMap<String, Object> data, String tableName, Long id) throws Exception {
+        Class<?> entity = databaseClient.getEntities().get(tableName);
+        ObjectMapper mapper = new ObjectMapper();
+        if (tableName.equals("OUR_BOARD_MEMBER")) {
+            data = getOurBoardMemberData(data);
+        }
+        Object object = mapper.convertValue(data, entity);
+        log.info("object = {}", object);
+        JpaRepository jpaRepository = getRepository(tableName);
+        Object instance = jpaRepository.save(object);
+        return instance;
     }
 
     @Trace
@@ -111,6 +128,7 @@ public class TableService {
     }
 
     public Object getFieldValue( Object root, String fieldName ) {
+
         try {
             Field field = root.getClass().getDeclaredField( fieldName );
             Method getter = root.getClass().getDeclaredMethod(

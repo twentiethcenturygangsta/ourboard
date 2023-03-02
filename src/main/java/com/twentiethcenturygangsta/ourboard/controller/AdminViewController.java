@@ -33,7 +33,7 @@ public class AdminViewController {
 
     /**
      * TODO
-     * Need to get userName from userCredentials
+     *
      *
      */
     @GetMapping
@@ -50,7 +50,6 @@ public class AdminViewController {
     @GetMapping("/{groupName}")
     public String responseGroupView(@PathVariable("groupName") String groupName, Model model) throws SQLException {
         HashMap<String, ArrayList<TablesInfo>> table = tableService.getTableSimpleNames();
-        model.addAttribute("userName", "JUNHYEOK");
         model.addAttribute("groupName", groupName);
         model.addAttribute("data", table);
         return "main";
@@ -75,17 +74,25 @@ public class AdminViewController {
         return "login";
     }
 
-    @GetMapping("/{groupName}/{tableName}/add")
-    public String responseInstanceCreateView(@PathVariable("groupName") String groupName,
+    @GetMapping("/{groupName}/{tableName}/{event}")
+    public String responseInstanceEventView(@PathVariable("groupName") String groupName,
                                              @PathVariable("tableName") String tableName,
+                                             @PathVariable("event") String event,
                                              Model model) throws SQLException {
-        Table table = tableService.getTableData(tableName);
         LinkedHashMap<String, FieldInfo> fields = tableService.getFields(tableName);
+
+        if(!"add".equals(event)) {
+            Long id = Long.valueOf(event);
+            Optional<?> data = tableService.getObject(tableName, id);
+            model.addAttribute("data", data);
+        }
 
         model.addAttribute("groupName", groupName);
         model.addAttribute("tableName", tableName);
-        model.addAttribute("data", table);
+        model.addAttribute("event", event);
+
         model.addAttribute("fields", fields);
-        return "createView";
+
+        return "eventView";
     }
 }

@@ -14,6 +14,7 @@
     margin : auto;
     font-size: 10px;
     text-align: center;
+    margin-top: 5%;
 }
 
 .loginLogo {
@@ -41,10 +42,9 @@
 }
 
 .dataInput {
-    width : 50%;
-    height : 30px;
+    width : 35%;
+    height: 50px;
     font-size: 18px;
-    border-radius: 5px;
 }
 
 .loginGuide {
@@ -211,6 +211,7 @@
     border: none;
     border-spacing: 0;
     text-align: center;
+    box-shadow: -20px 20px 60px rgba(0, 0, 0, 0.15);
 }
 
 .dataThFirst {
@@ -261,12 +262,13 @@
 
 .dataTrForm {
     width : 100%;
+    height: 100px;
 }
 
 .eventDiv {
     width: 100%;
     text-align: right;
-    margin: 5% 0% 0% 0%;
+    margin: 5% 0% 10% 0%;
 }
 
 .pagingDiv {
@@ -317,4 +319,47 @@
 .pagingActive {
     font-weight: 500;
     color: #3288FF;
+}
+
+.descriptionSpan {
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 18px;
+    margin-left: 1%;
+}
+
+.buttonDiv {
+    display: inline-block;
+    float: right;
+}
+
+.notInput {
+    border: none;
+    outline: none;
+}
+
+.overLayDiv {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.75;
+    background: #000000;
+    z-index: 999;
+    display: none;
+}
+
+.popUpDiv {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 960px;
+    height: 590px;
+    z-index: 1000;
+    border-radius: 10px;
+    padding: 35px;
+    display: none;
+    background: #F9FAFB;
 }
