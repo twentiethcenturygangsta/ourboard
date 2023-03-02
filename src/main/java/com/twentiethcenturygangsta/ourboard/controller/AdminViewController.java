@@ -77,22 +77,6 @@ public class AdminViewController {
         return "table";
     }
 
-//    @GetMapping("/{groupName}/{tableName}/{keyword}/{searchType}}")
-//    public String responseTableSearchListView(@PathVariable("groupName") String groupName,
-//                                        @PathVariable("tableName") String tableName,
-//                                        @PathVariable("keyword") String searchKeyWord,
-//                                        @PathVariable("searchType") String searchType,
-//                                        @PageableDefault Pageable pageable,
-//                                        Model model) throws SQLException {
-//        Page<?> data = tableService.searchObjects(searchKeyWord, searchType, tableName, pageable);
-//        LinkedHashMap<String, FieldInfo> fields = tableService.getFields(tableName);
-//        model.addAttribute("groupName", groupName);
-//        model.addAttribute("tableName", tableName);
-//        model.addAttribute("data", data);
-//        model.addAttribute("fields", fields);
-//        return "table";
-//    }
-
     @GetMapping("/login")
     public String responseLoginView(@ModelAttribute("loginForm") LoginForm loginForm) {
         return "login";
