@@ -320,7 +320,6 @@
     font-weight: 300;
     font-size: 20px;
     color: #727C89;
-    padding: 0px 10px 0px 10px;
 }
 
 .pagingActive {
@@ -369,4 +368,13 @@
     padding: 35px;
     display: none;
     background: #F9FAFB;
+}
+
+.tableBtnDiv {
+    display: inline-block;
+    float: right;
+}
+
+.pagingNumber {
+
 }

@@ -6,70 +6,11 @@
         <th:block th:replace="~{fragments/navbar :: AdminNavbarFragment}"/>
         <div class = "contents">
             <th:block th:replace="~{fragments/welcome :: AdminRouteFragment}"/>
-            <div class="menuDiv">
-                <select class="columnSelect">
-                    <th:block th:each="field, j : ${fields.entrySet()}">
-                        <option th:value="${field.value.entityFieldName}" th:text="${field.key}"></option>
-                    </th:block>
-                </select>
-                <input class="searchInput" type="text"><button class="searchButton whiteBg" type="button">
-                    <svg width="23" height="25" viewBox="0 0 23 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="9.5" cy="9.5" r="8" stroke="#E5E8EB" stroke-width="3"/>
-                        <line x1="14.1289" y1="16.0122" x2="21.1289" y2="24.0122" stroke="#E5E8EB" stroke-width="3"/>
-                    </svg>
-                </button>
-                <div class = "actionGroup">
-                    <button class="actionButton addButton whiteBg" type="button" th:onclick="|location.href = '@{/our-board/admin/{groupName}/{tableName}/add (groupName=${groupName}, tableName=${tableName})}'|">ADD</button>
-                    <button class="actionButton deleteButton whiteBg" type="button" onclick="deleteAPI()">DELETE</button>
-                </div>
-            </div>
-
-            <div class="countDiv innerText">
-                <span th:text="|${data.getTotalElements()} ${tableName}|"></span>
-            </div>
+            <th:block th:replace="~{fragments/tableMenu :: AdminTableMenuFragment}"/>
             <th:block th:replace="~{fragments/tableInfo :: AdminTableFragment}"/>
         </div>
 
-        <div class="pagingDiv">
-            <th:block th:with="
-                firstAddr=@{/our-board/admin/{groupName}/{tableName}/search(page=1, groupName=${groupName}, tableName=${tableName}, keyword=${keyword}, type=${type})},
-                prevAddr=@{/our-board/admin/{groupName}/{tableName}/search(page=${data.number}, groupName=${groupName}, tableName=${tableName}, keyword=${keyword}, type=${type})},
-                nextAddr=@{/our-board/admin/{groupName}/{tableName}/search(page=${data.number + 2}, groupName=${groupName}, tableName=${tableName}, keyword=${keyword}, type=${type})},
-                lastAddr=@{/our-board/admin/{groupName}/{tableName}/search(page=${data.totalPages}, groupName=${groupName}, tableName=${tableName}, keyword=${keyword}, type=${type})}">
-                <div class="pagingArrow whiteBg pointer">
-                    <a th:href="${firstAddr}" aria-label="First" class="link">
-                        <span aria-hidden="true">&lt;&lt;</span>
-                    </a>
-                </div>
-                <div class="pagingArrow whiteBg pointer" th:classappend="${data.first} ? 'disabled'">
-                    <a th:href="${data.first} ? '#' :${prevAddr}" class="link"
-                       aria-label="Previous">
-                        <span aria-hidden="true">&lt;</span>
-                    </a>
-                </div>
-            <ul class="pagingUl whiteBg"
-                th:with="start=${T(java.lang.Math).floor(data.number/10)*10 + 1},
-                    last=(${start + 9 < data.totalPages ? start + 9 : (data.totalPages != 0 ? data.totalPages : start)})">
-
-                    <li class="pagingLi" th:each="page: ${#numbers.sequence(start, last)}"
-                        th:classappend="${page == data.number + 1} ? 'active'">
-                        <a th:text="${page}" th:href="@{/our-board/admin/{groupName}/{tableName}/search(page=${page}, groupName=${groupName}, tableName=${tableName}, keyword=${keyword}, type=${type})}"></a>
-                    </li>
-
-            </ul>
-                <div class="pagingArrow whiteBg pointer" th:classappend="${data.last} ? 'disabled'">
-                    <a th:href="${data.last} ? '#' :${nextAddr}" class="link"
-                       aria-label="Next">
-                        <span aria-hidden="true">&gt;</span>
-                    </a>
-                </div>
-                <div class="pagingArrow whiteBg pointer">
-                    <a th:href="${lastAddr}" aria-label="Last" class="link">
-                        <span aria-hidden="true">&gt;&gt;</span>
-                    </a>
-                </div>
-            </th:block>
-        </div>
+        <th:block th:replace="~{fragments/paging :: AdminPagingFragment}"/>
     </div>
 
     <th:block th:replace="~{fragments/footer :: AdminFooterFragment}"/>
@@ -77,12 +18,14 @@
     $('.searchButton').on("click", () => {
         let idName = ".searchInput";
         let inputValue = $(idName).val();
-
         let searchType = $(".columnSelect option:selected").val();
 
-
-        location.href="/our-board/admin/" + [[${groupName}]] + "/" + [[${tableName}]] + "/search?keyword="+inputValue + "&type=" + searchType;
-
+        if(inputValue.length > 0) {
+            location.href="/our-board/admin/" + [[${groupName}]] + "/" + [[${tableName}]] + "/search?keyword="+inputValue + "&type=" + searchType;
+        } else {
+            alert("Please enter a search term.");
+            return;
+        }
     });
 </script>
 </body>
