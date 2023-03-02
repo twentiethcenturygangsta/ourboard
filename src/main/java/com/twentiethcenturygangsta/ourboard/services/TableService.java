@@ -18,10 +18,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.context.ApplicationContext;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.support.Repositories;
 import org.springframework.stereotype.Service;
@@ -81,6 +78,31 @@ public class TableService {
         JpaRepository jpaRepository = getRepository(tableName);
         Object instance = jpaRepository.save(object);
         return instance;
+    }
+
+    public Page<Object> searchObjects(String searchKeyword, String searchType, String tableName, Pageable pageable) {
+
+        Class<?> entity = databaseClient.getEntities().get(tableName);
+
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+        pageable= PageRequest.of(page,2, Sort.by("id").descending());
+
+
+        JpaRepository jpaRepository = getRepository(tableName);
+        if (searchType.equals("ALL")) {
+            log.info("service = {}", searchKeyword);
+            return jpaRepository.findAll(pageable);
+        }
+        ObjectMapper mapper = new ObjectMapper();
+
+        HashMap<String, Object> data = new HashMap();
+        data.put(searchType, searchKeyword);
+        Object object = mapper.convertValue(data, entity);
+        ExampleMatcher matcher = ExampleMatcher
+                .matchingAll()
+                .withMatcher(searchType, ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
+
+        return jpaRepository.findAll(Example.of(object, matcher), pageable);
     }
 
     @Trace

@@ -55,17 +55,25 @@ public class AdminViewController {
         return "main";
     }
 
-    @GetMapping("/{groupName}/{tableName}")
+    @GetMapping("/{groupName}/{tableName}/search")
     public String responseTableListView(@PathVariable("groupName") String groupName,
                                         @PathVariable("tableName") String tableName,
+                                        String keyword,
+                                        String type,
                                         @PageableDefault Pageable pageable,
                                         Model model) throws SQLException {
-        Page<?> data = tableService.getObjects(tableName, pageable);
+//        Page<?> data = tableService.getObjects(tableName, pageable);
+        Page<?> data = tableService.searchObjects(keyword, type, tableName, pageable);
         LinkedHashMap<String, FieldInfo> fields = tableService.getFields(tableName);
         model.addAttribute("groupName", groupName);
         model.addAttribute("tableName", tableName);
         model.addAttribute("data", data);
         model.addAttribute("fields", fields);
+        log.info("search = {} {}", keyword, type);
+        if (keyword.equals("")) {
+            model.addAttribute("keyword", "");
+            model.addAttribute("type", "ALL");
+        }
         return "table";
     }
 
