@@ -90,6 +90,10 @@
             }
         });
 
+        $('#back-button').on("click", () => {
+            history.back();
+        });
+
         function popUpOn(obj) {
             let tableName = obj;
             APICall.get("/our-board/admin/" + tableName).then(() => {
