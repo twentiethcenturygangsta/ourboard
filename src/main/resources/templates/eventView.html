@@ -29,13 +29,15 @@
             let idName = "#input" + i;
             let inputClass = $(idName);
 
+            console.log(inputClass)
+
             if(!fields[inputClass.attr("name")].hasIdAnnotation) {
                 dto[snakeToCamel(inputClass.attr("name"))] = inputClass.val();
             }
         }
         const data = JSON.stringify(dto);
         APICall.post("/our-board/api/" + [[${tableName}]], data).then(() => {
-            location.href="/our-board/admin/" + [[${groupName}]] + "/" + [[${tableName}]];
+            location.href="/our-board/admin/" + [[${groupName}]] + "/" + [[${tableName}]] + "/search?keyword=ALL&type=ALL";
         }).catch((error) => {
             // error raise
         })

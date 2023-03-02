@@ -84,6 +84,10 @@ input::placeholder {
     font-weight: 600;
 }
 
+.actionGroup {
+    float: right;
+}
+
 .actionButton {
     width: 137px;
     height: 49px;
