@@ -21,10 +21,25 @@
             <button class="actionButton backButton whiteBg initializeButton" type="button"
                     th:onclick="|location.href = '@{/our-board/admin/{groupName}/{tableName}/search(groupName=${groupName}, tableName=${tableName}, keyword='ALL', type='ALL')}'|">INITIALIZE</button>
 
-            <div class="tableBtnDiv">
+            <div class="tableBtnDiv" th:if="${groupName != tableName}">
                 <button class="actionButton deleteButton whiteBg" type="button" onclick="deleteAPI()">DELETE</button>
                 <button class="actionButton addButton whiteBg" type="button" th:onclick="|location.href = '@{/our-board/admin/{groupName}/{tableName}/add (groupName=${groupName}, tableName=${tableName})}'|">ADD</button>
             </div>
         </div>
+
+        <script th:inline="javascript">
+            $('.searchButton').on("click", () => {
+                let idName = ".searchInput";
+                let inputValue = $(idName).val();
+                let searchType = $(".columnSelect option:selected").val();
+
+                if(inputValue.length > 0) {
+                    location.href="/our-board/admin/" + [[${groupName}]] + "/" + [[${tableName}]] + "/search?keyword="+inputValue + "&type=" + searchType;
+                } else {
+                    alert("Please enter a search term.");
+                    return;
+                }
+            });
+        </script>
     </th:block>
 </html>

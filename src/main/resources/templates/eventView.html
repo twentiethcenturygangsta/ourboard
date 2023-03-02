@@ -7,7 +7,7 @@
         <div class = "contents">
             <th:block th:replace="~{fragments/welcome :: AdminEventRouteFragment}"/>
 
-            <table class="dataTable">
+            <table class="eventTable">
                 <th:block th:replace="~{fragments/eventTable :: AdminEventTableFragment}"/>
             </table>
 
@@ -22,6 +22,7 @@
         let fieldSize = [[${fields.size()}]];
         let pk = [[${event}]];
         let eventCheck = 0;
+        let foreignInputName;
 
     $('#add-button').on("click", () => {
         let dto = {};
@@ -94,13 +95,23 @@
             history.back();
         });
 
-        function popUpOn(obj) {
-            let tableName = obj;
-            APICall.get("/our-board/admin/" + tableName).then(() => {
+        function popUpOn(element, obj) {
+            const tableName = obj.toUpperCase();
+            const popUpDiv = $('#popUpDiv');
+            foreignInputName = element.getAttribute("name");
+
+            APICall.get("/our-board/admin/" + tableName + "/" + tableName + "/search?keyword=ALL&type=ALL").then((response) => {
+                popUpDiv.html(response.data);
                 $(".overLayDiv, .popUpDiv").show();
             }).catch((error) => {
                 // error raise
             })
+        }
+
+        function chkForeignKey(obj) {
+            const foreignKeyData = $('#foreignKeyInput' + obj).val();
+            $('input[name="' + foreignInputName + '"]').val(foreignKeyData);
+            popUpOff();
         }
 
         function popUpOff() {

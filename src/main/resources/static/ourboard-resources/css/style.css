@@ -213,7 +213,16 @@
     font-size: 20px;
 }
 
+.popUpTable {
+    height: 430px;
+}
+
 .dataTable {
+    overflow-x: auto;
+    display: block;
+}
+
+.eventTable {
     width: 100%;
     border: none;
     border-spacing: 0;
@@ -270,6 +279,10 @@
 .dataTrForm {
     width : 100%;
     height: 100px;
+}
+
+.dataTr:hover {
+    background: #CBDEF8;
 }
 
 .eventDiv {
@@ -375,6 +388,6 @@
     float: right;
 }
 
-.pagingNumber {
-
+.popUpTitle {
+    margin-bottom: 20px;
 }

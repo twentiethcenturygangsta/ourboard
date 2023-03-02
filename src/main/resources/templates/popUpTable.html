@@ -1,0 +1,6 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    <div class="popUpTitle logoDiv" th:text="${tableName}"/>
+    <th:block th:replace="~{fragments/tableMenu :: AdminTableMenuFragment}"/>
+    <th:block th:replace="~{fragments/tableInfo :: AdminTablePopUpFragment}"/>
+</html>

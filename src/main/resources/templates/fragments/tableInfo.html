@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <!-- TableInfo Group -->
-    <th:block th:fragment="AdminTableFragment">
+    <!-- Admin Table Info -->
+    <th:block th:fragment="AdminTableInfoFragment">
         <div class="countDiv innerText">
             <span th:text="|${data.getTotalElements()} ${tableName}|"></span>
         </div>
-        <table class="dataTable">
+        <table class="dataTable eventTable">
             <thead>
                 <th:block th:each="field, i : ${fields.entrySet()}">
                     <th class="mainColorBg dataThFirst" th:if="${i.count eq 1}">
@@ -13,26 +13,26 @@
                         <!--<label for="allCheckBox" class="allCheckBox"></label>-->
                     </th>
 
-                    <th class="dataTh mainColorBg white" th:classappend="${i.count eq i.size ? 'dataThLast' : ''}" th:text="${field.key}" th:title="${field.value}"></th>
+                    <th class="dataTh mainColorBg white" th:classappend="${i.count eq i.size ? 'dataThLast' : ''}" th:text="${field.key}" th:title="${field.value.description}"></th>
                 </th:block>
             </thead>
             <tbody>
-                <tr th:each="object ,i : ${data}">
+                <tr class="dataTr" th:each="object ,i : ${data}">
                     <th:block th:each="field, j : ${fields.entrySet()}">
-                        <td class="whiteBg" th:classappend="${j.count eq 1 ?
+                        <td th:classappend="${j.count eq 1 ?
                         (i.count eq i.size ? 'dateTdFirst' : 'dataTdBorder') : 'tableDisplayNoneOption'}" >
                             <input type="checkbox" name="checkBox" class = "checkBox" id="checkBox" th:value="${@tableService.getFieldValue(object, field.value.entityFieldName)}">
 
                         </td>
 
-                        <td class="dataTd whiteBg" th:classappend="${j.count eq 1 ?
+                        <td class="dataTd" th:classappend="${j.count eq 1 ?
                         (i.count eq i.size ? '' : 'dataTdBorder') : 'tableDisplayNoneOption'}">
                             <a th:href="@{/our-board/admin/{groupName}/{tableName}/{id}(groupName=${groupName}, tableName=${tableName},
                             id=${@tableService.getFieldValue(object, field.value.entityFieldName)})}"
                                class="link pointer" th:text="${@tableService.getFieldValue(object, field.value.entityFieldName)}"></a>
                         </td>
 
-                    <td class="dataTd whiteBg" th:classappend="${j.count ne 1 ?
+                    <td class="dataTd" th:classappend="${j.count ne 1 ?
                     (i.count eq i.size ? 'dataTdLast' : 'dataTdBorder') : 'tableDisplayNoneOption'}"
                         th:text="${@tableService.getFieldValue(object, field.value.entityFieldName)}"></td>
                     </th:block>
@@ -86,5 +86,29 @@
             })
         }
     </script>
+    </th:block>
+
+    <!-- Admin Table Pop Up -->
+    <th:block th:fragment="AdminTablePopUpFragment">
+        <div class="countDiv innerText">
+            <span th:text="|${data.size} ${tableName}|"></span>
+        </div>
+        <table class="popUpTable dataTable eventTable">
+            <thead>
+            <th:block th:each="field, i : ${fields.entrySet()}">
+                <th class="dataTh mainColorBg white" th:classappend="${i.count eq 1 ? 'dataThFirst' : (i.count eq i.size ? 'dataThLast' : '')}" th:text="${field.key}" th:title="${field.value.description}"></th>
+            </th:block>
+            </thead>
+            <tbody>
+            <tr class="dataTr" th:each="object ,i : ${data}" th:parameterName="${i.count}" th:onclick="chkForeignKey(this.getAttribute('parameterName'))">
+                <th:block th:each="field, j : ${fields.entrySet()}">
+                    <td class="dataTd dataTdBorder"
+                        th:text="${@tableService.getFieldValue(object, field.value.entityFieldName)}">
+                    </td>
+                    <input type="hidden" th:if="${field.value.hasIdAnnotation}" th:id="'foreignKeyInput' + ${i.count}" th:value="${@tableService.getFieldValue(object, field.value.entityFieldName)}">
+                </th:block>
+            </tr>
+            </tbody>
+        </table>
     </th:block>
 </html>
