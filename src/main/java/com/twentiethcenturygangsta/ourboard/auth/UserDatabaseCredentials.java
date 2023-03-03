@@ -1,8 +1,12 @@
-package com.twentiethcenturygangsta.ourboard.database;
-
-import com.twentiethcenturygangsta.ourboard.auth.OurBoardCredentials;
+package com.twentiethcenturygangsta.ourboard.auth;
 
 
+/**
+ * credentials to receive database setting values for using OurBoard library
+ *
+ * @author oereo
+ * @version 1.0.0
+ */
 public class UserDatabaseCredentials implements OurBoardCredentials {
     private final String databaseEndPoint;
     private final String databaseId;
@@ -18,6 +22,8 @@ public class UserDatabaseCredentials implements OurBoardCredentials {
      *            The user database id.
      * @param databasePassword
      *            The user database password.
+     *
+     * @exception IllegalArgumentException when there is no value among databaseEndPoint, databaseId, databasePassword
      */
     public UserDatabaseCredentials(String databaseEndPoint, String databaseId, String databasePassword) {
         if (databaseEndPoint == null) {
