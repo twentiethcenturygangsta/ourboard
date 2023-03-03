@@ -4,19 +4,12 @@ package com.twentiethcenturygangsta.ourboard.services;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.twentiethcenturygangsta.ourboard.config.EncryptionConfig;
 import com.twentiethcenturygangsta.ourboard.dto.FieldInfo;
-import com.twentiethcenturygangsta.ourboard.dto.Table;
 import com.twentiethcenturygangsta.ourboard.dto.TablesInfo;
-import com.twentiethcenturygangsta.ourboard.repository.ListRepository;
 import com.twentiethcenturygangsta.ourboard.site.DatabaseClient;
-import com.twentiethcenturygangsta.ourboard.site.OurBoardClient;
 import com.twentiethcenturygangsta.ourboard.annoatation.OurBoardEntity;
-import com.twentiethcenturygangsta.ourboard.trace.Trace;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.BeanWrapper;
-import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -35,8 +28,6 @@ import java.util.*;
 @RequiredArgsConstructor
 public class TableService {
     private final DatabaseClient databaseClient;
-    private final OurBoardClient ourBoardClient;
-    private final ListRepository listRepository;
     private final ApplicationContext appContext;
 
     public Object getObjects(String tableName) {
@@ -105,12 +96,6 @@ public class TableService {
                 .withMatcher(searchType, ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
 
         return jpaRepository.findAll(Example.of(object, matcher), pageable);
-    }
-
-    @Trace
-    @Deprecated
-    public Table getTableData(String tableName) throws SQLException {
-        return listRepository.findAll(tableName, ourBoardClient.getConnection());
     }
 
     public LinkedHashMap<String, FieldInfo> getFields(String tableName) {
