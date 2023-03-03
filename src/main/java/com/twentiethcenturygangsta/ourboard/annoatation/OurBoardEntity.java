@@ -29,5 +29,12 @@ public @interface OurBoardEntity {
      *
      */
     String group() default GroupType.Constants.DEFAULT;
+
+    /**
+     * Set the description of the entity
+     *
+     * @return  description of the entity
+     *
+     */
     String description() default "";
 }
