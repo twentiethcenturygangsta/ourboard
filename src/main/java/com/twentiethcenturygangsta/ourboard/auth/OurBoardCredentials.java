@@ -1,5 +1,11 @@
 package com.twentiethcenturygangsta.ourboard.auth;
 
+/**
+ * Interface to receive database setting values for using OurBoard library
+ *
+ * @author oereo
+ * @version 1.0.0
+ */
 public interface OurBoardCredentials {
     /**
      * Returns the Database Endpoint for this credentials object.
