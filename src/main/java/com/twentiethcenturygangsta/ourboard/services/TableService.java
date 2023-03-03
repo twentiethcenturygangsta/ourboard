@@ -39,10 +39,8 @@ public class TableService {
     private final ListRepository listRepository;
     private final ApplicationContext appContext;
 
-    public Page<Object> getObjects(String entity, Pageable pageable) {
-        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
-        pageable= PageRequest.of(page,2, Sort.by("id").descending());
-        return getRepository(entity).findAll(pageable);
+    public Object getObjects(String tableName) {
+        return getRepository(tableName).findAll();
     }
 
     public Optional<Object> getObject(String entity, Long id) {

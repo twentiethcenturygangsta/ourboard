@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <!-- Admin Paging -->
+    <th:block th:fragment="AdminPagingFragment">
+        <div class="pagingDiv">
+            <th:block th:with="
+                firstAddr=@{/our-board/admin/{groupName}/{tableName}/search(page=1, groupName=${groupName}, tableName=${tableName}, keyword=${keyword}, type=${type})},
+                prevAddr=@{/our-board/admin/{groupName}/{tableName}/search(page=${data.number}, groupName=${groupName}, tableName=${tableName}, keyword=${keyword}, type=${type})},
+                nextAddr=@{/our-board/admin/{groupName}/{tableName}/search(page=${data.number + 2}, groupName=${groupName}, tableName=${tableName}, keyword=${keyword}, type=${type})},
+                lastAddr=@{/our-board/admin/{groupName}/{tableName}/search(page=${data.totalPages}, groupName=${groupName}, tableName=${tableName}, keyword=${keyword}, type=${type})}">
+                <div class="pagingArrow whiteBg pointer">
+                    <a th:href="${firstAddr}" aria-label="First" class="mainColor">
+                        <span aria-hidden="true">&lt;&lt;</span>
+                    </a>
+                </div>
+                <div class="whiteBg pointer" th:classappend="${data.first} ? 'displayNone' : 'pagingArrow'">
+                    <a th:href="${data.first} ? '#' :${prevAddr}" class="mainColor"
+                       aria-label="Previous">
+                        <span aria-hidden="true">&lt;</span>
+                    </a>
+                </div>
+                <ul class="pagingUl whiteBg"
+                    th:with="start=${T(java.lang.Math).floor(data.number/10)*10 + 1},
+                    last=(${start + 9 < data.totalPages ? start + 9 : (data.totalPages != 0 ? data.totalPages : start)})">
+
+                    <li class="pagingLi" th:each="page: ${#numbers.sequence(start, last)}">
+                        <a class="pagingA" th:classappend="${page == data.number + 1} ? 'pagingActive'" th:text="${page}" th:href="@{/our-board/admin/{groupName}/{tableName}/search(page=${page}, groupName=${groupName}, tableName=${tableName}, keyword=${keyword}, type=${type})}"></a>
+                    </li>
+
+                </ul>
+                <div class="whiteBg pointer" th:classappend="${data.last} ? 'displayNone' : 'pagingArrow'">
+                    <a th:href="${data.last} ? '#' :${nextAddr}" class="mainColor"
+                       aria-label="Next">
+                        <span aria-hidden="true">&gt;</span>
+                    </a>
+                </div>
+                <div class="pagingArrow whiteBg pointer">
+                    <a th:href="${lastAddr}" aria-label="Last" class="mainColor">
+                        <span aria-hidden="true">&gt;&gt;</span>
+                    </a>
+                </div>
+            </th:block>
+        </div>
+    </th:block>
+</html>

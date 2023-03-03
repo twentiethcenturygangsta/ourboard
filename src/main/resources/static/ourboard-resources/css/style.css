@@ -213,7 +213,16 @@
     font-size: 20px;
 }
 
+.popUpTable {
+    height: 430px;
+}
+
 .dataTable {
+    overflow-x: auto;
+    display: block;
+}
+
+.eventTable {
     width: 100%;
     border: none;
     border-spacing: 0;
@@ -272,6 +281,10 @@
     height: 100px;
 }
 
+.dataTr:hover {
+    background: #CBDEF8;
+}
+
 .eventDiv {
     width: 100%;
     text-align: right;
@@ -320,7 +333,6 @@
     font-weight: 300;
     font-size: 20px;
     color: #727C89;
-    padding: 0px 10px 0px 10px;
 }
 
 .pagingActive {
@@ -369,4 +381,13 @@
     padding: 35px;
     display: none;
     background: #F9FAFB;
+}
+
+.tableBtnDiv {
+    display: inline-block;
+    float: right;
+}
+
+.popUpTitle {
+    margin-bottom: 20px;
 }

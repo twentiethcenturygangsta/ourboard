@@ -62,19 +62,33 @@ public class AdminViewController {
                                         String type,
                                         @PageableDefault Pageable pageable,
                                         Model model) throws SQLException {
-//        Page<?> data = tableService.getObjects(tableName, pageable);
-        Page<?> data = tableService.searchObjects(keyword, type, tableName, pageable);
+        String result = null;
+
+        if(groupName.equals(tableName)) {
+            result = "popUpTable";
+            Object data = tableService.getObjects(tableName);
+            model.addAttribute("data", data);
+        } else {
+            result = "table";
+            Page<?> data = tableService.searchObjects(keyword, type, tableName, pageable);
+            model.addAttribute("data", data);
+        }
+        //Page<?> data = tableService.getObjects(tableName, pageable);
         LinkedHashMap<String, FieldInfo> fields = tableService.getFields(tableName);
         model.addAttribute("groupName", groupName);
         model.addAttribute("tableName", tableName);
-        model.addAttribute("data", data);
         model.addAttribute("fields", fields);
-        log.info("search = {} {}", keyword, type);
-        if (keyword.equals("")) {
-            model.addAttribute("keyword", "");
+
+        if ("ALL".equals(keyword) && "ALL".equals(type)) {
+            model.addAttribute("keyword", "ALL");
             model.addAttribute("type", "ALL");
+        } else {
+            model.addAttribute("keyword", keyword);
+            model.addAttribute("type", type);
         }
-        return "table";
+        log.info("search = {} {}", keyword, type);
+
+        return result;
     }
 
     @GetMapping("/login")

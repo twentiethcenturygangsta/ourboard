@@ -47,6 +47,10 @@ input::placeholder {
     background-color: #3288FF;
 }
 
+.mainColor {
+    color: #3288FF;
+}
+
 .innerText {
     color: #727C89;
 }
@@ -162,6 +166,10 @@ input::placeholder {
     box-shadow: inset 4px 4px 4px rgba(0, 0, 0, 0.3);
 }
 
+.initializeButton {
+    margin-left: 50px;
+}
+
 .tableDisplayNoneOption {
     display : none;
 }
@@ -169,4 +177,8 @@ input::placeholder {
 .allCheckbox{
     accent-color: #FFFFFF;
     /*border-color: #3288FF;*/
+}
+
+.displayNone {
+    display: none;
 }
