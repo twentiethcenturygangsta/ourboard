@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@OurBoardEntity(group="AUTHENTICATION AND AUTHORIZATION", description = "Admin 계정")
+@OurBoardEntity(group = GroupType.Constants.AUTHENTICATION_AND_AUTHORIZATION, description = "Admin 계정")
 public class OurBoardMember {
 
     @Id
