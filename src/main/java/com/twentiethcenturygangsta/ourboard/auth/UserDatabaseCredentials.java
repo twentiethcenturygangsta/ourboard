@@ -1,6 +1,5 @@
-package com.twentiethcenturygangsta.ourboard.database;
+package com.twentiethcenturygangsta.ourboard.auth;
 
-import com.twentiethcenturygangsta.ourboard.auth.OurBoardCredentials;
 
 /**
  * credentials to receive database setting values for using OurBoard library
