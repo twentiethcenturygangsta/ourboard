@@ -13,13 +13,13 @@ import java.util.ArrayList;
 public class OurBoardClient {
     private final UserDatabaseCredentials userDatabaseCredentials;
     private final UserCredentials userCredentials;
-    private Connection connection;
+    private final Connection connection;
 
     @Builder
-    public OurBoardClient(UserDatabaseCredentials userDatabaseCredentials, UserCredentials userCredentials, String basePackagePath) throws SQLException {
+    public OurBoardClient(UserDatabaseCredentials userDatabaseCredentials, UserCredentials userCredentials) {
         this.userDatabaseCredentials = userDatabaseCredentials;
         this.userCredentials = userCredentials;
-        connectDB(userDatabaseCredentials);
+        this.connection = connectDB(userDatabaseCredentials);
     }
 
     public UserCredentials getUserCredentials() {
@@ -30,13 +30,9 @@ public class OurBoardClient {
         return connection;
     }
 
-//    public Set<Class<?>> getTables() {
-//        return tables;
-//    }
-
-    public void connectDB(UserDatabaseCredentials userDatabaseCredentials) {
+    public Connection connectDB(UserDatabaseCredentials userDatabaseCredentials) {
         try {
-            this.connection = DriverManager.getConnection(
+            return DriverManager.getConnection(
                     userDatabaseCredentials.getUserDatabaseEndpoint(),
                     userDatabaseCredentials.getUserDatabaseId(),
                     userDatabaseCredentials.getUserDatabasePassword()
@@ -49,6 +45,5 @@ public class OurBoardClient {
     @Deprecated
     public void register(ArrayList<Class> tables) throws SQLException {
         connectDB(userDatabaseCredentials);
-        log.info("connection = OK");
     }
 }
