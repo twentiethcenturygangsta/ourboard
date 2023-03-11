@@ -39,13 +39,12 @@ public class TableService {
     }
 
     public Object createObject(HashMap<String, Object> data, String tableName) throws Exception {
-        Class<?> entity = databaseClient.getEntities().get(tableName);
+        Class<?> entity = getEntity(tableName);
         ObjectMapper mapper = new ObjectMapper();
         if (tableName.equals("OUR_BOARD_MEMBER")) {
             data = getOurBoardMemberData(data);
         }
         Object object = mapper.convertValue(data, entity);
-        log.info("object = {}", object);
         JpaRepository jpaRepository = getRepository(tableName);
         Object instance = jpaRepository.save(object);
         return instance;
@@ -57,17 +56,13 @@ public class TableService {
     }
 
     public Object updateObject(HashMap<String, Object> data, String tableName, Long id) throws Exception {
-        Class<?> entity = databaseClient.getEntities().get(tableName);
+        Class<?> entity = getEntity(tableName);
         ObjectMapper mapper = new ObjectMapper();
         if (tableName.equals("OUR_BOARD_MEMBER")) {
             data = getOurBoardMemberData(data);
         }
 
-        for(Map.Entry<String, Object> dataSet: data.entrySet()) {
-            log.info("dataSet = {}", dataSet);
-        }
         Object object = mapper.convertValue(data, entity);
-        log.info("object = {}", object);
         JpaRepository jpaRepository = getRepository(tableName);
         Object instance = jpaRepository.save(object);
         return instance;
@@ -83,9 +78,9 @@ public class TableService {
 
         JpaRepository jpaRepository = getRepository(tableName);
         if (searchType.equals("ALL")) {
-            log.info("service = {}", searchKeyword);
             return jpaRepository.findAll(pageable);
         }
+
         ObjectMapper mapper = new ObjectMapper();
 
         HashMap<String, Object> data = new HashMap();
@@ -128,8 +123,6 @@ public class TableService {
                                         .build()
                         );
                     }
-                    log.info("name: {}" + myAnnotation.group());
-                    log.info("value: {}" + myAnnotation.description());
                 }
             }
         }
@@ -137,7 +130,6 @@ public class TableService {
     }
 
     public Object getFieldValue( Object root, String fieldName ) {
-
         try {
             Field field = root.getClass().getDeclaredField( fieldName );
             Method getter = root.getClass().getDeclaredMethod(
@@ -164,6 +156,10 @@ public class TableService {
             }
         }
         return repo;
+    }
+
+    private Class<?> getEntity(String tableName) {
+        return databaseClient.getEntities().get(tableName);
     }
 
     private HashMap<String, Object> getOurBoardMemberData(HashMap<String, Object> data) throws Exception {
