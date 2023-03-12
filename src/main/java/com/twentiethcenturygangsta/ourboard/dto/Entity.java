@@ -10,10 +10,10 @@ import java.util.List;
 @Slf4j
 public class Entity {
     private Class<?> entityClass;
-    private String idType;
+    private Class<?> idType;
 
     @Builder
-    public Entity(Class<?> entityClass, String idType) {
+    public Entity(Class<?> entityClass, Class<?> idType) {
         this.entityClass = entityClass;
         this.idType = idType;
     }
