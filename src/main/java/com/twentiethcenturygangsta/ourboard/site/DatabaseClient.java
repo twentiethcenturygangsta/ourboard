@@ -4,6 +4,7 @@ import com.twentiethcenturygangsta.ourboard.annoatation.OurBoardColumn;
 import com.twentiethcenturygangsta.ourboard.annoatation.OurBoardEntity;
 import com.twentiethcenturygangsta.ourboard.config.ShardConfigurationReference;
 import com.twentiethcenturygangsta.ourboard.dto.DatabaseColumn;
+import com.twentiethcenturygangsta.ourboard.dto.Entity;
 import com.twentiethcenturygangsta.ourboard.dto.FieldInfo;
 import com.twentiethcenturygangsta.ourboard.entity.DatabaseRelationType;
 import com.twentiethcenturygangsta.ourboard.util.DatabaseUtils;
@@ -29,15 +30,23 @@ public class DatabaseClient {
     private final OurBoardClient ourBoardClient;
     private final ShardConfigurationReference shardConfigurationReference;
     private LinkedHashMap<String, LinkedHashMap<String, DatabaseColumn>> databaseSchemas;
-    private HashMap<String, Class<?>> entities;
+    private HashMap<String, Entity> entities;
 
     @Bean
     public void registerEntityTables() {
-        HashMap<String, Class<?>> entities = new HashMap<>();
+        HashMap<String, Entity> entities = new HashMap<>();
         Set<Class<?>> baseClasses = new Reflections(ourBoardBasePackage).getTypesAnnotatedWith(OurBoardEntity.class);
         baseClasses.addAll(new Reflections(shardConfigurationReference.registerBasePackage()).getTypesAnnotatedWith(OurBoardEntity.class));
         for(Class<?> object : baseClasses) {
-            entities.put(DatabaseUtils.getSnakeNameForDatabase(object.getSimpleName()), object);
+            entities.put(
+                    DatabaseUtils.getSnakeNameForDatabase(object.getSimpleName()),
+                    Entity.builder()
+                            .entityClass(object)
+                            .idType(
+                                    getIdAnnotationField(object.getDeclaredFields()).getType()
+                    ).build()
+            );
+
         }
         this.entities = entities;
     }
@@ -60,10 +69,10 @@ public class DatabaseClient {
 
     public LinkedHashMap<String, FieldInfo> getFields(String tableName) {
         LinkedHashMap<String, FieldInfo> fields = new LinkedHashMap<>();
-        Class<?> entity = entities.get(tableName);
+        Entity entity = entities.get(tableName);
         LinkedHashMap<String, DatabaseColumn> columns = databaseSchemas.get(tableName);
 
-        for(Field field : entity.getDeclaredFields()) {
+        for(Field field : entity.getEntityClass().getDeclaredFields()) {
             String fieldName = getFieldName(field);
             Boolean hasIdAnnotation = hasIdAnnotation(field);
             DatabaseRelationType relationType = getDatabaseRelationType(field);
@@ -91,7 +100,7 @@ public class DatabaseClient {
         return fields;
     }
 
-    public HashMap<String, Class<?>> getEntities() {
+    public HashMap<String, Entity> getEntities() {
         return entities;
     }
 
@@ -138,10 +147,10 @@ public class DatabaseClient {
 
     private String getOneToManyFieldName(Field field) {
         String fieldName = "";
-        for(Map.Entry<String, Class<?>> searchedEntity: entities.entrySet()) {
-            for (Field searchedField : searchedEntity.getValue().getDeclaredFields()) {
+        for(Map.Entry<String, Entity> searchedEntity: entities.entrySet()) {
+            for (Field searchedField : searchedEntity.getValue().getEntityClass().getDeclaredFields()) {
                 if (searchedField.getName().equals(field.getAnnotation(OneToMany.class).mappedBy())) {
-                    fieldName = DatabaseUtils.getSnakeNameForDatabase(searchedEntity.getValue().getSimpleName()) + "_ID";
+                    fieldName = DatabaseUtils.getSnakeNameForDatabase(searchedEntity.getValue().getEntityClass().getSimpleName()) + "_ID";
                 }
             }
         }
@@ -152,6 +161,14 @@ public class DatabaseClient {
         return field.isAnnotationPresent(Id.class);
     }
 
+    private Field getIdAnnotationField(Field[] fields) {
+        for(Field field : fields) {
+            if (hasIdAnnotation(field)) {
+                return field;
+            }
+        }
+        return null;
+    }
     private String getFieldDescription(Field field) {
         if(field.isAnnotationPresent(OurBoardColumn.class)) {
             return field.getAnnotation(OurBoardColumn.class).description();

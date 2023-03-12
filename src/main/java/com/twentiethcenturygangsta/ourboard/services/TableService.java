@@ -3,6 +3,7 @@ package com.twentiethcenturygangsta.ourboard.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.twentiethcenturygangsta.ourboard.config.EncryptionConfig;
+import com.twentiethcenturygangsta.ourboard.dto.Entity;
 import com.twentiethcenturygangsta.ourboard.dto.FieldInfo;
 import com.twentiethcenturygangsta.ourboard.dto.TablesInfo;
 import com.twentiethcenturygangsta.ourboard.site.DatabaseClient;
@@ -70,7 +71,7 @@ public class TableService {
 
     public Page<Object> searchObjects(String searchKeyword, String searchType, String tableName, Pageable pageable) {
 
-        Class<?> entity = databaseClient.getEntities().get(tableName);
+        Entity entity = databaseClient.getEntities().get(tableName);
 
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
         pageable= PageRequest.of(page,2, Sort.by("id").descending());
@@ -85,7 +86,7 @@ public class TableService {
 
         HashMap<String, Object> data = new HashMap();
         data.put(searchType, searchKeyword);
-        Object object = mapper.convertValue(data, entity);
+        Object object = mapper.convertValue(data, entity.getEntityClass());
         ExampleMatcher matcher = ExampleMatcher
                 .matchingAll()
                 .withMatcher(searchType, ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
@@ -99,17 +100,17 @@ public class TableService {
 
     public HashMap<String, ArrayList<TablesInfo>> getTableSimpleNames() throws SQLException {
         HashMap<String, ArrayList<TablesInfo>> dict = new HashMap<>();
-        HashMap<String, Class<?>> entities = databaseClient.getEntities();
+        HashMap<String, Entity> entities = databaseClient.getEntities();
 
-        for (Map.Entry<String, Class<?>> entity : entities.entrySet()) {
+        for (Map.Entry<String, Entity> entity : entities.entrySet()) {
 
-            for (Annotation annotation : entity.getValue().getAnnotations()) {
+            for (Annotation annotation : entity.getValue().getEntityClass().getAnnotations()) {
                 if (annotation instanceof OurBoardEntity myAnnotation) {
                     if (dict.containsKey(myAnnotation.group())) {
                         dict.get(myAnnotation.group()).add(
                                 TablesInfo.builder()
                                         .tableName(entity.getKey())
-                                        .entityClassName(entity.getValue().getSimpleName())
+                                        .entityClassName(entity.getValue().getEntityClass().getSimpleName())
                                         .description(myAnnotation.description())
                                         .build()
                         );
@@ -118,7 +119,7 @@ public class TableService {
                         dict.get(myAnnotation.group()).add(
                                 TablesInfo.builder()
                                         .tableName(entity.getKey())
-                                        .entityClassName(entity.getValue().getSimpleName())
+                                        .entityClassName(entity.getValue().getEntityClass().getSimpleName())
                                         .description(myAnnotation.description())
                                         .build()
                         );
@@ -147,19 +148,19 @@ public class TableService {
 
     private JpaRepository getRepository(String entityName) {
         JpaRepository repo = null;
-        HashMap<String, Class<?>> entities = databaseClient.getEntities();
-        for (Map.Entry<String, Class<?>> entity : entities.entrySet()) {
+        HashMap<String, Entity> entities = databaseClient.getEntities();
+        for (Map.Entry<String, Entity> entity : entities.entrySet()) {
             if (entityName.equals(entity.getKey())) {
                 Repositories repositories = new Repositories(appContext);
                 repo = (JpaRepository) repositories.
-                        getRepositoryFor(entity.getValue()).get();
+                        getRepositoryFor(entity.getValue().getEntityClass()).get();
             }
         }
         return repo;
     }
 
     private Class<?> getEntity(String tableName) {
-        return databaseClient.getEntities().get(tableName);
+        return databaseClient.getEntities().get(tableName).getEntityClass();
     }
 
     private HashMap<String, Object> getOurBoardMemberData(HashMap<String, Object> data) throws Exception {
