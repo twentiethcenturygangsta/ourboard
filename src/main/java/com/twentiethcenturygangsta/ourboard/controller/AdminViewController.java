@@ -1,7 +1,6 @@
 package com.twentiethcenturygangsta.ourboard.controller;
 
 import com.twentiethcenturygangsta.ourboard.dto.FieldInfo;
-import com.twentiethcenturygangsta.ourboard.dto.Table;
 import com.twentiethcenturygangsta.ourboard.dto.TablesInfo;
 import com.twentiethcenturygangsta.ourboard.entity.OurBoardMember;
 import com.twentiethcenturygangsta.ourboard.form.LoginForm;
@@ -73,7 +72,6 @@ public class AdminViewController {
             Page<?> data = tableService.searchObjects(keyword, type, tableName, pageable);
             model.addAttribute("data", data);
         }
-        //Page<?> data = tableService.getObjects(tableName, pageable);
         LinkedHashMap<String, FieldInfo> fields = tableService.getFields(tableName);
         model.addAttribute("groupName", groupName);
         model.addAttribute("tableName", tableName);
@@ -86,7 +84,6 @@ public class AdminViewController {
             model.addAttribute("keyword", keyword);
             model.addAttribute("type", type);
         }
-        log.info("search = {} {}", keyword, type);
 
         return result;
     }
@@ -112,7 +109,6 @@ public class AdminViewController {
         model.addAttribute("groupName", groupName);
         model.addAttribute("tableName", tableName);
         model.addAttribute("event", event);
-
         model.addAttribute("fields", fields);
 
         return "eventView";
