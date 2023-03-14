@@ -40,12 +40,12 @@ public class TableService {
     }
 
     public Object createObject(HashMap<String, Object> data, String tableName) throws Exception {
-        Class<?> entity = getEntity(tableName);
+        Entity entity = getEntity(tableName);
         ObjectMapper mapper = new ObjectMapper();
         if (tableName.equals("OUR_BOARD_MEMBER")) {
             data = getOurBoardMemberData(data);
         }
-        Object object = mapper.convertValue(data, entity);
+        Object object = mapper.convertValue(data, entity.getEntityClass());
         JpaRepository jpaRepository = getRepository(tableName);
         Object instance = jpaRepository.save(object);
         return instance;
@@ -57,13 +57,13 @@ public class TableService {
     }
 
     public Object updateObject(HashMap<String, Object> data, String tableName, Long id) throws Exception {
-        Class<?> entity = getEntity(tableName);
+        Entity entity = getEntity(tableName);
         ObjectMapper mapper = new ObjectMapper();
         if (tableName.equals("OUR_BOARD_MEMBER")) {
             data = getOurBoardMemberData(data);
         }
 
-        Object object = mapper.convertValue(data, entity);
+        Object object = mapper.convertValue(data, entity.getEntityClass());
         JpaRepository jpaRepository = getRepository(tableName);
         Object instance = jpaRepository.save(object);
         return instance;
@@ -147,8 +147,8 @@ public class TableService {
     }
 
     private JpaRepository getRepository(String entityName) {
-        JpaRepository repo = null;
         HashMap<String, Entity> entities = databaseClient.getEntities();
+        JpaRepository repo = null;
         for (Map.Entry<String, Entity> entity : entities.entrySet()) {
             if (entityName.equals(entity.getKey())) {
                 Repositories repositories = new Repositories(appContext);
@@ -159,8 +159,8 @@ public class TableService {
         return repo;
     }
 
-    private Class<?> getEntity(String tableName) {
-        return databaseClient.getEntities().get(tableName).getEntityClass();
+    private Entity getEntity(String tableName) {
+        return databaseClient.getEntities().get(tableName);
     }
 
     private HashMap<String, Object> getOurBoardMemberData(HashMap<String, Object> data) throws Exception {
