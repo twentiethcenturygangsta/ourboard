@@ -16,14 +16,7 @@ import org.springframework.stereotype.Service;
 public class LoginService {
     private final OurBoardMemberRepository ourBoardMemberRepository;
 
-    @Deprecated
-    public boolean isOurBoardMember(OurBoardMember member) {
-        log.info("OurBoardMember = {}", member);
-        return member != null;
-    }
-
     public OurBoardMember login(String loginId, String password) throws Exception {
-        log.info("Login = {}, {}", loginId, password);
         String encryptPassword = EncryptionConfig.encrypt(password);
         return ourBoardMemberRepository.findOurBoardMemberByMemberId(loginId)
                 .filter(m -> m.getPassword().equals(encryptPassword))

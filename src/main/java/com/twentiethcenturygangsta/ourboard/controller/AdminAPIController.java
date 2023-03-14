@@ -34,7 +34,6 @@ public class AdminAPIController {
     public ResponseEntity<Object> loginAPI(@RequestBody LoginForm loginForm, HttpServletRequest request) throws Exception {
 
         OurBoardMember ourBoardMember = loginService.login(loginForm.getMemberId(), loginForm.getPassword());
-        log.info("ourBoardMember = {}", ourBoardMember);
 
         HttpSession session = request.getSession();
         session.setAttribute(SessionConst.LOGIN_MEMBER, ourBoardMember);
@@ -44,8 +43,6 @@ public class AdminAPIController {
     @PostMapping("/{tableName}")
     public ResponseEntity<Object> createInstanceAPI(@PathVariable("tableName") String tableName,
                                                     @RequestBody HashMap<String, Object> requestBody) throws Exception {
-        log.info("requestBody = {}", requestBody);
-        log.info("tableName = {}", tableName);
         tableService.createObject(requestBody, tableName);
         return ResponseHandler.generateResponse(HttpStatus.OK, "Successful create");
     }
@@ -60,9 +57,6 @@ public class AdminAPIController {
     @PutMapping("/{tableName}/{id}")
     public ResponseEntity<Object> updateInstanceAPI(@PathVariable("tableName") String tableName, @PathVariable("id") Long id,
                                                     @RequestBody HashMap<String, Object> requestBody) throws Exception {
-        log.info("requestBody = {}", requestBody);
-        log.info("tableName = {}", tableName);
-        log.info("id = {}", id);
         tableService.updateObject(requestBody, tableName, id);
         return ResponseHandler.generateResponse(HttpStatus.OK, "Successful update");
     }
