@@ -105,8 +105,7 @@ public class TableService {
         for (Map.Entry<String, Entity> entity : entities.entrySet()) {
 
             for (Annotation annotation : entity.getValue().getEntityClass().getAnnotations()) {
-                if (annotation instanceof OurBoardEntity) {
-                    OurBoardEntity myAnnotation = (OurBoardEntity) annotation;
+                if (annotation instanceof OurBoardEntity myAnnotation) {
                     if (dict.containsKey(myAnnotation.group())) {
                         dict.get(myAnnotation.group()).add(
                                 TablesInfo.builder()
