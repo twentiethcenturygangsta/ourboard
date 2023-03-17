@@ -9,6 +9,12 @@ group = 'com.twentiethcenturygangsta'
 version = '1.0'
 sourceCompatibility = '17'
 
+allprojects {
+	repositories {
+		maven { url 'https://jitpack.io' }
+	}
+}
+
 publishing {
 	publications {
 		maven(MavenPublication) {
