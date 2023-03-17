@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <!-- Admin Navbar -->
+    <th:block th:fragment="AdminNavbarFragment">
+        <div class="headerDiv whiteBg">
+            <div class="headerAlignDiv">
+                <div class="logoDiv pointer">
+                    <a class="pointer" th:href="@{/our-board/admin}">
+                        <span class="logo">OUT BOARD</span>
+                    </a>
+                </div>
+                <div class="navDiv pointer navActive">
+                    <a class="pointer" th:href="@{/our-board/admin}">
+                        <span class="logo">HOME</span>
+                    </a>
+                </div>
+                <div class="navDiv pointer">
+                    <a class="pointer" th:href="@{/our-board/admin/logout}">
+                        <span class="logo">LOGOUT</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</html>

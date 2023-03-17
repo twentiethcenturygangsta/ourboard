@@ -1,0 +1,393 @@
+.loginDiv {
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    margin: auto;
+    width: 530px;
+    text-align: center;
+}
+
+.copyright {
+    position : relative;
+    transform : translateY(-100%);
+    margin : auto;
+    font-size: 10px;
+    text-align: center;
+    margin-top: 5%;
+}
+
+.loginLogo {
+    font-weight: 900;
+    font-size: 80px;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.loginInputDiv {
+    width: 100%;
+    height: 385px;
+    box-shadow: -20px 20px 60px rgba(0, 0, 0, 0.15);
+    border-radius: 30px;
+}
+
+.loginAlignDiv {
+    margin: auto;
+    padding-top: 8%;
+}
+
+.loginInput {
+    width: 80%;
+    height: 63px;
+    margin-bottom: 2%;
+}
+
+.dataInput {
+    width : 35%;
+    height: 50px;
+    font-size: 18px;
+}
+
+.loginGuide {
+    font-weight: 400;
+    font-size: 15px;
+    color: #727C89;
+}
+
+.loginButton {
+    width: 80%;
+    height: 80px;
+    border-radius: 15px;
+    border: 0;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 25px;
+    margin-top: 10%;
+}
+
+.headerDiv {
+    width: 100%;
+    line-height: 97px;
+    border: 1px solid #E5E8EB;
+}
+
+.headerAlignDiv {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+}
+
+.logoDiv {
+    display: inline-block;
+    width: 50%;
+    font-weight: 900;
+    font-size: 30px;
+    text-align: center;
+    vertical-align: middle;
+    text-align: left;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.navDiv {
+    display: inline-block;
+    width: 24%;
+    font-weight: 400;
+    font-size: 20px;
+    vertical-align: middle;
+    text-align: right;
+}
+
+.navActive {
+    font-weight: 600;
+}
+
+.mainDiv {
+    width: 100%;
+    position : relative;
+    min-height: 100%;
+    margin: auto;
+}
+.contents {
+    width: 80%;
+    position : relative;
+    margin: auto;
+}
+
+.welcomeDiv {
+    width: 100%;
+    padding: 25px 0px 25px 0px;
+}
+
+.welcomeSpan {
+    font-weight: 600;
+    font-size: 35px;
+}
+
+.tableHeadDiv {
+    width: 100%;
+    border-radius: 10px 10px 0px 0px;
+}
+
+.tableSpan {
+    font-weight: 400;
+    font-size: 20px;
+    margin-left: 20px;
+    line-height: 55px;
+}
+
+.tableName {
+    color: #202632;
+    font-weight: 500;
+}
+
+.tableBodyBorder {
+    border-bottom: 1px solid #E5E8EB;
+}
+
+.tableBodyLast {
+    border-radius: 0px 0px 10px 10px;
+    margin-bottom: 50px;
+}
+
+.tableAdd {
+    float: right;
+    margin-right: 20px;;
+}
+
+.routeSpan {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 82px;
+}
+
+.menuDiv {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+}
+
+.columnSelect {
+    width: 153px;
+    height: 100%;
+    border: 1px solid #E5E8EB;
+    border-radius: 10px;
+}
+
+.booleanSelect {
+    width: 37%;
+    height: 100%;
+    border: 1px solid #E5E8EB;
+    border-radius: 10px;
+}
+
+.searchInput {
+    width: 340px;
+    height: 94%;
+    border-right: none;
+    border-left: 1px solid #E5E8EB;
+    border-top: 1px solid #E5E8EB;
+    border-bottom: 1px solid #E5E8EB;
+    border-radius: 10px 0px 0px 10px;
+}
+
+.searchButton:focus, .searchButton:active {
+    outline: none;
+    box-shadow: none;
+}
+
+.searchButton {
+    height: 50.5px;
+    border-left: none;
+    border-right: 1px solid #E5E8EB;
+    border-top: 1px solid #E5E8EB;
+    border-bottom: 1px solid #E5E8EB;
+    border-radius: 0px 10px 10px 0px;
+    position: absolute;
+}
+
+.countDiv {
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    text-align: left;
+    font-weight: 400;
+    font-size: 20px;
+}
+
+.popUpTable {
+    height: 430px;
+}
+
+.dataTable {
+    overflow-x: auto;
+    display: block;
+}
+
+.eventTable {
+    width: 100%;
+    border: none;
+    border-spacing: 0;
+    text-align: center;
+    box-shadow: -20px 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.dataThFirst {
+    border-radius: 10px 0px 0px 0px;
+}
+
+.dataThLast {
+    border-radius: 0px 10px 0px 0px;
+}
+
+.dataTh {
+    width: 19%;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 55px;
+}
+
+.dataTd {
+    width: 19%;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 55px;
+}
+
+.dataTdBorder {
+    border-bottom: 1px solid #E5E8EB;
+}
+
+.dataTdFirst {
+    border-radius: 0px 0px 0px 10px;
+}
+
+.dataTdLast {
+    border-radius: 0px 0px 10px 0px;
+}
+
+.dataTdInputForm {
+    font-size: 18px;
+    width : 80%;
+    text-align: left;
+    padding: 0 0 0 38px;
+}
+
+.dataTdTextForm {
+    width : 20%;
+    font-size: 20px;
+}
+
+.dataTrForm {
+    width : 100%;
+    height: 100px;
+}
+
+.dataTr:hover {
+    background: #CBDEF8;
+}
+
+.eventDiv {
+    width: 100%;
+    text-align: right;
+    margin: 5% 0% 10% 0%;
+}
+
+.pagingDiv {
+    width: 100%;
+    text-align: center;
+    margin: 5% 0% 5% 0%;
+}
+
+.pagingArrow {
+    display: inline-block;
+    font-weight: 500;
+    font-size: 20px;
+    color: #3288FF;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    border: 1px solid #E5E8EB;
+    border-radius: 10px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.pagingUl {
+    list-style: none;
+    display: inline-block;
+    padding: 0px 20px 0px 20px;
+    border: 1px solid #E5E8EB;
+    border-radius: 10px;
+    /*width: 400px;*/
+    height: 40px;
+    line-height: 40px;
+    vertical-align: middle;
+}
+
+.pagingLi {
+    display: inline;
+    text-align: center;
+    margin: 10px;
+}
+
+.pagingA {
+    font-weight: 300;
+    font-size: 20px;
+    color: #727C89;
+}
+
+.pagingActive {
+    font-weight: 500;
+    color: #3288FF;
+}
+
+.descriptionSpan {
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 18px;
+    margin-left: 1%;
+}
+
+.buttonDiv {
+    display: inline-block;
+    float: right;
+}
+
+.notInput {
+    border: none;
+    outline: none;
+}
+
+.overLayDiv {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.75;
+    background: #000000;
+    z-index: 999;
+    display: none;
+}
+
+.popUpDiv {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 960px;
+    height: 590px;
+    z-index: 1000;
+    border-radius: 10px;
+    padding: 35px;
+    display: none;
+    background: #F9FAFB;
+}
+
+.tableBtnDiv {
+    display: inline-block;
+    float: right;
+}
+
+.popUpTitle {
+    margin-bottom: 20px;
+}

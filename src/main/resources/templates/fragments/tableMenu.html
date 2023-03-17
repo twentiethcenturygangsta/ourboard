@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <!-- Admin Table Menu -->
+    <th:block th:fragment="AdminTableMenuFragment">
+        <div class="menuDiv">
+            <select class="columnSelect">
+                    <option th:each="field, j : ${fields.entrySet()}" th:value="${field.value.entityFieldName}" th:text="${field.key}" th:selected="${type == field.value.entityFieldName}"></option>
+            </select>
+            <th:block th:if="${keyword eq 'ALL'}">
+                <input class="searchInput" type="text">
+            </th:block>
+            <th:block th:if="${keyword != 'ALL'}">
+                <input class="searchInput" type="text" th:value="${keyword}">
+            </th:block>
+            <button class="searchButton whiteBg" type="button">
+            <svg width="23" height="25" viewBox="0 0 23 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="9.5" cy="9.5" r="8" stroke="#E5E8EB" stroke-width="3"/>
+                <line x1="14.1289" y1="16.0122" x2="21.1289" y2="24.0122" stroke="#E5E8EB" stroke-width="3"/>
+            </svg>
+        </button>
+            <button class="actionButton backButton whiteBg initializeButton" type="button"
+                    th:onclick="|location.href = '@{/our-board/admin/{groupName}/{tableName}/search(groupName=${groupName}, tableName=${tableName}, keyword='ALL', type='ALL')}'|">INITIALIZE</button>
+
+            <div class="tableBtnDiv" th:if="${groupName != tableName}">
+                <button class="actionButton deleteButton whiteBg" type="button" onclick="deleteAPI()">DELETE</button>
+                <button class="actionButton addButton whiteBg" type="button" th:onclick="|location.href = '@{/our-board/admin/{groupName}/{tableName}/add (groupName=${groupName}, tableName=${tableName})}'|">ADD</button>
+            </div>
+        </div>
+
+        <script th:inline="javascript">
+            $('.searchButton').on("click", () => {
+                let idName = ".searchInput";
+                let inputValue = $(idName).val();
+                let searchType = $(".columnSelect option:selected").val();
+
+                if(inputValue.length > 0) {
+                    location.href="/our-board/admin/" + [[${groupName}]] + "/" + [[${tableName}]] + "/search?keyword="+inputValue + "&type=" + searchType;
+                } else {
+                    alert("Please enter a search term.");
+                    return;
+                }
+            });
+        </script>
+    </th:block>
+</html>

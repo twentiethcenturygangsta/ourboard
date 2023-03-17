@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:block th:replace="~{fragments/header :: AdminHeadFragment}"/>
+<body>
+    <div class="mainDiv">
+        <th:block th:replace="~{fragments/navbar :: AdminNavbarFragment}"/>
+        <div class = "contents">
+            <th:block th:replace="~{fragments/welcome :: AdminEventRouteFragment}"/>
+
+            <table class="eventTable">
+                <th:block th:replace="~{fragments/eventTable :: AdminEventTableFragment}"/>
+            </table>
+
+            <th:block th:replace="~{fragments/eventButton :: AdminEventButtonFragment}"/>
+        </div>
+    </div>
+    <th:block th:replace="~{fragments/popUp :: AdminPopUpFragment}"/>
+    <th:block th:replace="~{fragments/footer :: AdminFooterFragment}"/>
+
+    <script th:inline="javascript">
+        let fields = [[${fields}]]
+        let fieldSize = [[${fields.size()}]];
+        let pk = [[${event}]];
+        let eventCheck = 0;
+        let foreignInputName;
+
+    $('#add-button').on("click", () => {
+        let dto = {};
+        for (let i = 1; i<=fieldSize; i++) {
+            let idName = "#input" + i;
+            let inputClass = $(idName);
+
+            console.log(inputClass)
+
+            if(!fields[inputClass.attr("name")].hasIdAnnotation) {
+                dto[snakeToCamel(inputClass.attr("name"))] = inputClass.val();
+            }
+        }
+        const data = JSON.stringify(dto);
+        APICall.post("/our-board/api/" + [[${tableName}]], data).then(() => {
+            location.href="/our-board/admin/" + [[${groupName}]] + "/" + [[${tableName}]] + "/search?keyword=ALL&type=ALL";
+        }).catch((error) => {
+            // error raise
+        })
+    });
+
+    $('#update-button').on("click", () => {
+        if(eventCheck == 0) {
+            $("#route-span").text("UPDATE");
+            $('.notInput, .notAllowed').not('.idClass, .relationClass').removeAttr('readonly')
+            $('.notInput, .notAllowed').not('.idClass').removeClass('notInput notAllowed').removeAttr('disabled');
+            eventCheck = 1;
+        } else {
+            let dto = {};
+            for (let i = 1; i<=fieldSize; i++) {
+                let idName = "#input" + i;
+                let inputClass = $(idName);
+
+                if(!fields[inputClass.attr("name")].hasIdAnnotation) {
+                    dto[snakeToCamel(inputClass.attr("name"))] = inputClass.val();
+                }
+            }
+            const data = JSON.stringify(dto);
+            APICall.post("/our-board/api/" + [[${tableName}]], data).then(() => {
+                location.href="/our-board/admin/" + [[${groupName}]] + "/" + [[${tableName}]];
+            }).catch((error) => {
+                // error raise
+            })
+        }});
+
+        $('#update-button').on("click", () => {
+            if(eventCheck == 0) {
+                $("#route-span").text("UPDATE");
+                $('.notInput, .notAllowed').not('.idClass, .relationClass').removeAttr('readonly')
+                $('.notInput, .notAllowed').not('.idClass').removeClass('notInput notAllowed').removeAttr('disabled');
+                eventCheck = 1;
+            } else {
+                let dto = {};
+                for (let i = 1; i<=fieldSize; i++) {
+                    let idName = "#input" + i;
+                    let inputClass = $(idName);
+
+                    dto[inputClass.attr("name")] = inputClass.val();
+                }
+                const data = JSON.stringify(dto);
+                APICall.put("/our-board/api/" + [[${tableName}]] + "/" + pk, data).then(() => {
+                    location.href="/our-board/admin/" + [[${groupName}]] + "/" + [[${tableName}]] + "/" + pk;
+                }).catch((error) => {
+                    // error raise
+                })
+            }
+        });
+
+        $('#back-button').on("click", () => {
+            history.back();
+        });
+
+        function popUpOn(element, obj) {
+            const tableName = obj.toUpperCase();
+            const popUpDiv = $('#popUpDiv');
+            foreignInputName = element.getAttribute("name");
+
+            APICall.get("/our-board/admin/" + tableName + "/" + tableName + "/search?keyword=ALL&type=ALL").then((response) => {
+                popUpDiv.html(response.data);
+                $(".overLayDiv, .popUpDiv").show();
+            }).catch((error) => {
+                // error raise
+            })
+        }
+
+        function chkForeignKey(obj) {
+            const foreignKeyData = $('#foreignKeyInput' + obj).val();
+            $('input[name="' + foreignInputName + '"]').val(foreignKeyData);
+            popUpOff();
+        }
+
+        function popUpOff() {
+            $(".overLayDiv, .popUpDiv").hide();
+        }
+
+    </script>
+</body>
+</html>
