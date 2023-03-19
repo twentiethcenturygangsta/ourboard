@@ -1,6 +1,6 @@
-com.twentiethcenturygangsta.ourboard.controller.AdminViewController
-com.twentiethcenturygangsta.ourboard.services.TableService
-com.twentiethcenturygangsta.ourboard.config.MvcConfiguration
-com.twentiethcenturygangsta.ourboard.entity.OurBoardMember
-com.twentiethcenturygangsta.ourboard.site.AuthMember
-com.twentiethcenturygangsta.ourboard.services.LoginService
+com.github.twentiethcenturygangsta.ourboard.controller.AdminViewController
+com.github.twentiethcenturygangsta.ourboard.services.TableService
+com.github.twentiethcenturygangsta.ourboard.config.MvcConfiguration
+com.github.twentiethcenturygangsta.ourboard.entity.OurBoardMember
+com.github.twentiethcenturygangsta.ourboard.site.AuthMember
+com.github.twentiethcenturygangsta.ourboard.services.LoginService
