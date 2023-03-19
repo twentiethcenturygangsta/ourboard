@@ -45,10 +45,7 @@ publishing {
 //					fromResolutionResult()
 //				}
 //			}
-			afterEvaluate {
-				artifact javadocJar
-				artifact sourcesJar
-			}
+			artifact bootJar
 		}
 	}
 }
