@@ -27,14 +27,14 @@ publishing {
 			version = '1.0.0'
 			from components.java
 
-			versionMapping {
-				usage('java-api') {
-					fromResolutionOf('runtimeClasspath')
-				}
-				usage('java-runtime') {
-					fromResolutionResult()
-				}
-			}
+//			versionMapping {
+//				usage('java-api') {
+//					fromResolutionOf('runtimeClasspath')
+//				}
+//				usage('java-runtime') {
+//					fromResolutionResult()
+//				}
+//			}
 			artifact bootJar
 		}
 	}
@@ -66,10 +66,10 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
-
-bootJar {
-	jar.enabled = true
-}
+//
+//bootJar {
+//	jar.enabled = true
+//}
 
 tasks.named('test') {
 	useJUnitPlatform()
