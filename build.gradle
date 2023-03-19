@@ -35,7 +35,7 @@ publishing {
 //					fromResolutionResult()
 //				}
 //			}
-//			artifact bootJar
+			artifact sourceJar
 		}
 	}
 }
