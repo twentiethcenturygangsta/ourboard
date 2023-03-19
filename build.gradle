@@ -102,6 +102,7 @@ tasks.withType(Javadoc) {
 	options.encoding = "UTF-8"
 }
 
+/*
 tasks.named('publishToMavenLocal').configure {
 	dependsOn jar
-}
+}*/
