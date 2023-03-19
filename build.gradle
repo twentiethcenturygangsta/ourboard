@@ -40,6 +40,11 @@ publishing {
 	}
 }
 
+java {
+	withSourcesJar()
+	withJavadocJar()
+}
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
