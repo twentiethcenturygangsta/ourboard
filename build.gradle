@@ -23,8 +23,8 @@ wrapper {
 publishing {
 	publications {
 		maven(MavenPublication) {
-			group = 'com.github.twentiethcenturygangsta'
-			version = '1.0.0'
+//			group = 'com.github.twentiethcenturygangsta'
+//			version = '1.0.0'
 			from components.java
 
 //			versionMapping {
@@ -60,9 +60,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-autoconfigure'
 	implementation 'org.springframework.boot:spring-boot-autoconfigure-processor'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.projectlombok:lombok'
 
-
-	compileOnly 'org.projectlombok:lombok'
+	//compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
