@@ -23,8 +23,7 @@ wrapper {
 publishing {
 	publications {
 		maven(MavenPublication) {
-			groupId = 'com.twentiethcenturygangsta'
-			artifactId = 'our-board'
+			groupId = 'com.github.20thcenturygangsta'
 			version = '1.0.0'
 			from components.java
 
