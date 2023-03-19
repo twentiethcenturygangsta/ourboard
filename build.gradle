@@ -50,6 +50,10 @@ publishing {
 	}
 }
 
+bootJar {
+	mainClass = 'com.github.twentiethcenturygangsta.ourboard.OurBoardApplication'
+}
+
 java {
 	withSourcesJar()
 	withJavadocJar()
