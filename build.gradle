@@ -36,6 +36,7 @@ publishing {
 					fromResolutionResult()
 				}
 			}
+			artifact bootJar
 		}
 	}
 }
