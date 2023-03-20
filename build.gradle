@@ -1,6 +1,4 @@
 plugins {
-//	id 'java'
-//	id 'java-gradle-plugin'
 	id 'java-library'
 	id 'maven-publish'
 	id 'org.springframework.boot' version '3.0.2'
@@ -29,38 +27,13 @@ wrapper {
 	distributionType = Wrapper.DistributionType.ALL
 }
 
-/*task sourcesJar(type: Jar) {
-	from sourceSets.main.allJava
-	archiveClassifier.set("sources")
-}
-task javadocJar(type: Jar, dependsOn: javadoc) {
-	archiveClassifier.set("javadoc")
-	from javadoc.destinationDir
-}*/
-
 publishing {
 	publications {
 		maven(MavenPublication) {
-//			group = 'com.github.twentiethcenturygangsta'
-//			version = '1.0.0'
 			from components.java
-
-//			versionMapping {
-//				usage('java-api') {
-//					fromResolutionOf('runtimeClasspath')
-//				}
-//				usage('java-runtime') {
-//					fromResolutionResult()
-//				}
-//			}
-//			artifact bootJar
 		}
 	}
 }
-
-/*bootJar {
-	mainClass = 'com.github.twentiethcenturygangsta.ourboard.OurBoardApplication'
-}*/
 
 configurations {
 	compileOnly {
@@ -84,14 +57,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.projectlombok:lombok'
 
-	//compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
-//
-//bootJar {
-//	jar.enabled = true
-//}
 
 tasks.named('test') {
 	useJUnitPlatform()
@@ -101,8 +69,3 @@ tasks.withType(Javadoc) {
 	options.addStringOption('Xdoclint:none', '-quiet')
 	options.encoding = "UTF-8"
 }
-
-/*
-tasks.named('publishToMavenLocal').configure {
-	dependsOn jar
-}*/
