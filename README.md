@@ -14,18 +14,32 @@ In addition, Our Board automatically recognizes information about database table
 <br/>
 
 ## Installation
-For Maven projects, add the following dependency in your **pom.xml** file
+For Maven projects, add the following repository and dependency in your **pom.xml** file
+```xml
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+```
 ```xml
 <dependency>
-    <groupId>com.twentiethcenturygangsta</groupId>
-    <artifactId>our-board</artifactId>
-    <version>1.0</version>
+    <groupId>com.github.twentiethcenturygangsta</groupId>
+    <artifactId>ourboard</artifactId>
+    <version>1.0.1</version>
 </dependency>
 ```
-For Gradle projects, add the following dependency in your **build.gradle** file:
+For Gradle projects, add the following repository and dependency in your **build.gradle** file:
+```groovy
+repositories {
+    ...
+    maven { url 'https://jitpack.io' }
+}
+```
 ```groovy
 dependencies {
-    implementation 'com.twentiethcenturygangsta:our-board:1.0'
+    implementation 'com.github.twentiethcenturygangsta:ourboard:1.0.1'
 }
 ```
 
