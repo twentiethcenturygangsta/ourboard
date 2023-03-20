@@ -50,7 +50,7 @@ dependencies {
 2. Register a ``@Bean`` method.
    ```java
    @Bean
-   public OurBoardClient jamBoardClient() throws Exception {
+   public OurBoardClient ourBoardClient() throws Exception {
        UserDatabaseCredentials userDatabaseCredentials = new UserDatabaseCredentials(
                url, //spring.datasource.url
                userName, //spring.datasource.username
