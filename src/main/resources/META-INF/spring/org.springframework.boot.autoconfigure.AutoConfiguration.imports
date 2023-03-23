@@ -3,4 +3,4 @@ com.github.twentiethcenturygangsta.ourboard.services.TableService
 com.github.twentiethcenturygangsta.ourboard.config.MvcConfiguration
 com.github.twentiethcenturygangsta.ourboard.entity.OurBoardMember
 com.github.twentiethcenturygangsta.ourboard.site.AuthMember
-com.github.twentiethcenturygangsta.ourboard.services.LoginService
+com.github.twentiethcenturygangsta.ourboard.services.AuthService

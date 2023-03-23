@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class LoginService {
+public class AuthService {
     private final OurBoardMemberRepository ourBoardMemberRepository;
 
     public OurBoardMember login(String loginId, String password) throws Exception {
