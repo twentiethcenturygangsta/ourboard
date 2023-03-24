@@ -5,7 +5,7 @@ import com.github.twentiethcenturygangsta.ourboard.form.LoginForm;
 import com.github.twentiethcenturygangsta.ourboard.handler.ResponseHandler;
 import com.github.twentiethcenturygangsta.ourboard.manager.session.SessionConst;
 import com.github.twentiethcenturygangsta.ourboard.services.TableService;
-import com.github.twentiethcenturygangsta.ourboard.services.LoginService;
+import com.github.twentiethcenturygangsta.ourboard.services.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -26,13 +26,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminAPIController {
 
-    private final LoginService loginService;
+    private final AuthService authService;
     private final TableService tableService;
 
     @PostMapping("/login")
     public ResponseEntity<Object> loginAPI(@RequestBody LoginForm loginForm, HttpServletRequest request) throws Exception {
 
-        OurBoardMember ourBoardMember = loginService.login(loginForm.getMemberId(), loginForm.getPassword());
+        OurBoardMember ourBoardMember = authService.login(loginForm.getMemberId(), loginForm.getPassword());
 
         HttpSession session = request.getSession();
         session.setAttribute(SessionConst.LOGIN_MEMBER, ourBoardMember);
