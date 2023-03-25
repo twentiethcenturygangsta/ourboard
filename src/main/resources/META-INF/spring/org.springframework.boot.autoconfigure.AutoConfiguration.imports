@@ -2,5 +2,4 @@ com.github.twentiethcenturygangsta.ourboard.controller.AdminViewController
 com.github.twentiethcenturygangsta.ourboard.services.TableService
 com.github.twentiethcenturygangsta.ourboard.config.MvcConfiguration
 com.github.twentiethcenturygangsta.ourboard.entity.OurBoardMember
-com.github.twentiethcenturygangsta.ourboard.site.AuthMember
-com.github.twentiethcenturygangsta.ourboard.services.AuthService
+com.github.twentiethcenturygangsta.ourboard.site.DatabaseClient
