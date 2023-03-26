@@ -13,7 +13,7 @@ import java.util.Map;
 
 @Slf4j
 @Configuration
-@ComponentScan("com.github.twentiethcenturygangsta.ourboard")
+@ComponentScan(value = "com.github.twentiethcenturygangsta.ourboard", nameGenerator = CustomBeanNameGenerator.class)
 @RequiredArgsConstructor
 public class ShardConfigurationReference {
     private final ApplicationContext appContext;
